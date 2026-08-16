@@ -22,7 +22,7 @@ run in parallel without touching files owned by an incomplete dependency.
 - [ ] T005 Create the planned `Assets/_Project/` directory tree and placeholder ownership notes in `Assets/_Project/README.md`
 - [ ] T006 [P] Create Core, Crowd, Gameplay, Presentation, UI, and test assembly definitions under `Assets/_Project/Scripts/` and `Assets/_Project/Tests/`
 - [ ] T007 [P] Create `ArtSource/Blender/Characters/`, `ArtSource/Blender/Environment/`, and `ArtSource/Blender/Ships/` with source/export conventions in `ArtSource/README.md`
-- [ ] T008 [P] Implement the non-blank authored C# size checker with 1,000-line warning and 1,500-line failure in `tools/check-source-size.sh` [SC-009]
+- [x] T008 [P] Implement the non-blank authored C# size checker with 1,000-line warning and 1,500-line failure in `tools/check-source-size.sh` [SC-009]
 - [ ] T009 [P] Add EditMode tests for source-size categorization, generated/vendor exclusions, and threshold results in `Assets/_Project/Tests/EditMode/Maintainability/SourceSizePolicyTests.cs` [SC-009]
 - [ ] T010 [P] Define asset naming, import, atlas, LOD, pivot, scale, and FBX export rules in `Assets/_Project/Art/ART_PIPELINE.md`
 - [ ] T011 [P] Define evidence folder naming and local-only capture exclusions in `Artifacts/README.md`

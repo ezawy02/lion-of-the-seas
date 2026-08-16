@@ -33,6 +33,9 @@ levels, one small loadout, one reward flow, mobile quality benchmarks, and a tru
 - Open world, online multiplayer, production backend, and a large economy are outside the
   first vertical slice.
 
+Run `bash tools/check-source-size.sh` before publishing code. This checkout also uses the
+versioned `.githooks/pre-push` hook to run the same check automatically before every push.
+
 ## Repository privacy
 
 This project is intended for one private GitHub repository dedicated only to Lion of the
