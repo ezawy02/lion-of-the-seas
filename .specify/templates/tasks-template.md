@@ -8,7 +8,9 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: Include gameplay acceptance checks, performance captures, visual-review tasks,
+code-size checks, and store-promise validation for player-facing work. Add automated
+tests where practical.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -51,6 +53,9 @@ description: "Task list template for feature implementation"
 - [ ] T001 Create project structure per implementation plan
 - [ ] T002 Initialize [language] project with [framework] dependencies
 - [ ] T003 [P] Configure linting and formatting tools
+- [ ] TXXX [P] Establish art-source, naming, import, LOD, and license-manifest conventions
+- [ ] TXXX [P] Add authored-source checks for the 1,500-line hard limit and 1,000-line review threshold
+- [ ] TXXX [P] Record reference-device and profiling-capture procedure
 
 ---
 
@@ -68,6 +73,8 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T007 Create base models/entities that all stories depend on
 - [ ] T008 Configure error handling and logging infrastructure
 - [ ] T009 Setup environment configuration management
+- [ ] TXXX Build the in-engine art benchmark scene and obtain art-direction approval
+- [ ] TXXX Establish pooling, scalable crowd simulation, and performance instrumentation
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -153,6 +160,11 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] TXXX [P] Documentation updates in docs/
 - [ ] TXXX Code cleanup and refactoring
 - [ ] TXXX Performance optimization across all stories
+- [ ] TXXX Run visual consistency review on representative mobile captures
+- [ ] TXXX Run 300-agent primary and 500-agent stress performance captures
+- [ ] TXXX Verify authored source files meet maintainability limits
+- [ ] TXXX Validate every store-preview moment against reachable production gameplay
+- [ ] TXXX [P] Audit third-party code and assets in the license manifest
 - [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
 - [ ] TXXX Security hardening
 - [ ] TXXX Run quickstart.md validation

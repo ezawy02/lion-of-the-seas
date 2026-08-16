@@ -1,0 +1,59 @@
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# Unity generated files
+*.csproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+sysinfo.txt
+
+# Asset export/build packages
+*.apk
+*.aab
+*.ipa
+*.unitypackage
+
+# IDE and operating system
+.DS_Store
+.idea/
+.vscode/
+.vs/
+*.swp
+*.swo
+
+# Local credentials and signing
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+*.env
+*.env.*
+!.env.example
+
+# Local captures and profiling output
+Artifacts/Local/
+Captures/Local/
+ProfilerCaptures/Local/
+
+# Blender temporary and backup files
+*.blend1
+*.blend2
+*.blend@

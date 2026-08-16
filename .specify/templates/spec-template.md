@@ -100,6 +100,21 @@
 - **[Entity 1]**: [What it represents, key attributes without implementation]
 - **[Entity 2]**: [What it represents, relationships to other entities]
 
+## Visual Quality & Performance Contract *(mandatory for player-facing features)*
+
+- **Visual Target**: [in-engine reference bar, art-direction rules, and readability target]
+- **Required Benchmark Scene**: [smallest representative scene that proves the visual target]
+- **Performance Budget**: [reference devices, frame-rate targets, agent/VFX stress case]
+- **Asset Acceptance**: [silhouette, materials, animation, VFX, LOD, and licensing checks]
+- **Code-Size Contract**: [authored-file line limit and decomposition trigger]
+- **Capture Evidence**: [screenshots, video, profiler, and code-size evidence required]
+
+## Marketing Promise Traceability *(mandatory for store-facing features)*
+
+| Promised Store Moment | Reachable In-Game Location | Acceptance Evidence |
+|-----------------------|----------------------------|---------------------|
+| [moment shown to players] | [level/build/time-to-reach] | [capture/test] |
+
 ## Success Criteria *(mandatory)*
 
 <!--

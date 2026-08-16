@@ -23,6 +23,8 @@
 **Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
 **Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
 **Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]  
+**Rendering & Art Pipeline**: [e.g., Unity URP + Blender + texture/VFX workflow or NEEDS CLARIFICATION]
+**Reference Devices**: [mid-range primary device and low-end floor device or NEEDS CLARIFICATION]
 **Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
 **Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
 **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
@@ -31,7 +33,13 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- [ ] Core loop is independently playable and testable before meta or content expansion.
+- [ ] An in-engine art benchmark and objective visual review criteria are defined.
+- [ ] Mid-range 60 fps target, low-end 30 fps floor, and crowd stress test are planned.
+- [ ] Authored files stay below 1,500 non-blank lines with a split review at 1,000.
+- [ ] Every store-facing scene maps to reachable gameplay in the specification.
+- [ ] Third-party assets and code have a compatible license and recorded source.
+- [ ] Any added complexity or constitution exception is documented below.
 
 ## Project Structure
 
