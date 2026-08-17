@@ -138,7 +138,11 @@ def sail(name, x, y, z, width, height, material, c, stripe=False):
     return ob
 
 def text_mesh(name, body, loc, size, material, c, extrude=.025):
-    cu=bpy.data.curves.new(name+"_FONT", "FONT"); cu.body=body; cu.align_x="CENTER"; cu.align_y="CENTER"; cu.size=size; cu.extrude=extrude; cu.bevel_depth=.008
+    cu=bpy.data.curves.new(name+"_FONT", "FONT"); cu.body=body; cu.align_x="CENTER"; cu.align_y="CENTER"; cu.size=size; cu.extrude=extrude; cu.bevel_depth=0; cu.resolution_u=1; cu.render_resolution_u=1
+    # Times New Roman Bold has a closed, serifed 4: substantially less arrow-like
+    # than the open-top sans numeral in a tiny portrait review.
+    bold_font="/System/Library/Fonts/Supplemental/Times New Roman Bold.ttf"
+    if os.path.exists(bold_font): cu.font=bpy.data.fonts.load(bold_font, check_existing=True)
     ob=bpy.data.objects.new(name,cu); c.objects.link(ob); ob.location=loc; ob.rotation_euler=(0,0,0); ob.data.materials.append(MATS[material]); bpy.context.view_layer.objects.active=ob; ob.select_set(True); bpy.ops.object.convert(target="MESH"); ob.select_set(False); return ob
 
 def annotate(ob, tier, budget, lod="LOD0"):
@@ -154,8 +158,10 @@ def count(c):
 def flagship(root):
     c=collection("Flagship"); marker(c,"Tier A",35000,"Hero player flagship: navy hull, turquoise sail, brass trim, open forward silhouette.")
     h=annotate(hull("Flagship_LOD0_Hull",8.6,2.35,1.55,"navy",c,1),"Tier A",35000)
-    cube("Flagship_Deck",(0,.82,0),(6.5,.28,1.65),"ivory",c,.08)
-    cube("Flagship_Wale",(0,.28,0),(7.5,.22,2.0),"teal",c,.06)
+    # Hull runs along Z.  Keep deck/wales longitudinal so the player reads a ship,
+    # never a white-wing aircraft, in the head-on portrait camera.
+    cube("Flagship_Deck",(0,.82,0),(1.65,.28,6.5),"copper",c,.08)
+    cube("Flagship_Wale",(0,.28,0),(2.0,.22,7.5),"teal",c,.06)
     for z in (-3.55,3.5):
         cyl("Flagship_BowTrim",(0,.83,z),.13,1.15,"brass",c,12,rot=(0,pi/2,0),bevel=.02)
     for z in (-2.4,-.5,1.6):
@@ -181,13 +187,13 @@ def flagship(root):
             # Coarsest mobile silhouette: one faceted hull, deck, mast and sail.
             # Deliberately omits the second rig and all trim, ~half LOD1 geometry.
             annotate(hull("Flagship_"+lod+"_Hull",8.0,2.18,1.42,"navy",cc,"coarse"),"Tier A",35000,lod)
-            cube("Flagship_"+lod+"_Deck",(0,.76,0),(6.0,.22,1.48),"teal",cc,.025)
+            cube("Flagship_"+lod+"_Deck",(0,.76,0),(1.48,.22,6.0),"teal",cc,.025)
             z=0
             cyl("Flagship_"+lod+"_Mast",(0,2.1,z),.12,3.0,"copper",cc,8)
             sail("Flagship_"+lod+"_Sail",.12,2.1,z,1.55,2.25,"sail_teal",cc,False)
         else:
             annotate(hull("Flagship_"+lod+"_Hull",8.3,2.27,1.5,"navy",cc,d),"Tier A",35000,lod)
-            cube("Flagship_"+lod+"_Deck",(0,.8,0),(6.2,.25,1.55),"teal",cc,.06)
+            cube("Flagship_"+lod+"_Deck",(0,.8,0),(1.55,.25,6.2),"teal",cc,.06)
             for z in (-1.1,1.1):
                 cyl("Flagship_"+lod+"_Mast",(0,2.1,z),.12,3.0,"copper",cc,8)
                 sail("Flagship_"+lod+"_Sail",.12,2.1,z,1.4,2.1,"sail_teal",cc,False)
@@ -231,15 +237,10 @@ def gate(root):
     for i in range(n): faces.append((2*i,2*i+2,2*i+3,2*i+1))
     mesh_obj("GateMultiplier_Arch",verts,faces,"gold",c,.035)
     cube("GateMultiplier_Plane",(0,2.1,.39),(3.05,2.12,.10),"gate_face",c,.08)
-    # Explicit mesh type: a single, unambiguous ×4 reads identically after FBX export.
-    # The × is deliberately left, the 4 deliberately right; no font fallback or overlap.
-    # Camera faces local -Z and mirrors world X in this portrait rig: place the ×
-    # physically right so the player reads ×4 left-to-right on screen.
-    cube("GateMultiplier_X_A",(.78,2.10,.26),(.20,1.12,.13),"gate_number",c,.035,rot=(0,0,pi/4))
-    cube("GateMultiplier_X_B",(.78,2.10,.25),(.20,1.12,.13),"gate_number",c,.035,rot=(0,0,-pi/4))
-    cube("GateMultiplier_FourStem",(-.76,2.11,.25),(.20,1.38,.13),"gate_number",c,.035)
-    cube("GateMultiplier_FourBar",(-.46,1.88,.25),(.77,.20,.13),"gate_number",c,.035)
-    cube("GateMultiplier_FourDiag",(-.43,2.22,.25),(.20,.96,.13),"gate_number",c,.035,rot=(0,0,-.58))
+    # Literal lowercase x4 uses a bold, closed-character font, avoiding the arrow-like
+    # open-top 4 interpretation. The dark violet face is the deliberate backplate.
+    # Portrait mirroring means physical "4 x" displays as left-to-right "x 4".
+    text_mesh("GateMultiplier_Text","4 x",(0,2.13,.24),1.48,"gate_number",c,.060)
     for side in (-1,1):
         torus("GateMultiplier_Buoy",(side*2.35,.55,0),.34,.07,"teal",c,rot=(pi/2,0,0)); cone("GateMultiplier_BuoyTop",(side*2.35,.98,0),.15,0,.35,"foam",c,8)
     # directional chevrons on the floor warn before commitment.
@@ -356,10 +357,9 @@ def stage_portrait_review():
     # A straight battle corridor deliberately reserves screen bands: player/wake,
     # friendly force, decision gate, hostile line, then the guardian and fortress.
     offsets={"Flagship":(0,0,-7.70), "FriendlyCrew":(-2.15,0,.35),
-             "HostileEnemy":(2.25,0,4.75), "GateMultiplier":(0,1.35,2.15),
-             # Boss deliberately breaks the central gate axis: gate remains a clear
-             # decision, while the guardian owns the hostile right-hand screen band.
-             "HarborGuardian":(2.35,1.75,8.10), "MediterraneanHarbor":(0,0,1.2)}
+             "HostileEnemy":(2.25,1.55,5.80), "GateMultiplier":(0,1.35,2.15),
+             # Boss occupies the central hostile horizon, above the gate's decision band.
+             "HarborGuardian":(0,2.70,9.00), "MediterraneanHarbor":(0,0,1.2)}
     for prefix, delta in offsets.items():
         for c in bpy.data.collections:
             # LODs are delivery variants, never additional actors in a review render.
@@ -386,6 +386,10 @@ def stage_portrait_review():
                 preview.objects.link(clone); clone.location += Vector(delta); clone.scale *= .60
     formation("FriendlyCrew", [(-1.20,0,-.25),(-.55,0,.18),(.45,0,.10),(1.10,0,.48),(-.10,0,.72)])
     formation("HostileEnemy", [(-1.25,0,-.38),(-.58,0,.15),(.48,0,.02),(1.15,0,.42),(.05,0,.72)])
+    # Banner colors turn the small formations into immediate faction reads.
+    for name, x, z, color in (("FriendlyBanner",-2.75,.95,"teal"),("HostileBanner",2.85,6.42,"crimson")):
+        cyl(name+"_Pole",(x,1.45,z),.045,2.65,"gold",preview,8)
+        cube(name+"_Cloth",(x+.34,2.08,z),(.62,.78,.07),color,preview,.04)
     cam=bpy.data.objects.get("T047_PortraitReviewCamera")
     cam.location=(0,8.7,-25.5); cam.data.lens=60
     cam.rotation_euler=(Vector((0,2.18,3.7))-cam.location).to_track_quat('-Z','Y').to_euler()
@@ -430,9 +434,9 @@ def main():
     stage_portrait_review()
     bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT_SOURCE,"T047_BenchmarkArt_Preview.blend"))
     bpy.context.scene.render.filepath=os.path.join(RENDER_DIR,"T047_BenchmarkArt.png"); bpy.ops.render.render(write_still=True)
-    render_focus("Flagship", "T047_Flagship.png", (0,1.4,-4.2), (18,6,-4.5), 42)
+    render_focus("Flagship", "T047_Flagship.png", (0,1.20,-7.70), (2.5,6.0,-20.0), 52)
     render_focus("GateMultiplier", "T047_GateMultiplier.png", (0,2.2,2.5), (0,4.2,-5.0), 58)
-    render_focus("HarborGuardian", "T047_HarborGuardian.png", (2.35,5.05,8.10), (2.35,7.50,1.20), 58)
+    render_focus("HarborGuardian", "T047_HarborGuardian.png", (0,6.00,9.00), (0,8.45,2.10), 58)
     print("T047 COMPLETE", rows)
 
 if __name__ == "__main__": main()

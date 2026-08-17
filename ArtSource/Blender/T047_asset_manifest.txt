@@ -2,7 +2,7 @@ T047 Level 1 authored benchmark asset manifest
 Flagship | triangles=6990 | Tier A | guide=35000
 FriendlyCrew | triangles=1152 | Tier B | guide=1500
 HostileEnemy | triangles=1178 | Tier B | guide=1500
-GateMultiplier | triangles=2992 | Tier A | guide=8000
+GateMultiplier | triangles=2680 | Tier A | guide=8000
 HarborGuardian | triangles=6580 | Tier A | guide=30000
 MediterraneanHarbor | triangles=6964 | Tier A | guide=50000
 All geometry is original procedural authoring in T047_BenchmarkArt.py.
