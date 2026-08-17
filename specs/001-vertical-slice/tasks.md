@@ -51,7 +51,7 @@ run in parallel without touching files owned by an incomplete dependency.
 - [x] T025 Implement GPU-instanced ordinary-unit presentation with per-instance team, state, and animation phase in `Assets/_Project/Scripts/Crowd/Rendering/InstancedCrowdRenderer.cs` [FR-006] [SC-006]
 - [x] T026 [P] Create Primary and Reduced URP/quality definitions under `Assets/_Project/Settings/Quality/` and runtime selection in `Assets/_Project/Scripts/Presentation/Quality/QualityProfileController.cs` [FR-018] [FR-024]
 - [x] T027 [P] Create `Benchmark_Stress.unity` with deterministic 300-agent and 500-agent scenarios in `Assets/_Project/Scenes/Benchmark_Stress.unity` [SC-006]
-- [ ] T028 [P] Add Performance tests for 300-agent primary, 500-agent floor, allocation spikes, and quality-outcome parity in `Assets/_Project/Tests/Performance/CrowdPerformanceTests.cs` [SC-006]
+- [x] T028 [P] Add Performance tests for 300-agent primary, 500-agent floor, allocation spikes, and quality-outcome parity in `Assets/_Project/Tests/Performance/CrowdPerformanceTests.cs` [SC-006]
 - [ ] T029 Create bootstrap, frontend, direct-level-launch, save, quality, and scene-transition composition in `Assets/_Project/Scenes/Bootstrap.unity` and `Assets/_Project/Scripts/Core/Bootstrap/` [FR-012] [FR-019]
 - [ ] T030 Run all foundational tests and record the first local evidence index in `Artifacts/Local/foundation/evidence.md`
 
