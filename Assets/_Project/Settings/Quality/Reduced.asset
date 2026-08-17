@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Name: Reduced
+  m_Script: {fileID: 11500000, guid: 54c91650897a140bdbfd907c8b434b9c, type: 3}
+  id:
+    value: quality-reduced
+  profileKind: 1
+  crowdPresentationCap: 300
+  shadowProfileId:
+    value: shadows-reduced
+  waterProfileId:
+    value: water-reduced
+  vfxDensity: 0.5
+  lodBias: 0.5
+  fallbackEnterFrameTime: 0.033
+  fallbackExitFrameTime: 0.025

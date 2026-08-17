@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+SceneSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_RenderSettings: {fileID: 0}
+--- !u!1 &1000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_Name: Benchmark_Stress
+  m_IsActive: 1
+  m_Component:
+  - component: {fileID: 1001}
+  - component: {fileID: 1002}
+--- !u!4 &1001
+Transform:
+  m_GameObject: {fileID: 1000}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+--- !u!114 &1002
+MonoBehaviour:
+  m_GameObject: {fileID: 1000}
+  m_Enabled: 1
+  m_Script: {fileID: 11500000, guid: 3abf1001b1c54a8c98a407f027e02701, type: 3}
+  agentCount: 300
+  seed: 2701
+  spacing: 1.35
+  animate: 1
+--- !u!1 &2000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_Name: BenchmarkCamera
+  m_IsActive: 1
+  m_Component:
+  - component: {fileID: 2001}
+  - component: {fileID: 2002}
+--- !u!4 &2001
+Transform:
+  m_GameObject: {fileID: 2000}
+  m_LocalPosition: {x: 0, y: 22, z: -18}
+  m_LocalRotation: {x: 0.55, y: 0, z: 0, w: 0.835}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+--- !u!20 &2002
+Camera:
+  m_GameObject: {fileID: 2000}
+  m_Enabled: 1
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.035, g: 0.07, b: 0.12, a: 1}
+  m_FieldOfView: 45
+  m_Orthographic: 0
+  m_Depth: -1
+--- !u!1 &3000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_Name: KeyLight
+  m_IsActive: 1
+  m_Component:
+  - component: {fileID: 3001}
+  - component: {fileID: 3002}
+--- !u!4 &3001
+Transform:
+  m_GameObject: {fileID: 3000}
+  m_LocalPosition: {x: -4, y: 12, z: -6}
+  m_LocalRotation: {x: 0.35, y: -0.2, z: 0.1, w: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+--- !u!108 &3002
+Light:
+  m_GameObject: {fileID: 3000}
+  m_Enabled: 1
+  m_Type: 1
+  m_Color: {r: 1, g: 0.85, b: 0.65, a: 1}
+  m_Intensity: 1.2
+  m_Shadows: {m_Type: 0}
