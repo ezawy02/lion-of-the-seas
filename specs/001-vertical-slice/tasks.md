@@ -81,9 +81,9 @@ win/fail, claim a reward, and retry without any unfinished feature.
 - [x] T039 [US1] Implement logical-count versus displayed-agent compression in `Assets/_Project/Scripts/Crowd/Simulation/ForceRuntime.cs` [FR-004] [FR-018]
 - [x] T040 [US1] Implement landing-zone acceptance and one-time sea-to-land force transfer in `Assets/_Project/Scripts/Gameplay/Landing/LandingZoneController.cs` [FR-005]
 - [x] T041 [US1] Implement coarse land targeting, attack cadence, damage, death, and stable tie-breaks in `Assets/_Project/Scripts/Combat/OrdinaryCombatSystem.cs` [FR-005] [FR-008]
-- [ ] T042 [US1] Implement Harbor Guardian entry, readable attacks, health, hit reaction events, victory, and failure pressure in `Assets/_Project/Scripts/Combat/Bosses/HarborGuardianController.cs` [FR-007] [FR-008] [FR-009]
-- [ ] T043 [P] [US1] Implement force count, gate result, boss health, ability placeholder, and result UI in `Assets/_Project/Scripts/UI/Battle/` [FR-004] [FR-008]
-- [ ] T044 [P] [US1] Implement pooled gate, hit, loss, landing, boss, destruction, victory, and failure presentation subscribers in `Assets/_Project/Scripts/Presentation/Battle/` [FR-008]
+- [x] T042 [US1] Implement Harbor Guardian entry, readable attacks, health, hit reaction events, victory, and failure pressure in `Assets/_Project/Scripts/Combat/Bosses/HarborGuardianController.cs` [FR-007] [FR-008] [FR-009]
+- [x] T043 [P] [US1] Implement force count, gate result, boss health, ability placeholder, and result UI in `Assets/_Project/Scripts/UI/Battle/` [FR-004] [FR-008]
+- [x] T044 [P] [US1] Implement pooled gate, hit, loss, landing, boss, destruction, victory, and failure presentation subscribers in `Assets/_Project/Scripts/Presentation/Battle/` [FR-008]
 - [ ] T045 [US1] Implement terminal result isolation and under-three-second retry in `Assets/_Project/Scripts/Gameplay/Results/BattleResultController.cs` [FR-012] [FR-013] [SC-007]
 - [ ] T046 [US1] Implement first-completion blueprint reward grant and presentation in `Assets/_Project/Scripts/Gameplay/Rewards/RewardGrantService.cs` and `Assets/_Project/Scripts/UI/Rewards/RewardRevealView.cs` [FR-016]
 

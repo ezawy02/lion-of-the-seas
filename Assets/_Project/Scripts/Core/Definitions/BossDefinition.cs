@@ -9,6 +9,8 @@ namespace SeaLion.Core.Definitions
         [SerializeField] private StableId id, entryRule;
         [SerializeField] [Min(0f)] private float threshold;
         public StableId Id => id; public StableId EntryRule => entryRule; public float Threshold => threshold;
+        public BossPhaseDefinition(StableId id, StableId entryRule, float threshold)
+        { this.id = id; this.entryRule = entryRule; this.threshold = threshold; }
     }
 
     [CreateAssetMenu(menuName = "Sea Lion/Definitions/Boss", fileName = "BossDefinition")]
