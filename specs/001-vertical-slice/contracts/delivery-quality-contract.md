@@ -68,7 +68,7 @@ The repository check reports path, category, non-blank line count, threshold, an
 ## Private repository boundary
 
 - The authorized remote is one private GitHub repository dedicated to this project.
-- No files outside `/Users/apple/Documents/ChatGPT/أسد البحار Lion of the Seas` may be
+- No files outside `/Users/apple/Desktop/أسد البحار Lion of the Seas` may be
   uploaded under this authorization.
 - Before remote transfer, review the exact tracked file list and scan for credentials,
   tokens, personal logs, caches, build output, and unrelated content.

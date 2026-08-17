@@ -15,18 +15,18 @@ run in parallel without touching files owned by an incomplete dependency.
 
 **Purpose**: Create the minimum Unity repository and local guardrails. Do not add gameplay.
 
-- [ ] T001 Install Unity Hub and the latest Unity 6.3 LTS editor with Android Build Support, SDK, NDK, and OpenJDK; record the revision in `ProjectSettings/ProjectVersion.txt`
-- [ ] T002 Create a Universal 3D Unity project named LionOfTheSeas in the repository and preserve `.specify/`, `specs/`, `.git/`, `README.md`, and `AGENTS.md`
-- [ ] T003 Configure portrait orientation, Android ARM64, Android 9/API 28 minimum, product name, and package placeholder in `ProjectSettings/ProjectSettings.asset`
-- [ ] T004 Add only URP, Input System, Cinemachine, Burst, Collections, Mathematics, Test Framework, and Performance Testing dependencies to `Packages/manifest.json`
-- [ ] T005 Create the planned `Assets/_Project/` directory tree and placeholder ownership notes in `Assets/_Project/README.md`
-- [ ] T006 [P] Create Core, Crowd, Gameplay, Presentation, UI, and test assembly definitions under `Assets/_Project/Scripts/` and `Assets/_Project/Tests/`
-- [ ] T007 [P] Create `ArtSource/Blender/Characters/`, `ArtSource/Blender/Environment/`, and `ArtSource/Blender/Ships/` with source/export conventions in `ArtSource/README.md`
+- [x] T001 Install Unity Hub and the latest Unity 6.3 LTS editor with Android Build Support, SDK, NDK, and OpenJDK; record the revision in `ProjectSettings/ProjectVersion.txt`
+- [x] T002 Create a Universal 3D Unity project named LionOfTheSeas in the repository and preserve `.specify/`, `specs/`, `.git/`, `README.md`, and `AGENTS.md`
+- [x] T003 Configure portrait orientation, Android ARM64, Android 9/API 28 minimum, product name, and package placeholder in `ProjectSettings/ProjectSettings.asset`
+- [x] T004 Add only URP, Input System, Cinemachine, Burst, Collections, Mathematics, Test Framework, and Performance Testing dependencies to `Packages/manifest.json`
+- [x] T005 Create the planned `Assets/_Project/` directory tree and placeholder ownership notes in `Assets/_Project/README.md`
+- [x] T006 [P] Create Core, Crowd, Gameplay, Presentation, UI, and test assembly definitions under `Assets/_Project/Scripts/` and `Assets/_Project/Tests/`
+- [x] T007 [P] Create `ArtSource/Blender/Characters/`, `ArtSource/Blender/Environment/`, and `ArtSource/Blender/Ships/` with source/export conventions in `ArtSource/README.md`
 - [x] T008 [P] Implement the non-blank authored C# size checker with 1,000-line warning and 1,500-line failure in `tools/check-source-size.sh` [SC-009]
-- [ ] T009 [P] Add EditMode tests for source-size categorization, generated/vendor exclusions, and threshold results in `Assets/_Project/Tests/EditMode/Maintainability/SourceSizePolicyTests.cs` [SC-009]
-- [ ] T010 [P] Define asset naming, import, atlas, LOD, pivot, scale, and FBX export rules in `Assets/_Project/Art/ART_PIPELINE.md`
-- [ ] T011 [P] Define evidence folder naming and local-only capture exclusions in `Artifacts/README.md`
-- [ ] T012 Define Git LFS patterns for future `.blend`, `.fbx`, texture, audio, and video assets in `.gitattributes`; verify the exact tracked-file boundary and private repository rule in `README.md`
+- [x] T009 [P] Add EditMode tests for source-size categorization, generated/vendor exclusions, and threshold results in `Assets/_Project/Tests/EditMode/Maintainability/SourceSizePolicyTests.cs` [SC-009]
+- [x] T010 [P] Define asset naming, import, atlas, LOD, pivot, scale, and FBX export rules in `Assets/_Project/Art/ART_PIPELINE.md`
+- [x] T011 [P] Define evidence folder naming and local-only capture exclusions in `Artifacts/README.md`
+- [x] T012 Define Git LFS patterns for future `.blend`, `.fbx`, texture, audio, and video assets in `.gitattributes`; verify the exact tracked-file boundary and private repository rule in `README.md`
 
 **Checkpoint**: Unity opens without errors, Android tooling is available, and guardrail tests run.
 

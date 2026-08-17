@@ -1,0 +1,14 @@
+{
+  "name": "SeaLion.UI",
+  "rootNamespace": "SeaLion.UI",
+  "references": ["SeaLion.Core", "SeaLion.Gameplay", "SeaLion.Presentation"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

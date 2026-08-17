@@ -40,3 +40,16 @@ versioned `.githooks/pre-push` hook to run the same check automatically before e
 
 This project is intended for one private GitHub repository dedicated only to Lion of the
 Seas. No unrelated project files belong in this repository.
+
+## Tracked-file boundary
+
+The tracked boundary is limited to project source, Unity configuration, specifications,
+quality evidence that is explicitly intended for review, license records, and authored
+art or media. Future binary `.blend`, `.fbx`, texture, audio, and video files use the
+patterns in `.gitattributes` and must be stored through Git LFS; Unity-generated or local
+machine output is not tracked.
+
+Do not track `Library/`, `Temp/`, `Logs/`, `Build/`, `Builds/`, `UserSettings/`, local
+captures, profiling output, credentials, signing material, secrets, caches, or unrelated
+files. Before any remote transfer, review the exact `git ls-files` result and confirm that
+the destination is the single private repository dedicated to this project.
