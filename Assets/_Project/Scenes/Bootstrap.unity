@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+SceneSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_RenderSettings: {fileID: 0}
+--- !u!1 &1000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_Name: Bootstrap
+  m_IsActive: 1
+  m_Component:
+  - component: {fileID: 1001}
+  - component: {fileID: 1002}
+  - component: {fileID: 1003}
+--- !u!4 &1001
+Transform:
+  m_GameObject: {fileID: 1000}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+--- !u!114 &1002
+MonoBehaviour:
+  m_GameObject: {fileID: 1000}
+  m_Enabled: 1
+  m_Script: {fileID: 11500000, guid: b7a5c3d1e9f24680a1b2c3d4e5f60718, type: 3}
+  frontendScene: Frontend
+  directLevelScene:
+  qualityController: {fileID: 1003}
+--- !u!114 &1003
+MonoBehaviour:
+  m_GameObject: {fileID: 1000}
+  m_Enabled: 1
+  m_Script: {fileID: 11500000, guid: dc0e173cb1e1443b88738b6db7241fe9, type: 3}
+  primary: {fileID: 11400000, guid: 91a0a8d6b5e24b6a9c0d7f1e2a3b4c5d, type: 2}
+  reduced: {fileID: 11400000, guid: 5c4b3a2d1e0f9876543210fedcba9876, type: 2}
+  preference: 0
+  frameTimeEnter: 0.033
+  frameTimeExit: 0.025

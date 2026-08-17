@@ -1,0 +1,7 @@
+{
+  "name": "SeaLion.Bootstrap", "rootNamespace": "SeaLion.Core.Bootstrap",
+  "references": ["SeaLion.Core", "SeaLion.Persistence", "SeaLion.Presentation"],
+  "includePlatforms": [], "excludePlatforms": [], "allowUnsafeCode": false,
+  "overrideReferences": false, "precompiledReferences": [], "autoReferenced": true,
+  "defineConstraints": [], "versionDefines": [], "noEngineReferences": false
+}
