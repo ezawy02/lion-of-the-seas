@@ -36,16 +36,16 @@ run in parallel without touching files owned by an incomplete dependency.
 
 **Critical**: No level implementation begins until T013–T030 are complete.
 
-- [ ] T013 [P] Define stable-ID and definition validation primitives in `Assets/_Project/Scripts/Core/Definitions/StableId.cs` and `Assets/_Project/Scripts/Core/Definitions/DefinitionValidation.cs` [FR-020]
-- [ ] T014 [P] Create level, phase, gate, unit, flagship, captain ability, boss, reward, and quality ScriptableObject definitions under `Assets/_Project/Scripts/Core/Definitions/` [FR-003] [FR-014] [FR-018]
-- [ ] T015 [P] Add EditMode validation tests for missing IDs, broken references, illegal gate values, invalid loadouts, and phase cycles in `Assets/_Project/Tests/EditMode/Definitions/DefinitionValidationTests.cs`
-- [ ] T016 Implement deterministic battle lifecycle and strictly ordered domain events in `Assets/_Project/Scripts/Core/Battle/BattleSession.cs` and `Assets/_Project/Scripts/Core/Events/BattleEventStream.cs` [FR-012]
-- [ ] T017 [P] Add deterministic seed, fixed-step clock, and replay input record types in `Assets/_Project/Scripts/Core/Simulation/` [FR-004]
-- [ ] T018 [P] Implement versioned save schema, validation, atomic replacement, and idempotent reward transaction support in `Assets/_Project/Scripts/Persistence/LocalSaveRepository.cs` [FR-015] [FR-016]
-- [ ] T019 [P] Add EditMode tests for clean save, invalid IDs, interrupted writes, schema migration, and duplicate rewards in `Assets/_Project/Tests/EditMode/Persistence/LocalSaveRepositoryTests.cs` [FR-015] [FR-016]
-- [ ] T020 [P] Implement one-handed horizontal input adapter and lost-focus reset in `Assets/_Project/Scripts/Gameplay/Input/FlagshipInputAdapter.cs` [FR-001]
-- [ ] T021 [P] Implement typed reusable object pools for craft, projectiles, VFX, debris, UI numbers, and audio sources in `Assets/_Project/Scripts/Presentation/Pooling/` [SC-006]
-- [ ] T022 Implement structure-of-arrays crowd buffers and lifecycle ownership in `Assets/_Project/Scripts/Crowd/Simulation/CrowdBuffers.cs` [SC-006]
+- [x] T013 [P] Define stable-ID and definition validation primitives in `Assets/_Project/Scripts/Core/Definitions/StableId.cs` and `Assets/_Project/Scripts/Core/Definitions/DefinitionValidation.cs` [FR-020]
+- [x] T014 [P] Create level, phase, gate, unit, flagship, captain ability, boss, reward, and quality ScriptableObject definitions under `Assets/_Project/Scripts/Core/Definitions/` [FR-003] [FR-014] [FR-018]
+- [x] T015 [P] Add EditMode validation tests for missing IDs, broken references, illegal gate values, invalid loadouts, and phase cycles in `Assets/_Project/Tests/EditMode/Definitions/DefinitionValidationTests.cs`
+- [x] T016 Implement deterministic battle lifecycle and strictly ordered domain events in `Assets/_Project/Scripts/Core/Battle/BattleSession.cs` and `Assets/_Project/Scripts/Core/Events/BattleEventStream.cs` [FR-012]
+- [x] T017 [P] Add deterministic seed, fixed-step clock, and replay input record types in `Assets/_Project/Scripts/Core/Simulation/` [FR-004]
+- [x] T018 [P] Implement versioned save schema, validation, atomic replacement, and idempotent reward transaction support in `Assets/_Project/Scripts/Persistence/LocalSaveRepository.cs` [FR-015] [FR-016]
+- [x] T019 [P] Add EditMode tests for clean save, invalid IDs, interrupted writes, schema migration, and duplicate rewards in `Assets/_Project/Tests/EditMode/Persistence/LocalSaveRepositoryTests.cs` [FR-015] [FR-016]
+- [x] T020 [P] Implement one-handed horizontal input adapter and lost-focus reset in `Assets/_Project/Scripts/Gameplay/Input/FlagshipInputAdapter.cs` [FR-001]
+- [x] T021 [P] Implement typed reusable object pools for craft, projectiles, VFX, debris, UI numbers, and audio sources in `Assets/_Project/Scripts/Presentation/Pooling/` [SC-006]
+- [x] T022 Implement structure-of-arrays crowd buffers and lifecycle ownership in `Assets/_Project/Scripts/Crowd/Simulation/CrowdBuffers.cs` [SC-006]
 - [ ] T023 Implement fixed-step Burst movement, formation target, and state-transition jobs in `Assets/_Project/Scripts/Crowd/Simulation/Jobs/` [SC-006]
 - [ ] T024 Implement uniform spatial-grid rebuild and query jobs in `Assets/_Project/Scripts/Crowd/Spatial/` [SC-006]
 - [ ] T025 Implement GPU-instanced ordinary-unit presentation with per-instance team, state, and animation phase in `Assets/_Project/Scripts/Crowd/Rendering/InstancedCrowdRenderer.cs` [FR-006] [SC-006]
