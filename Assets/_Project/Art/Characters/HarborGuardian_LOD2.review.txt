@@ -1,0 +1,6 @@
+T047 authored benchmark asset
+asset=HarborGuardian_LOD2
+collection=HarborGuardian_LOD2
+triangles=2972
+source=T047_BenchmarkArt.py
+license=Original procedural geometry; no third-party assets

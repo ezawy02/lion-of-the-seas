@@ -1,0 +1,6 @@
+T047 authored benchmark asset
+asset=HostileEnemy
+collection=HostileEnemy
+triangles=1178
+source=T047_BenchmarkArt.py
+license=Original procedural geometry; no third-party assets

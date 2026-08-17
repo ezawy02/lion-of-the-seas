@@ -1,0 +1,6 @@
+T047 authored benchmark asset
+asset=Flagship_LOD1
+collection=Flagship_LOD1
+triangles=892
+source=T047_BenchmarkArt.py
+license=Original procedural geometry; no third-party assets

@@ -1,0 +1,6 @@
+T047 authored benchmark asset
+asset=GateMultiplier
+collection=GateMultiplier
+triangles=2992
+source=T047_BenchmarkArt.py
+license=Original procedural geometry; no third-party assets
