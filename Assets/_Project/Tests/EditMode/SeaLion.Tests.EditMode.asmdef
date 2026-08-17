@@ -1,7 +1,7 @@
 {
   "name": "SeaLion.Tests.EditMode",
   "rootNamespace": "SeaLion.Tests.EditMode",
-  "references": ["SeaLion.Core", "SeaLion.Bootstrap", "SeaLion.Crowd", "SeaLion.Gameplay", "SeaLion.Persistence", "SeaLion.Presentation", "SeaLion.UI", "Unity.Collections", "Unity.Mathematics", "Unity.TestFramework"],
+  "references": ["SeaLion.Core", "SeaLion.Bootstrap", "SeaLion.Crowd", "SeaLion.Gameplay", "SeaLion.Persistence", "SeaLion.Presentation", "SeaLion.UI", "SeaLion.Combat", "Unity.Collections", "Unity.Mathematics", "Unity.TestFramework"],
   "includePlatforms": ["Editor"],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
