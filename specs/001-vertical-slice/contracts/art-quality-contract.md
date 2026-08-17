@@ -110,3 +110,11 @@ Budgets are starting caps and can tighten after device profiling.
 - [ ] All non-original assets have complete license records.
 
 Any failed item blocks Art Lock. A still render cannot substitute for the playable benchmark.
+
+## User approval gate
+
+- Art Lock requires explicit user approval of the exact revision shown inside Unity.
+- Approval is revision-specific; later material, lighting, model, camera, or VFX changes must
+  be shown again when they materially change the approved appearance.
+- Automated checks, import success, screenshots, and internal reviews can reject work or
+  prepare it for review, but cannot approve it on the user's behalf.

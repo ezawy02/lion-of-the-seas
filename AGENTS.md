@@ -15,3 +15,13 @@ limits, and project structure, read `specs/001-vertical-slice/plan.md` before ma
 - If Terra also fails, stalls, or remains uncertain, the primary agent must take over.
 - Delegated agents must stay inside this repository and must not upload files or connect the
   repository to ChatGPT, Codex Cloud, or any other cloud service.
+
+## Mandatory User Art Approval
+
+- No concept, model, texture, material, animation, VFX pass, benchmark scene, or art task
+  may be labeled final, approved, accepted, Art Lock, or complete without the user first
+  reviewing it inside Unity and explicitly approving that exact revision.
+- Blender renders, automated validators, synthetic reviewers, and passing import tests are
+  preparation evidence only; none of them substitutes for the user's visual approval.
+- Rejected art may remain only as clearly labeled prototype/reference material and its task
+  must remain unchecked until a replacement revision receives explicit approval.
