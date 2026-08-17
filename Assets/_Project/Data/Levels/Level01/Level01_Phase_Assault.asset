@@ -7,7 +7,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dafbf20655d34779b5f2d9566291e21, type: 3}
   id: {value: level01-assault}
   kind: 4
-  durationBudget: 45
+  durationBudget: 27
   cameraProfileId: {value: camera-level01-guardian}
   spawnGroups: []
   completionRule: {key: level01.assault.defeat_guardian}

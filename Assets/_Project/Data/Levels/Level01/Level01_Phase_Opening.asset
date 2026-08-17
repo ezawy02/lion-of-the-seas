@@ -7,7 +7,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dafbf20655d34779b5f2d9566291e21, type: 3}
   id: {value: level01-opening}
   kind: 0
-  durationBudget: 12
+  durationBudget: 8
   cameraProfileId: {value: camera-level01-opening}
   spawnGroups: []
   completionRule: {key: level01.opening.reach_gate_choice}

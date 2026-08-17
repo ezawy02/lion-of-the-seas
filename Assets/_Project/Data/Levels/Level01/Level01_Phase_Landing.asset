@@ -7,7 +7,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dafbf20655d34779b5f2d9566291e21, type: 3}
   id: {value: level01-landing}
   kind: 2
-  durationBudget: 12
+  durationBudget: 9
   cameraProfileId: {value: camera-level01-landing}
   spawnGroups: []
   completionRule: {key: level01.landing.transfer_survivors}

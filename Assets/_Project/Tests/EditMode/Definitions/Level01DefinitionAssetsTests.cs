@@ -33,5 +33,17 @@ namespace SeaLion.Tests.EditMode.Definitions
             Assert.That(gate.Outcome, Is.EqualTo(GateOutcome.Multiply));
             Assert.That(gate.Value, Is.EqualTo(4f));
         }
+
+        [Test]
+        public void LevelOnePacingTargetsReadableSixtyEightSecondRun()
+        {
+            var level = AssetDatabase.LoadAssetAtPath<LevelDefinition>(Root + "/Level01.asset");
+            Assert.That(level.OpeningThreatRevealSeconds, Is.LessThanOrEqualTo(3f));
+            Assert.That(level.TargetDurationSeconds, Is.InRange(60f, 75f));
+            Assert.That(level.TargetDurationSeconds, Is.EqualTo(68f));
+            Assert.That(level.RiskyGatePosition - level.EasyGatePosition, Is.GreaterThanOrEqualTo(.2f));
+            Assert.That(level.LandingTransferSeconds, Is.EqualTo(9f));
+            Assert.That(level.GuardianPressureIntervalSeconds, Is.EqualTo(6f));
+        }
     }
 }

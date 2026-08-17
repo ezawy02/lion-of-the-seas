@@ -68,8 +68,8 @@ win/fail, claim a reward, and retry without any unfinished feature.
 ### Tests first
 
 - [x] T031 [P] [US1] Add EditMode tests for Add, Multiply, Convert, Damage, cap, rounding, and exactly-once gate resolution in `Assets/_Project/Tests/EditMode/Gates/GateResolverTests.cs` [FR-003] [FR-004]
-- [ ] T032 [P] [US1] Add PlayMode tests for clean-save Level 1 control, gate, landing, guardian, victory, failure, and retry in `Assets/_Project/Tests/PlayMode/Levels/Level01JourneyTests.cs` [FR-001] [FR-009] [FR-012] [FR-013]
-- [ ] T033 [P] [US1] Add PlayMode tests for release-outside-bounds, zero force, overlapping gates, cap compression, boss defeat during VFX, and pause/resume in `Assets/_Project/Tests/PlayMode/Levels/Level01EdgeCaseTests.cs`
+- [x] T032 [P] [US1] Add PlayMode tests for clean-save Level 1 control, gate, landing, guardian, victory, failure, and retry in `Assets/_Project/Tests/PlayMode/Levels/Level01JourneyTests.cs` [FR-001] [FR-009] [FR-012] [FR-013]
+- [x] T033 [P] [US1] Add PlayMode tests for release-outside-bounds, zero force, overlapping gates, cap compression, boss defeat during VFX, and pause/resume in `Assets/_Project/Tests/PlayMode/Levels/Level01EdgeCaseTests.cs`
 
 ### Core implementation
 
@@ -90,8 +90,8 @@ win/fail, claim a reward, and retry without any unfinished feature.
 ### MVP art and validation
 
 - [ ] T047 [P] [US1] Create the final-quality Level 1 benchmark flagship, crew, enemy, gate, guardian, and environment slice under `ArtSource/Blender/` and `Assets/_Project/Art/` [FR-006] [SC-003] [SC-004]
-- [ ] T048 [P] [US1] Create the benchmark stylized water, foam, wake, landing, hit, and boss-reaction pass in `Assets/_Project/Materials/Water/` and `Assets/_Project/VFX/` [SC-004]
-- [ ] T049 [US1] Tune Level 1 opening threat, gate spacing, landing timing, guardian pressure, and 60–75 second target in `Assets/_Project/Data/Levels/Level01/Level01.asset` [FR-007] [SC-001] [SC-002]
+- [x] T048 [P] [US1] Create the benchmark stylized water, foam, wake, landing, hit, and boss-reaction pass in `Assets/_Project/Materials/Water/` and `Assets/_Project/VFX/` [SC-004]
+- [x] T049 [US1] Tune Level 1 opening threat, gate spacing, landing timing, guardian pressure, and 60–75 second target in `Assets/_Project/Data/Levels/Level01/Level01.asset` [FR-007] [SC-001] [SC-002]
 - [ ] T050 [US1] Run the no-instruction comprehension and five-second readability tests in `Artifacts/Local/playtests/level01-player-gate.md` [SC-001] [SC-002] [SC-003]
 - [ ] T051 [US1] Build `Assets/_Project/Scenes/Benchmark_Art.unity`, pass the Art Quality Contract, and pass the 300/500-agent M2 benchmark before approving later levels in `Artifacts/Local/m2-gate/evidence.md` [SC-004] [SC-006]
 

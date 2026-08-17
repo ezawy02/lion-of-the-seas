@@ -23,3 +23,9 @@ MonoBehaviour:
   rewardId: {value: reward-level01-sailmakers-blueprint}
   qualityProfileId: {value: quality-primary}
   storeMoments: []
+  openingThreatRevealSeconds: 2
+  targetDurationSeconds: 68
+  easyGatePosition: 0.36
+  riskyGatePosition: 0.64
+  landingTransferSeconds: 9
+  guardianPressureIntervalSeconds: 6

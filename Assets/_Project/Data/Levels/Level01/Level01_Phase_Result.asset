@@ -7,7 +7,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dafbf20655d34779b5f2d9566291e21, type: 3}
   id: {value: level01-result}
   kind: 5
-  durationBudget: 8
+  durationBudget: 6
   cameraProfileId: {value: camera-level01-result}
   spawnGroups: []
   completionRule: {key: level01.result.claim_blueprint}
