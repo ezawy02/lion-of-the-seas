@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Name: Level01_HundredSails
+  m_Script: {fileID: 11500000, guid: 1e6943b78bec94dfb8d3ba2c6074c5a3, type: 3}
+  id: {value: level-01-hundred-sails}
+  displayName: {key: level01.hundred_sails.name}
+  sceneId: {value: level-01-hundred-sails}
+  order: 1
+  phases:
+  - {value: level01-opening}
+  - {value: level01-traversal}
+  - {value: level01-landing}
+  - {value: level01-assault}
+  - {value: level01-result}
+  gateSets:
+  - {value: level01-gates}
+  encounters:
+  - {value: level01-prisoner-rescue}
+  - {value: boss-level01-harbor-guardian}
+  rewardId: {value: reward-level01-sailmakers-blueprint}
+  qualityProfileId: {value: quality-primary}
+  storeMoments: []

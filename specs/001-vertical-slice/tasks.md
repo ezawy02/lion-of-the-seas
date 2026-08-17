@@ -73,7 +73,7 @@ win/fail, claim a reward, and retry without any unfinished feature.
 
 ### Core implementation
 
-- [ ] T034 [P] [US1] Author Level 1, phase, gate, rescue, guardian, and reward definitions under `Assets/_Project/Data/Levels/Level01/` [FR-007] [FR-009]
+- [x] T034 [P] [US1] Author Level 1, phase, gate, rescue, guardian, and reward definitions under `Assets/_Project/Data/Levels/Level01/` [FR-007] [FR-009]
 - [ ] T035 [P] [US1] Create the Level 1 greybox scene with flagship lane, gates, rescue, beach, defender field, and guardian anchors in `Assets/_Project/Scenes/Level_01_HundredSails.unity` [FR-009]
 - [ ] T036 [US1] Implement clamped responsive flagship movement in `Assets/_Project/Scripts/Gameplay/Flagship/FlagshipController.cs` [FR-001]
 - [ ] T037 [US1] Implement pooled continuous landing-craft deployment in `Assets/_Project/Scripts/Gameplay/Deployment/LandingCraftDeployer.cs` [FR-002]

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Name: Boss01_HarborGuardian
+  m_Script: {fileID: 11500000, guid: 3118121c551424539b622bf71de9e561, type: 3}
+  id: {value: boss-level01-harbor-guardian}
+  phases:
+  - id: {value: guardian-awakening}
+    entryRule: {value: rule-guardian-entry}
+    threshold: 1
+  - id: {value: guardian-broken-chain}
+    entryRule: {value: rule-guardian-half-health}
+    threshold: 0.5
+  healthModel: 0
+  attacks:
+  - {value: attack-harbor-broadside}
+  - {value: attack-anchor-sweep}
+  targetRule: 0
+  victoryRule: {key: level01.guardian.victory}
+  failurePressure: 2

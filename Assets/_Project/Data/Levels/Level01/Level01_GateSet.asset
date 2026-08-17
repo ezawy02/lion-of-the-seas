@@ -1,0 +1,12 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Name: Level01_Gates_EasyAndRisky
+  m_Script: {fileID: 11500000, guid: 8b1f4e5d2c6a4f70a9e3b1d5c7f20486, type: 3}
+  id: {value: level01-gates}
+  gates:
+  - {value: level01-gate-easy}
+  - {value: level01-gate-risky}
+  decisionPrompt: {key: level01.gates.choose_wind}

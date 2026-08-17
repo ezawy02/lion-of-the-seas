@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Name: Phase01_ApproachToHundredSails
+  m_Script: {fileID: 11500000, guid: 3dafbf20655d34779b5f2d9566291e21, type: 3}
+  id: {value: level01-opening}
+  kind: 0
+  durationBudget: 12
+  cameraProfileId: {value: camera-level01-opening}
+  spawnGroups: []
+  completionRule: {key: level01.opening.reach_gate_choice}
+  nextPhaseId: {value: level01-traversal}
