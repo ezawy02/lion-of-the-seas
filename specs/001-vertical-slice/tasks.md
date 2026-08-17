@@ -67,7 +67,7 @@ win/fail, claim a reward, and retry without any unfinished feature.
 
 ### Tests first
 
-- [ ] T031 [P] [US1] Add EditMode tests for Add, Multiply, Convert, Damage, cap, rounding, and exactly-once gate resolution in `Assets/_Project/Tests/EditMode/Gates/GateResolverTests.cs` [FR-003] [FR-004]
+- [x] T031 [P] [US1] Add EditMode tests for Add, Multiply, Convert, Damage, cap, rounding, and exactly-once gate resolution in `Assets/_Project/Tests/EditMode/Gates/GateResolverTests.cs` [FR-003] [FR-004]
 - [ ] T032 [P] [US1] Add PlayMode tests for clean-save Level 1 control, gate, landing, guardian, victory, failure, and retry in `Assets/_Project/Tests/PlayMode/Levels/Level01JourneyTests.cs` [FR-001] [FR-009] [FR-012] [FR-013]
 - [ ] T033 [P] [US1] Add PlayMode tests for release-outside-bounds, zero force, overlapping gates, cap compression, boss defeat during VFX, and pause/resume in `Assets/_Project/Tests/PlayMode/Levels/Level01EdgeCaseTests.cs`
 
@@ -77,7 +77,7 @@ win/fail, claim a reward, and retry without any unfinished feature.
 - [ ] T035 [P] [US1] Create the Level 1 greybox scene with flagship lane, gates, rescue, beach, defender field, and guardian anchors in `Assets/_Project/Scenes/Level_01_HundredSails.unity` [FR-009]
 - [ ] T036 [US1] Implement clamped responsive flagship movement in `Assets/_Project/Scripts/Gameplay/Flagship/FlagshipController.cs` [FR-001]
 - [ ] T037 [US1] Implement pooled continuous landing-craft deployment in `Assets/_Project/Scripts/Gameplay/Deployment/LandingCraftDeployer.cs` [FR-002]
-- [ ] T038 [US1] Implement deterministic gate commitment and arithmetic in `Assets/_Project/Scripts/Gameplay/Gates/GateResolver.cs` [FR-003] [FR-004]
+- [x] T038 [US1] Implement deterministic gate commitment and arithmetic in `Assets/_Project/Scripts/Gameplay/Gates/GateResolver.cs` [FR-003] [FR-004]
 - [ ] T039 [US1] Implement logical-count versus displayed-agent compression in `Assets/_Project/Scripts/Crowd/Simulation/ForceRuntime.cs` [FR-004] [FR-018]
 - [ ] T040 [US1] Implement landing-zone acceptance and one-time sea-to-land force transfer in `Assets/_Project/Scripts/Gameplay/Landing/LandingZoneController.cs` [FR-005]
 - [ ] T041 [US1] Implement coarse land targeting, attack cadence, damage, death, and stable tie-breaks in `Assets/_Project/Scripts/Combat/OrdinaryCombatSystem.cs` [FR-005] [FR-008]
