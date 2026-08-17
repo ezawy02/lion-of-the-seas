@@ -84,8 +84,8 @@ win/fail, claim a reward, and retry without any unfinished feature.
 - [x] T042 [US1] Implement Harbor Guardian entry, readable attacks, health, hit reaction events, victory, and failure pressure in `Assets/_Project/Scripts/Combat/Bosses/HarborGuardianController.cs` [FR-007] [FR-008] [FR-009]
 - [x] T043 [P] [US1] Implement force count, gate result, boss health, ability placeholder, and result UI in `Assets/_Project/Scripts/UI/Battle/` [FR-004] [FR-008]
 - [x] T044 [P] [US1] Implement pooled gate, hit, loss, landing, boss, destruction, victory, and failure presentation subscribers in `Assets/_Project/Scripts/Presentation/Battle/` [FR-008]
-- [ ] T045 [US1] Implement terminal result isolation and under-three-second retry in `Assets/_Project/Scripts/Gameplay/Results/BattleResultController.cs` [FR-012] [FR-013] [SC-007]
-- [ ] T046 [US1] Implement first-completion blueprint reward grant and presentation in `Assets/_Project/Scripts/Gameplay/Rewards/RewardGrantService.cs` and `Assets/_Project/Scripts/UI/Rewards/RewardRevealView.cs` [FR-016]
+- [x] T045 [US1] Implement terminal result isolation and under-three-second retry in `Assets/_Project/Scripts/Gameplay/Results/BattleResultController.cs` [FR-012] [FR-013] [SC-007]
+- [x] T046 [US1] Implement first-completion blueprint reward grant and presentation in `Assets/_Project/Scripts/Gameplay/Rewards/RewardGrantService.cs` and `Assets/_Project/Scripts/UI/Rewards/RewardRevealView.cs` [FR-016]
 
 ### MVP art and validation
 

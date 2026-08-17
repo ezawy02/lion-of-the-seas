@@ -186,6 +186,43 @@ namespace SeaLion.Core.Persistence
             return true;
         }
 
+        /// <summary>Atomically records a first-completion reward and its unlocked loadout blueprint.</summary>
+        public bool TryGrantRewardWithOwnership(string transactionId, string rewardId, string ownedId,
+            out bool applied, out string failure)
+        {
+            applied = false;
+            if (!StableId.IsValid(transactionId) || !StableId.IsValid(rewardId) || !StableId.IsValid(ownedId))
+            { failure = "Reward transaction, reward, and ownership IDs must be valid stable IDs."; return false; }
+            var result = Load();
+            if (!result.Succeeded) { failure = result.Failure; return false; }
+            var data = result.Data;
+            var rewardClaimed = data.claimedRewardIds.Contains(rewardId);
+            for (var i = 0; i < data.rewardTransactions.Count; i++)
+            {
+                var transaction = data.rewardTransactions[i];
+                if (transaction == null) continue;
+                if (transaction.transactionId == transactionId && transaction.rewardId != rewardId)
+                { failure = "Transaction ID is already bound to another reward."; return false; }
+                if (transaction.rewardId == rewardId) rewardClaimed = true;
+            }
+            if (rewardClaimed)
+            {
+                if (!data.ownedLoadoutIds.Contains(ownedId))
+                {
+                    data.ownedLoadoutIds.Add(ownedId);
+                    if (!Save(data, out failure)) return false;
+                }
+                failure = string.Empty;
+                return true;
+            }
+            data.claimedRewardIds.Add(rewardId);
+            data.rewardTransactions.Add(new RewardTransaction { transactionId = transactionId, rewardId = rewardId });
+            if (!data.ownedLoadoutIds.Contains(ownedId)) data.ownedLoadoutIds.Add(ownedId);
+            if (!Save(data, out failure)) return false;
+            applied = true;
+            return true;
+        }
+
         public static PlayerSaveData CreateDefault()
         {
             var data = new PlayerSaveData { schemaVersion = CurrentSchemaVersion, highestUnlockedLevel = 1, settings = new SaveSettings() };
