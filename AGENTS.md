@@ -31,8 +31,8 @@ limits, and project structure, read `specs/001-vertical-slice/plan.md` before ma
   other environment issue that a model change cannot fix, skip the retry and let the primary
   agent take over directly.
 - If Terra also fails, stalls, or remains uncertain, the primary agent must take over.
-- Delegated agents must stay inside this repository and must not upload files or connect the
-  repository to ChatGPT, Codex Cloud, or any other cloud service.
+- Delegated agents must stay inside the current repository and task host. They must not create
+  additional cloud tasks, connect other repositories, or upload project data to other services.
 
 ## Mandatory User Art Approval
 
@@ -61,22 +61,25 @@ limits, and project structure, read `specs/001-vertical-slice/plan.md` before ma
 - A model is not ready for scene integration until its editable source, game-ready export,
   `.meta` file, and review location are all accounted for.
 
-## Mandatory Local-Only / No-Upload Policy
+## Mandatory Private GitHub / Codex Cloud Workflow
 
-- Treat network conservation as a hard project constraint: do not upload any project file,
-  source asset, model, texture, render, screenshot, video, log, archive, or generated output
-  from this workspace to Codex Cloud, external AI services, image-analysis services, storage
-  services, websites, APIs, or any other remote destination.
-- Do not transmit Unity or Blender review captures for remote/model visual inspection. Save
-  review evidence locally under `Artifacts/Local/` and have the user review the exact local
-  revision inside Unity.
-- Unity and Blender work must run on the user's local machine. Prefer local background/batch
-  execution for imports, builds, tests, and captures; opening the GUI is allowed when the
-  user needs to review the result locally.
-- Do not use a supplied API key or invoke a remote generation/conversion API for this
-  project unless the user explicitly authorizes that exact upload for the current task.
-- Do not download packages or assets automatically. Reuse installed tools, cached packages,
-  and existing local assets; obtain explicit approval before any network download.
-- Sharing a local path or opening a local file on the user's machine is allowed and is not
-  considered an upload. If a requested operation cannot be performed without transmitting a
-  local file, stop and ask for explicit scoped permission.
+- The user has explicitly authorized this project to use the private GitHub repository
+  `ezawy02/lion-of-the-seas` and Codex Cloud. Keep the repository private and keep the Codex
+  GitHub connector scoped to this repository only.
+- Treat Git and Git LFS as the only project-file transport to the cloud. Do not attach or
+  directly upload source assets, images, renders, logs, archives, databases, or local project
+  folders to chats or any other service.
+- Cloud tasks must check out the repository from GitHub and use branch `001-vertical-slice`
+  or an explicitly created descendant branch. Do not repeatedly encode or resend unchanged
+  binary assets; transfer changed LFS objects only through normal Git/LFS pushes.
+- Keep data-improvement and model-training sharing disabled. Never opt this project into
+  training, public sharing, or repository visibility changes.
+- Unity and Blender GUI work, local captures, device testing, and the user's mandatory art
+  approval remain local. Cloud work may edit repository code and text-based assets, prepare
+  changes, and run available headless checks, but it cannot approve art for the user.
+- Do not use third-party AI, generation, conversion, storage, or analysis services, and do not
+  grant access to any repository other than the private repository above, without new explicit
+  scoped approval from the user.
+- Avoid reading or opening high-resolution image, model, and review folders unless a task
+  strictly requires a targeted file. Prefer manifests, textual metrics, and focused repository
+  files, and never embed local project files as base64 task content.
