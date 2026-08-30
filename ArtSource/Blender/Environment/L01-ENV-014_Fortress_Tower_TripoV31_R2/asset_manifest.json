@@ -1,0 +1,19 @@
+{
+  "asset_id": "L01-ENV-014_Fortress_Tower_TripoV31_R2",
+  "source": "ArtSource/Blender/Incoming/Tripo/L01-ENV-014_Fortress_Tower_Modular_R2_REVIEW/retopology_35k/L01-ENV-014_Fortress_Tower_TripoV31_R2_Retopo35K_REVIEW.fbx",
+  "prepared_blend": "ArtSource/Blender/Environment/L01-ENV-014_Fortress_Tower_TripoV31_R2/L01-ENV-014_Fortress_Tower_TripoV31_R2_Optimized_REVIEW.blend",
+  "unity_fbx": "Assets/_Project/Art/Environment/L01-ENV-014_Fortress_Tower_TripoV31_R2_Optimized_REVIEW.fbx",
+  "triangles": 74610,
+  "bounds_metres": [
+    4.1184,
+    4.1098,
+    5.6
+  ],
+  "textures": [
+    "Assets/_Project/Art/Textures/Level01/L01-ENV-014_Fortress_Tower_TripoV31_R2_BaseColor.png",
+    "Assets/_Project/Art/Textures/Level01/L01-ENV-014_Fortress_Tower_TripoV31_R2_Normal.png",
+    "Assets/_Project/Art/Textures/Level01/L01-ENV-014_Fortress_Tower_TripoV31_R2_Roughness.png",
+    "Assets/_Project/Art/Textures/Level01/L01-ENV-014_Fortress_Tower_TripoV31_R2_Metallic.png"
+  ],
+  "status": "Unity user review required"
+}

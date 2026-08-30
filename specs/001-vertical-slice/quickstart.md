@@ -7,13 +7,14 @@ approved. It does not bypass the Greybox, Art Lock, Performance, or Store Truth 
 
 Read in this order:
 
-1. `.specify/memory/constitution.md`
-2. `specs/001-vertical-slice/spec.md`
-3. `specs/001-vertical-slice/plan.md`
-4. `specs/001-vertical-slice/contracts/gameplay-contract.md`
-5. `specs/001-vertical-slice/contracts/art-quality-contract.md`
-6. `specs/001-vertical-slice/contracts/delivery-quality-contract.md`
-7. `specs/001-vertical-slice/tasks.md`
+1. `AGENTS.md`
+2. `.specify/memory/constitution.md`
+3. `specs/001-vertical-slice/spec.md`
+4. `specs/001-vertical-slice/plan.md`
+5. `specs/001-vertical-slice/contracts/gameplay-contract.md`
+6. `specs/001-vertical-slice/contracts/art-quality-contract.md`
+7. `specs/001-vertical-slice/contracts/delivery-quality-contract.md`
+8. `specs/001-vertical-slice/tasks.md`
 
 ## 2. Install the missing engine locally
 
@@ -81,6 +82,7 @@ Stop the current milestone and fix the cause when:
 - The core loop is not understood without explanation.
 - The primary or floor performance target fails.
 - The art benchmark looks inconsistent at phone size.
-- An authored file reaches 1,000 lines without a split plan.
+- A changed authored file would exceed 1,000 physical lines, or a legacy oversized file
+  is being edited before a behavior-preserving split.
 - Any asset has unclear rights.
 - A proposed store shot cannot be reproduced from production gameplay.

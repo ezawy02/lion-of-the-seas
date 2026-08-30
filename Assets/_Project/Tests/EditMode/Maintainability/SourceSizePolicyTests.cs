@@ -6,8 +6,8 @@ namespace SeaLion.Tests.EditMode.Maintainability
 {
     public sealed class SourceSizePolicyTests
     {
-        private const int WarningLimit = 1000;
-        private const int FailureLimit = 1500;
+        private const int PreferredLimit = 500;
+        private const int ChangeLimit = 1000;
 
         [TestCase("Assets/_Project/Scripts/Core/Battle/BattleSession.cs", "authored")]
         [TestCase("specs/001-vertical-slice/plan.cs", "authored")]
@@ -43,21 +43,25 @@ namespace SeaLion.Tests.EditMode.Maintainability
         }
 
         [Test]
-        public void NonBlankLineCountingIgnoresWhitespaceOnlyLines()
+        public void PhysicalLineCountingIncludesWhitespaceOnlyLines()
         {
             var source = "class Example\n\n    \t\n{\n}\n";
 
-            Assert.That(CountNonBlankLines(source), Is.EqualTo(3));
+            Assert.That(CountPhysicalLines(source), Is.EqualTo(5));
         }
 
-        [TestCase(999, "pass")]
+        [TestCase(500, "pass")]
+        [TestCase(501, "warning")]
+        [TestCase(999, "warning")]
         [TestCase(1000, "warning")]
-        [TestCase(1499, "warning")]
+        [TestCase(1001, "failure")]
+        [TestCase(1499, "failure")]
         [TestCase(1500, "failure")]
+        [TestCase(1501, "failure")]
         [TestCase(1750, "failure")]
-        public void ThresholdResultsUseNonBlankLineCount(int nonBlankLines, string expected)
+        public void ThresholdResultsUsePhysicalLineCount(int sourceLines, string expected)
         {
-            Assert.That(ResultFor(nonBlankLines), Is.EqualTo(expected));
+            Assert.That(ResultFor(sourceLines), Is.EqualTo(expected));
         }
 
         private static string Categorize(string path)
@@ -85,20 +89,22 @@ namespace SeaLion.Tests.EditMode.Maintainability
             return "authored";
         }
 
-        private static int CountNonBlankLines(string source)
+        private static int CountPhysicalLines(string source)
         {
-            return source.Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.None)
-                .Count(line => line.Trim().Length > 0);
+            if (source.Length == 0) return 0;
+            var normalized = source.Replace("\r\n", "\n").Replace('\r', '\n');
+            var count = normalized.Count(character => character == '\n');
+            return normalized.EndsWith("\n", StringComparison.Ordinal) ? count : count + 1;
         }
 
-        private static string ResultFor(int nonBlankLines)
+        private static string ResultFor(int sourceLines)
         {
-            if (nonBlankLines >= FailureLimit)
+            if (sourceLines > ChangeLimit)
             {
                 return "failure";
             }
 
-            return nonBlankLines >= WarningLimit ? "warning" : "pass";
+            return sourceLines > PreferredLimit ? "warning" : "pass";
         }
     }
 }

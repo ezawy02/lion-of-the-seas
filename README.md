@@ -26,8 +26,10 @@ levels, one small loadout, one reward flow, mobile quality benchmarks, and a tru
 
 - Premium stylized graphics are a shipping requirement and are reviewed in a mobile build.
 - Primary target: 60 fps with 300 visible agents; floor stress target: 30 fps at 500 agents.
-- Authored source files stay below 1,500 non-blank lines, receive a split review at 1,000,
-  and normally target 500 lines or fewer.
+- Every contributor reads `AGENTS.md` and the active plan before editing authored code.
+- New or changed authored source files stay at or below 1,000 physical lines and normally
+  target 500 or fewer. Legacy files above 1,000 are split before behavioral changes;
+  1,500 lines is the absolute ceiling.
 - Store media may show only gameplay and rewards reachable in the shipped build.
 - Every third-party asset and dependency needs a compatible license record.
 - Open world, online multiplayer, production backend, and a large economy are outside the

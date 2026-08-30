@@ -1,0 +1,28 @@
+{
+  "asset_id": "L01-ENV-015_Fortress_R6_Modular_R4_REVIEW",
+  "status": "User Unity review required - not final",
+  "approved_concept": "Assets/_Project/Art/Concepts/Level01/Fortress_R6_APPROVED_CONCEPT.png",
+  "blend": "ArtSource/Blender/Environment/L01-ENV-015_Fortress_R6_Modular/L01-ENV-015_Fortress_R6_Modular_R4_REVIEW.blend",
+  "unity_fbx": "Assets/_Project/Art/Environment/L01-ENV-015_Fortress_R6_Modular_R4_REVIEW.fbx",
+  "review_render": "Artifacts/Local/Approval/Level01FortressModules/Fortress_R6_Modular_3D_R4_REVIEW.png",
+  "source_triangles": {
+    "wall": 41999,
+    "tower": 34000,
+    "gate": 42000,
+    "house": 10000,
+    "palm": 8000,
+    "rock": 4999,
+    "cannon": 2000,
+    "banner": 1499,
+    "scaffold": 7000
+  },
+  "visible_triangle_instances": 275990,
+  "sections": [
+    "R6_SECTION_BaseProps",
+    "R6_SECTION_FrontWall",
+    "R6_SECTION_LeftWatch",
+    "R6_SECTION_MainGate",
+    "R6_SECTION_RearKeep",
+    "R6_SECTION_RightArtillery"
+  ]
+}

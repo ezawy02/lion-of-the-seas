@@ -1,0 +1,12 @@
+{
+  "source": "Assets/_Project/Art/Characters/L01-CHR-004_Harbor_Guardian_Boss_Rigged_Optimized.fbx",
+  "revision": "Defeated Kneel R1 REVIEW",
+  "preserves_user_mesh": true,
+  "pose": "both knees grounded, feet folded behind, torso bowed, arms lowered",
+  "blend": "ArtSource/Blender/Characters/L01-CHR-004_Harbor_Guardian_Boss/DefeatedKneel_R1_REVIEW/L01-CHR-004_Harbor_Guardian_DefeatedKneel_R1_REVIEW.blend",
+  "fbx": "Assets/_Project/Art/Characters/L01-CHR-004_Harbor_Guardian_DefeatedKneel_R1_REVIEW.fbx",
+  "preview": "ArtSource/Blender/Characters/L01-CHR-004_Harbor_Guardian_Boss/DefeatedKneel_R1_REVIEW/L01-CHR-004_Harbor_Guardian_DefeatedKneel_R1_REVIEW.png",
+  "front_preview": "ArtSource/Blender/Characters/L01-CHR-004_Harbor_Guardian_Boss/DefeatedKneel_R1_REVIEW/L01-CHR-004_Harbor_Guardian_DefeatedKneel_R1_REVIEW_Front.png",
+  "side_preview": "ArtSource/Blender/Characters/L01-CHR-004_Harbor_Guardian_Boss/DefeatedKneel_R1_REVIEW/L01-CHR-004_Harbor_Guardian_DefeatedKneel_R1_REVIEW_Side.png",
+  "status": "Unity and user visual review required"
+}

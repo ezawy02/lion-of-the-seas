@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SeaLion_Sky_Level01_Beach_REVIEW
+  m_Shader: {fileID: 4800000, guid: 31bd3fa7f71ee430b87a396c2fbbf827, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _SUNDISK_HIGH_QUALITY
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _AtmosphereThickness: 0.78
+    - _CloudStrength: 0.92
+    - _Exposure: 0.715
+    - _SunDisk: 2
+    - _SunSize: 0.04
+    - _SunSizeConvergence: 5
+    m_Colors:
+    - _CloudColor: {r: 0.679, g: 0.662, b: 0.627, a: 1}
+    - _GroundColor: {r: 0.38, g: 0.57, b: 0.61, a: 1}
+    - _HorizonColor: {r: 0.418, g: 0.524, b: 0.568, a: 1}
+    - _SkyTint: {r: 0.34, g: 0.7, b: 0.92, a: 1}
+    - _ZenithColor: {r: 0.139, g: 0.331, b: 0.47, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

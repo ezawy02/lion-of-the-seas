@@ -1,0 +1,11 @@
+{
+  "asset_id": "L03-CHR-001_Storm_Fortress_Commander",
+  "bones": 22,
+  "vertices": 24441,
+  "weighted_vertices": 24441,
+  "coverage": 1.0,
+  "binding": "four-nearest-bone proximity weights",
+  "blend": "ArtSource/Blender/Characters/L03-CHR-001_Storm_Fortress_Commander/L03-CHR-001_Storm_Fortress_Commander_Rigged_Optimized_REVIEW.blend",
+  "fbx": "Assets/_Project/Art/Characters/L03-CHR-001_Storm_Fortress_Commander_Rigged_Optimized_REVIEW.fbx",
+  "status": "Unity deformation review required"
+}

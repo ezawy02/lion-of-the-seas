@@ -31,14 +31,14 @@ Material:
     - _EffectProgress: 0
     - _FoamScale: 3.6
     - _FoamStrength: 1.1
-    - _Opacity: 0.98
+    - _Opacity: 0.62
     - _ReducedMode: 0
     - _WaveAmplitude: 0
     - _WaveFrequency: 1
     - _WaveSpeed: 0
     m_Colors:
     - _DeepColor: {r: 0.14, g: 0.35, b: 0.38, a: 0.35}
-    - _FoamColor: {r: 0.93, g: 0.99, b: 0.91, a: 0.96}
-    - _ShallowColor: {r: 0.29, g: 0.75, b: 0.73, a: 0.66}
+    - _FoamColor: {r: 0.93, g: 0.99, b: 0.91, a: 0.84}
+    - _ShallowColor: {r: 0.29, g: 0.75, b: 0.73, a: 0.5}
   m_BuildTextureStacks: []
   m_ApplyTextureStacks: 0

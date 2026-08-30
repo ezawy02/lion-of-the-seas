@@ -9,8 +9,10 @@ Build a portrait Android vertical slice for "أسد البحار: فتوحات �
 complete sea-to-land crowd loop across three short levels. Use a data-oriented crowd
 simulation, pooled gameplay presentation, GPU-instanced crowd rendering, and a restrained
 URP art pipeline to reach premium stylized quality without sacrificing mobile frame rate.
-Keep every authored file below 1,500 non-blank lines, persist only the small local slice
-state, and capture store media from the same production scenes players can reach.
+Keep every new or changed authored file at or below 1,000 physical lines, split legacy
+oversized files before changing behavior, preserve a 1,500-line absolute ceiling, persist
+only the small local slice state, and capture store media from the same production scenes
+players can reach.
 
 ## Technical Context
 
@@ -32,7 +34,8 @@ physical model and OS version are recorded before the Performance Gate.
 **Performance Goals**: 60 fps at 300 visible agents on the primary class; at least 30 fps
 in the 500-agent floor stress scene; retry to player control in under three seconds
 **Constraints**: Offline; one-handed 9:16 play; no per-agent Rigidbody or Animator stack;
-authored source below 1,500 non-blank lines and split review at 1,000; no unlicensed assets
+new or changed authored source at or below 1,000 physical lines, legacy oversized files
+split before behavioral changes, and a 1,500-line absolute ceiling; no unlicensed assets
 **Scale/Scope**: Three levels, two options in each of three loadout slots, one reward loop,
 two quality presets, five direct gameplay trace moments, and one 30-second store preview
 
@@ -43,7 +46,9 @@ two quality presets, five direct gameplay trace moments, and one 30-second store
 - [x] Core loop is independently playable and testable before meta or content expansion.
 - [x] An in-engine art benchmark and objective visual review criteria are defined.
 - [x] Mid-range 60 fps target, low-end 30 fps floor, and crowd stress test are planned.
-- [x] Authored files stay below 1,500 non-blank lines with a split review at 1,000.
+- [x] Every contributor reads `AGENTS.md` and this plan before editing; new or changed
+      authored files stay at or below 1,000 physical lines, legacy oversized files are
+      split first, and 1,500 lines remains an absolute ceiling.
 - [x] Every store-facing scene maps to reachable gameplay in the specification.
 - [x] Third-party assets and code require a compatible license and recorded source.
 - [x] The plan avoids unneeded online, open-world, economy, and full-ECS complexity.
@@ -95,9 +100,10 @@ gates; direct-launch scenes allow every user story to be validated independently
 ### 5. Small-code enforcement
 
 - Organize by gameplay domain and assembly definition instead of one global scripts folder.
-- A repository check counts non-blank lines in authored C# and fails at 1,500.
-- Files at 1,000 lines produce a warning and cannot receive new responsibility without a
-  recorded split task. The team target is 500 lines or fewer.
+- A repository check counts every physical line in tracked and untracked authored code.
+- New or changed files above 1,000 lines fail. Existing files from 1,001 through 1,500
+  lines are frozen except for behavior-preserving reduction or splitting. Files at or
+  above 1,500 lines are absolute failures. The team target is 500 lines or fewer.
 - Generated, package-cache, and vendor files are excluded from the limit and never edited.
 
 ## Project Structure

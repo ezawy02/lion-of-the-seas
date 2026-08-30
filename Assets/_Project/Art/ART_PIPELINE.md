@@ -17,6 +17,17 @@ pipeline rule.
 - Place imported assets in the matching `Characters/`, `Environment/`, `Ships/`, `UI/`, or
   `VFX/` folder. Keep textures beside their asset or in its clearly named `Textures/`
   subfolder. Keep source `.blend` files and renders out of `Assets/`.
+- Store every editable 3D source at
+  `ArtSource/Blender/<Characters|Environment|Ships>/<AssetId>/`, every game-ready export at
+  `Assets/_Project/Art/<Characters|Environment|Ships>/`, and every local review capture at
+  `Artifacts/Local/Approval/<LevelOrAsset>/`. Never leave the only editable copy in a
+  temporary, download, desktop, or generic revisions folder.
+- Store untouched provider outputs under
+  `ArtSource/Blender/Incoming/<Provider>/<AssetId>/`; prepare a separate game-ready export
+  before a Unity scene references the model.
+- Use the same stable asset ID for the source folder, `.blend`, FBX, textures, materials,
+  review evidence, and manifest entry. This storage record is required even for rejected
+  prototypes so they can be found, audited, revised, or removed deliberately later.
 - One prefab is the reviewed runtime entry point. Keep meshes, materials, colliders,
   animation clips, and LOD configuration owned by that prefab rather than scene copies.
 
@@ -72,6 +83,25 @@ change gameplay readability.
   are reserved for captains, bosses, and close hero units.
 - Use the fewest shadow casters that preserve contact and boss readability. Check both
   Primary and Reduced profiles from the same camera and battle seed.
+
+## Character identity lock
+
+- Optimization, retopology, rigging, skinning, LOD generation, and animation must preserve
+  the approved character design. They may not redesign the character as a side effect of a
+  technical operation.
+- Hayreddin Barbarossa must retain the same facial structure, red-auburn beard, layered
+  white turban, body proportions, kaftan silhouette, color hierarchy, belt, sword, and
+  command accessories established by the selected reference.
+- Friendly and hostile units must retain their defining face, body proportions, costume,
+  shield/weapon silhouette, faction palette, and readable allegiance at phone size.
+- Compare every optimized or rigged character against its source in matching bind pose,
+  camera, lighting, and framing. Reject the derivative if the outer silhouette, landmark
+  proportions, recognizable face, or primary costume shapes visibly drift.
+- A rig may deform the mesh only for intentional animation. Bind pose must reproduce the
+  source shape, and animation tests must check shoulders, elbows, wrists, hips, knees,
+  clothing hems, beard, turban, shield, and weapon attachments for collapse or sliding.
+- These checks prepare a revision for review; only the user's explicit inspection and
+  approval of that exact revision inside Unity can accept its character appearance.
 
 ## FBX export and Unity import checklist
 

@@ -35,8 +35,13 @@
 
 - [ ] Core loop is independently playable and testable before meta or content expansion.
 - [ ] An in-engine art benchmark and objective visual review criteria are defined.
+- [ ] Every visual input is classified; posters/key art are excluded from camera,
+      direction, scale, placement, measurement, and blockout-layout decisions unless
+      the user explicitly promotes the exact image for that purpose.
 - [ ] Mid-range 60 fps target, low-end 30 fps floor, and crowd stress test are planned.
-- [ ] Authored files stay below 1,500 non-blank lines with a split review at 1,000.
+- [ ] Every contributor reads `AGENTS.md` and this plan before editing; new or changed
+      authored files stay at or below 1,000 physical lines, legacy oversized files are
+      split before behavioral changes, and 1,500 remains an absolute ceiling.
 - [ ] Every store-facing scene maps to reachable gameplay in the specification.
 - [ ] Third-party assets and code have a compatible license and recorded source.
 - [ ] Any added complexity or constitution exception is documented below.

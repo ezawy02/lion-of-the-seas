@@ -1,0 +1,16 @@
+{
+  "source": "Assets/_Project/Art/Characters/L01-CHR-001_Hayreddin_Barbarossa_Rigged_Optimized.fbx",
+  "revision": "R2 Leadership Pose REVIEW",
+  "mesh_objects": 1,
+  "triangles": 30000,
+  "bones": 15,
+  "preserves_user_mesh": true,
+  "changes": [
+    "right arm raised forward for the command gesture",
+    "left arm shifted slightly toward the helm",
+    "pose applied as the new bind pose for static Unity presentation"
+  ],
+  "blend": "ArtSource/Blender/Characters/L01-CHR-001_Hayreddin_Barbarossa/R2_LeadershipPose_REVIEW/L01-CHR-001_Hayreddin_Barbarossa_R2_LeadershipPose_REVIEW.blend",
+  "fbx": "Assets/_Project/Art/Characters/L01-CHR-001_Hayreddin_Barbarossa_Rigged_Optimized_R2_LeadershipPose_REVIEW.fbx",
+  "status": "Unity and user visual review required"
+}

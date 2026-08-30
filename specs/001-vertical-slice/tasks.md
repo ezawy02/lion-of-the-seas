@@ -6,6 +6,12 @@
 **Tests and evidence**: Gameplay tests, performance captures, visual reviews, source-size
 checks, license records, and store-promise validation are required by the constitution.
 
+**Mandatory agent preflight**: Every model or contributor reads `AGENTS.md` and
+`specs/001-vertical-slice/plan.md` before changing files, then runs the source-size check.
+Every implementation task includes a post-change check. Changed authored files may not
+exceed 1,000 physical lines; legacy oversized files are split before behavior changes,
+and 1,500 lines is the absolute ceiling.
+
 ## Format
 
 Every task uses `[ID] [P?] [Story?] Description with exact path`. `[P]` means the task can
@@ -22,7 +28,9 @@ run in parallel without touching files owned by an incomplete dependency.
 - [x] T005 Create the planned `Assets/_Project/` directory tree and placeholder ownership notes in `Assets/_Project/README.md`
 - [x] T006 [P] Create Core, Crowd, Gameplay, Presentation, UI, and test assembly definitions under `Assets/_Project/Scripts/` and `Assets/_Project/Tests/`
 - [x] T007 [P] Create `ArtSource/Blender/Characters/`, `ArtSource/Blender/Environment/`, and `ArtSource/Blender/Ships/` with source/export conventions in `ArtSource/README.md`
-- [x] T008 [P] Implement the non-blank authored C# size checker with 1,000-line warning and 1,500-line failure in `tools/check-source-size.sh` [SC-009]
+- [x] T008 [P] Implement the physical-line authored-code checker for tracked and untracked
+  files, failing changed files above 1,000 lines and enforcing the 1,500-line absolute
+  ceiling in `tools/check-source-size.sh` [SC-009]
 - [x] T009 [P] Add EditMode tests for source-size categorization, generated/vendor exclusions, and threshold results in `Assets/_Project/Tests/EditMode/Maintainability/SourceSizePolicyTests.cs` [SC-009]
 - [x] T010 [P] Define asset naming, import, atlas, LOD, pivot, scale, and FBX export rules in `Assets/_Project/Art/ART_PIPELINE.md`
 - [x] T011 [P] Define evidence folder naming and local-only capture exclusions in `Artifacts/README.md`

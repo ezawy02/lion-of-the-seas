@@ -148,29 +148,54 @@ namespace SeaLion.Presentation.Vfx
 
         private static Mesh BuildWakeMesh()
         {
-            const int segments = 18;
-            const float length = 3.8f;
-            var vertices = new Vector3[segments * 2];
+            const int segments = 24;
+            const int verticesPerSegment = 6;
+            const float length = 4.6f;
+            var vertices = new Vector3[segments * verticesPerSegment];
             var uv = new Vector2[vertices.Length];
             var colors = new Color[vertices.Length];
-            var triangles = new int[(segments - 1) * 6];
+            var triangles = new int[(segments - 1) * 18];
             for (var i = 0; i < segments; i++)
             {
                 var t = i / (float)(segments - 1);
                 var z = -t * length;
-                var width = Mathf.Lerp(0.48f, 0.08f, t) * (0.92f + 0.08f * Mathf.Cos(t * Mathf.PI * 3f));
-                var alpha = Mathf.Lerp(1f, 0.25f, t);
-                vertices[i * 2] = new Vector3(-width, 0.018f, z);
-                vertices[i * 2 + 1] = new Vector3(width, 0.018f, z);
-                uv[i * 2] = new Vector2(t, 0f); uv[i * 2 + 1] = new Vector2(t, 1f);
-                colors[i * 2] = new Color(1f, 1f, 1f, alpha);
-                colors[i * 2 + 1] = new Color(1f, 1f, 1f, alpha);
+                var armOffset = Mathf.Lerp(0.13f, 1.38f, t);
+                var armWidth = Mathf.Lerp(0.28f, 0.095f, t) *
+                    (0.90f + 0.10f * Mathf.Cos(t * Mathf.PI * 5f));
+                var centerWidth = Mathf.Lerp(0.32f, 0.11f, t);
+                var alpha = Mathf.Lerp(1f, 0.18f, t);
+                var vertex = i * verticesPerSegment;
+
+                vertices[vertex] = new Vector3(-armOffset - armWidth, 0.024f, z);
+                vertices[vertex + 1] = new Vector3(-armOffset + armWidth, 0.024f, z);
+                vertices[vertex + 2] = new Vector3(-centerWidth, 0.022f, z);
+                vertices[vertex + 3] = new Vector3(centerWidth, 0.022f, z);
+                vertices[vertex + 4] = new Vector3(armOffset - armWidth, 0.024f, z);
+                vertices[vertex + 5] = new Vector3(armOffset + armWidth, 0.024f, z);
+
+                for (var lane = 0; lane < verticesPerSegment; lane++)
+                {
+                    uv[vertex + lane] = new Vector2(t, lane / (float)(verticesPerSegment - 1));
+                    var laneAlpha = lane == 2 || lane == 3 ? alpha * 0.62f : alpha;
+                    colors[vertex + lane] = new Color(1f, 1f, 1f, laneAlpha);
+                }
             }
             for (var i = 0; i < segments - 1; i++)
             {
-                var v = i * 2; var t = i * 6;
-                triangles[t] = v; triangles[t + 1] = v + 2; triangles[t + 2] = v + 1;
-                triangles[t + 3] = v + 1; triangles[t + 4] = v + 2; triangles[t + 5] = v + 3;
+                var vertex = i * verticesPerSegment;
+                var triangle = i * 18;
+                for (var lane = 0; lane < 3; lane++)
+                {
+                    var left = vertex + lane * 2;
+                    var next = left + verticesPerSegment;
+                    var offset = triangle + lane * 6;
+                    triangles[offset] = left;
+                    triangles[offset + 1] = next;
+                    triangles[offset + 2] = left + 1;
+                    triangles[offset + 3] = left + 1;
+                    triangles[offset + 4] = next;
+                    triangles[offset + 5] = next + 1;
+                }
             }
             return CreateMesh("SeaLion_Wake_Runtime", vertices, uv, colors, triangles);
         }

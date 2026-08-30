@@ -26,16 +26,19 @@ agent count, median and p95 frame time, minimum fps, peak memory, and capture pa
 
 ## Maintainability gates
 
-- Authored C# source hard limit: fewer than 1,500 non-blank lines per file.
-- Decomposition review threshold: 1,000 non-blank lines.
+- New or changed authored source limit: at most 1,000 physical lines per file.
+- Absolute ceiling for every authored source file: at most 1,500 physical lines.
 - Normal target: 500 lines or fewer.
 - Generated files, package cache, and vendor code are excluded and reported separately.
-- A file at or above 1,000 lines cannot gain a new responsibility until a split plan exists.
-- A file at or above 1,500 lines blocks merge and release.
+- A legacy file from 1,001 through 1,500 lines is frozen except for a behavior-preserving
+  reduction or split and cannot receive a feature, fix, or new responsibility.
+- A file above 1,500 lines blocks all work except an immediate split, as well as
+  merge and release.
+- Every contributor MUST read `AGENTS.md` and the active implementation plan before editing.
 - New modules expose a narrow purpose and do not depend on Presentation from deterministic
   Core or Crowd assemblies.
 
-The repository check reports path, category, non-blank line count, threshold, and result.
+The repository check reports path, category, physical line count, threshold, and result.
 
 ## Test gates
 

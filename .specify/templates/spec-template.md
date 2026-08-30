@@ -103,10 +103,14 @@
 ## Visual Quality & Performance Contract *(mandatory for player-facing features)*
 
 - **Visual Target**: [in-engine reference bar, art-direction rules, and readability target]
+- **Reference Classification**: [list each image as execution-reference or poster-key-art;
+  posters cannot define camera, direction, scale, placement, measurement, or blockout layout]
 - **Required Benchmark Scene**: [smallest representative scene that proves the visual target]
 - **Performance Budget**: [reference devices, frame-rate targets, agent/VFX stress case]
 - **Asset Acceptance**: [silhouette, materials, animation, VFX, LOD, and licensing checks]
-- **Code-Size Contract**: [authored-file line limit and decomposition trigger]
+- **Code-Size Contract**: [mandatory preflight; new/changed authored files at or below
+  1,000 physical lines; legacy oversized files split before behavior changes; 1,500
+  absolute ceiling; 500-line normal target]
 - **Capture Evidence**: [screenshots, video, profiler, and code-size evidence required]
 
 ## Marketing Promise Traceability *(mandatory for store-facing features)*

@@ -1,0 +1,22 @@
+source_group,archive,asset,original_triangles,optimized_triangles,target_triangles,rig,output,status
+main,1.zip,L01-CHR-004_Harbor_Guardian_Boss,95530,30000,30000,15-bone blockout,Assets/_Project/Art/Characters/L01-CHR-004_Harbor_Guardian_Boss_Rigged_Optimized.fbx,User Unity review required
+main,2.zip,L01-ENV-001_Fortress_Wall_Module,94043,7999,8000,n/a,Assets/_Project/Art/Environment/L01-ENV-001_Fortress_Wall_Module_Optimized.fbx,User Unity review required
+main,3.zip,L01-ENV-002_Fortress_Tower_Module,94288,10000,10000,n/a,Assets/_Project/Art/Environment/L01-ENV-002_Fortress_Tower_Module_Optimized.fbx,User Unity review required
+main,4.zip,L01-ENV-003_Fortress_Main_Gate_Module,91257,12000,12000,n/a,Assets/_Project/Art/Environment/L01-ENV-003_Fortress_Main_Gate_Module_Optimized.fbx,User Unity review required
+main,5.zip,L01-ENV-004_Mediterranean_Harbor_Dock_Module,102222,8000,8000,n/a,Assets/_Project/Art/Environment/L01-ENV-004_Mediterranean_Harbor_Dock_Module_Optimized.fbx,User Unity review required
+main,6.zip,L01-ENV-005_Mediterranean_Coastal_House,94472,10000,10000,n/a,Assets/_Project/Art/Environment/L01-ENV-005_Mediterranean_Coastal_House_Optimized.fbx,User Unity review required
+main,8.zip,L01-ENV-007_Limestone_Rock_Cluster,91531,4999,5000,n/a,Assets/_Project/Art/Environment/L01-ENV-007_Limestone_Rock_Cluster_Optimized.fbx,User Unity review required
+main,9.zip,L01-GAT-001_Multiplier_Gate_Arch_Buoy,106198,8000,8000,n/a,Assets/_Project/Art/Environment/L01-GAT-001_Multiplier_Gate_Arch_Buoy_Optimized.fbx,User Unity review required
+main,10.zip,L01-PRP-003_Beach_Supply_Crate_Cluster,90986,5000,5000,n/a,Assets/_Project/Art/Environment/L01-PRP-003_Beach_Supply_Crate_Cluster_Optimized.fbx,User Unity review required
+main,11.zip,L01-PRP-004_Captive_Sailmakers_Rescue_Raft_Cage,97530,8000,8000,n/a,Assets/_Project/Art/Environment/L01-PRP-004_Captive_Sailmakers_Rescue_Raft_Cage_Optimized.fbx,User Unity review required
+main,12.zip,L01-PRP-005_Blueprint_Reward_Chest,94928,4000,4000,n/a,Assets/_Project/Art/Environment/L01-PRP-005_Blueprint_Reward_Chest_Optimized.fbx,User Unity review required
+details,1.zip,L01-ENV-008_Coastal_Vegetation_Clump,116301,3000,3000,n/a,Assets/_Project/Art/Environment/L01-ENV-008_Coastal_Vegetation_Clump_Optimized.fbx,User Unity review required
+details,2.zip,L01-ENV-009_Shoreline_Rock_Sand_Cluster,94396,3999,4000,n/a,Assets/_Project/Art/Environment/L01-ENV-009_Shoreline_Rock_Sand_Cluster_Optimized.fbx,User Unity review required
+details,3.zip,L01-PRP-006_Rope_Fishing_Net_Unit,90201,3999,4000,n/a,Assets/_Project/Art/Environment/L01-PRP-006_Rope_Fishing_Net_Unit_Optimized.fbx,User Unity review required
+details,4.zip,L01-PRP-007_Cannonball_Ammo_Tray,103992,2500,2500,n/a,Assets/_Project/Art/Environment/L01-PRP-007_Cannonball_Ammo_Tray_Optimized.fbx,User Unity review required
+details,5.zip,L01-PRP-008_Anchor_Mooring_Bollard,97378,5000,5000,n/a,Assets/_Project/Art/Environment/L01-PRP-008_Anchor_Mooring_Bollard_Optimized.fbx,User Unity review required
+details,6.zip,L01-PRP-009_Shipwreck_Debris_Cluster,94074,5000,5000,n/a,Assets/_Project/Art/Environment/L01-PRP-009_Shipwreck_Debris_Cluster_Optimized.fbx,User Unity review required
+details,7.zip,L01-PRP-010_Fortress_Brazier,95496,5000,5000,n/a,Assets/_Project/Art/Environment/L01-PRP-010_Fortress_Brazier_Optimized.fbx,User Unity review required
+details,8.zip,L01-PRP-011_Wooden_Siege_Scaffold,104150,7000,7000,n/a,Assets/_Project/Art/Environment/L01-PRP-011_Wooden_Siege_Scaffold_Optimized.fbx,User Unity review required
+details,9.zip,L01-PRP-012_Fortress_Gate_Door,92304,7999,8000,n/a,Assets/_Project/Art/Environment/L01-PRP-012_Fortress_Gate_Door_Optimized.fbx,User Unity review required
+details,10.zip,L01-PRP-013_Harbor_Pottery_Supplies,93067,5000,5000,n/a,Assets/_Project/Art/Environment/L01-PRP-013_Harbor_Pottery_Supplies_Optimized.fbx,User Unity review required

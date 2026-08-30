@@ -14,6 +14,12 @@ tests where practical.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
+**Mandatory agent preflight**: Before any task changes project files, the executing model
+or contributor MUST read `AGENTS.md` and the active plan, then run the authored source-size
+check. Every implementation task includes a post-change size check. No new or changed
+authored file may exceed 1,000 physical lines; legacy files above 1,000 must be split
+before behavioral changes, and 1,500 lines is the absolute ceiling.
+
 ## Format: `[ID] [P?] [Story] Description`
 
 - **[P]**: Can run in parallel (different files, no dependencies)
@@ -54,8 +60,12 @@ tests where practical.
 - [ ] T002 Initialize [language] project with [framework] dependencies
 - [ ] T003 [P] Configure linting and formatting tools
 - [ ] TXXX [P] Establish art-source, naming, import, LOD, and license-manifest conventions
-- [ ] TXXX [P] Add authored-source checks for the 1,500-line hard limit and 1,000-line review threshold
+- [ ] TXXX [P] Add authored-source checks that fail changed files above 1,000 physical
+      lines, freeze legacy oversized files until split, and enforce the 1,500-line
+      absolute ceiling
 - [ ] TXXX [P] Record reference-device and profiling-capture procedure
+- [ ] TXXX [P] Classify every visual input as execution-reference or poster-key-art and
+      exclude posters from blockout camera, direction, scale, placement, and layout work
 
 ---
 

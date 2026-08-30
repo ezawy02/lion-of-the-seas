@@ -57,3 +57,16 @@ ProfilerCaptures/Local/
 *.blend1
 *.blend2
 *.blend@
+__pycache__/
+*.pyc
+
+# Local-only 3D intake, diagnostics, review renders, and superseded revisions.
+# Canonical editable sources remain under Characters, Environment, and Ships.
+ArtSource/Blender/Incoming/
+ArtSource/Blender/Diagnostics/
+ArtSource/Blender/Review/
+ArtSource/Blender/Renders/
+ArtSource/Blender/Revisions/
+
+# Local crash diagnostics
+mono_crash.*.json

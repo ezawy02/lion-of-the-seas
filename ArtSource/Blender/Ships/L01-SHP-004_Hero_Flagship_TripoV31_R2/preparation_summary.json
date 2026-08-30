@@ -1,0 +1,16 @@
+{
+  "asset_id": "L01-SHP-004_Hero_Flagship_TripoV31_R2",
+  "source": "ArtSource/Blender/Incoming/TripoTests/L01-SHP-004_Multiview_v02_REVIEW/retopology_8k/L01-SHP-004_Hero_Flagship_TripoV31_Multiview_R2_Retopo8K.fbx",
+  "original_triangles": 38572,
+  "target_triangles": 35000,
+  "optimized_triangles": 34727,
+  "blend": "ArtSource/Blender/Ships/L01-SHP-004_Hero_Flagship_TripoV31_R2/L01-SHP-004_Hero_Flagship_TripoV31_R2_Optimized_REVIEW.blend",
+  "fbx": "Assets/_Project/Art/Ships/L01-SHP-004_Hero_Flagship_TripoV31_R2_Optimized_REVIEW.fbx",
+  "textures": [
+    "Assets/_Project/Art/Textures/Level01/L01-SHP-004_Hero_Flagship_TripoV31_R2_BaseColor.png",
+    "Assets/_Project/Art/Textures/Level01/L01-SHP-004_Hero_Flagship_TripoV31_R2_Metallic.png",
+    "Assets/_Project/Art/Textures/Level01/L01-SHP-004_Hero_Flagship_TripoV31_R2_Normal.png",
+    "Assets/_Project/Art/Textures/Level01/L01-SHP-004_Hero_Flagship_TripoV31_R2_Roughness.png"
+  ],
+  "status": "Unity user review required"
+}

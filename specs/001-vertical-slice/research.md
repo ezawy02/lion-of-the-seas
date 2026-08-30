@@ -137,8 +137,10 @@ version. A local schema is sufficient, inspectable, and easy to migrate.
 
 ## 9. Repository and source-size policy
 
-**Decision**: Keep the GitHub repository private and dedicated to this project. Enforce a
-1,500 non-blank-line hard limit for authored source, warn at 1,000, and target 500 or fewer.
+**Decision**: Keep the GitHub repository private and dedicated to this project. Require
+every contributor to read `AGENTS.md` and the active plan before editing. Enforce at most
+1,000 physical lines for new or changed authored source, freeze legacy oversized files
+until split, preserve a 1,500-line absolute ceiling, and target 500 or fewer.
 
 **Rationale**: The user explicitly restricted remote work to this project and requested
 small, easy-to-edit files. Generated and vendor code are reported separately because the
@@ -148,7 +150,8 @@ team does not own their structure.
 
 - A monorepo with unrelated work: rejected by explicit user scope and privacy requirements.
 - A lower universal hard cap such as 300 lines: rejected because data-oriented systems and
-  custom editor tooling can remain cohesive above that size; 500 remains the target.
+  custom editor tooling can remain cohesive above that size; 500 remains the target and
+  1,000 is the maximum for a changed file.
 
 ## Resolved dependencies
 

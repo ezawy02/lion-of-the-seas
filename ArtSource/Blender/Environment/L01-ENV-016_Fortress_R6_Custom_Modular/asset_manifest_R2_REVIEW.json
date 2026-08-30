@@ -1,0 +1,17 @@
+{
+  "asset_id": "L01-ENV-016_Fortress_R6_Custom_Modular_R2_REVIEW",
+  "status": "User Unity review required - not final",
+  "approved_concept": "Assets/_Project/Art/Concepts/Level01/Fortress_R6_APPROVED_CONCEPT.png",
+  "blend": "ArtSource/Blender/Environment/L01-ENV-016_Fortress_R6_Custom_Modular/L01-ENV-016_Fortress_R6_Custom_Modular_R2_REVIEW.blend",
+  "unity_fbx": "Assets/_Project/Art/Environment/L01-ENV-016_Fortress_R6_Custom_Modular_R2_REVIEW.fbx",
+  "review_render": "Artifacts/Local/Approval/Level01FortressModules/Fortress_R6_Custom_Modular_3D_R2_REVIEW.png",
+  "visible_triangles": 96369,
+  "sections": [
+    "R6_SECTION_BaseProps",
+    "R6_SECTION_FrontWall",
+    "R6_SECTION_LeftWatch",
+    "R6_SECTION_MainGate",
+    "R6_SECTION_RearKeep",
+    "R6_SECTION_RightArtillery"
+  ]
+}

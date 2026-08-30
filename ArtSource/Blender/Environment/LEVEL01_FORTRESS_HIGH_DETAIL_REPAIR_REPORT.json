@@ -1,0 +1,29 @@
+[
+  {
+    "asset": "L01-ENV-001_Fortress_Wall_Module",
+    "source": "ArtSource/Blender/Incoming/level01_new/main/2/base_basic_pbr.glb",
+    "source_triangles": 94043,
+    "review_triangles": 94043,
+    "target_triangles": 100000,
+    "unity_fbx": "Assets/_Project/Art/Environment/L01-ENV-001_Fortress_Wall_Module_Optimized.fbx",
+    "status": "User Unity review required"
+  },
+  {
+    "asset": "L01-ENV-002_Fortress_Tower_Module",
+    "source": "ArtSource/Blender/Incoming/level01_new/main/3/base_basic_pbr.glb",
+    "source_triangles": 94288,
+    "review_triangles": 94288,
+    "target_triangles": 100000,
+    "unity_fbx": "Assets/_Project/Art/Environment/L01-ENV-002_Fortress_Tower_Module_Optimized.fbx",
+    "status": "User Unity review required"
+  },
+  {
+    "asset": "L01-ENV-003_Fortress_Main_Gate_Module",
+    "source": "ArtSource/Blender/Incoming/level01_new/main/4/base_basic_pbr.glb",
+    "source_triangles": 91257,
+    "review_triangles": 91257,
+    "target_triangles": 120000,
+    "unity_fbx": "Assets/_Project/Art/Environment/L01-ENV-003_Fortress_Main_Gate_Module_Optimized.fbx",
+    "status": "User Unity review required"
+  }
+]

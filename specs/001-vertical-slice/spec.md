@@ -5,7 +5,7 @@
 **Status**: Ready for Planning  
 **Input**: Create the first playable vertical slice for "أسد البحار: فتوحات المتوسط"
 with three sea-to-land levels, premium stylized graphics, mobile performance budgets,
-truthful store media, modular code below 1,500 lines per authored file, and step-by-step
+truthful store media, changed authored code at or below 1,000 lines per file, and step-by-step
 development acceptance criteria.
 
 ## Problem Statement
@@ -242,9 +242,11 @@ from a clean save within the first ten minutes of play.
 - **Asset Acceptance**: Every final asset passes silhouette-at-phone-size, material palette,
   rig and animation, VFX readability, LOD transition, import consistency, and licensing
   review inside a representative build.
-- **Code-Size Contract**: Every authored source file remains below 1,500 non-blank lines,
-  files at 1,000 lines receive a recorded split plan, and the normal target is 500 lines
-  or fewer. Generated and vendor files are reported separately and not hand-edited.
+- **Code-Size Contract**: Every contributor reads `AGENTS.md` and the active plan first.
+  New or changed authored files remain at or below 1,000 physical lines. Legacy files
+  above 1,000 are split before behavioral changes, 1,500 is the absolute ceiling, and the
+  normal target is 500 lines or fewer. Generated and vendor files are reported separately
+  and not hand-edited.
 - **Capture Evidence**: Approval requires portrait gameplay video, stills from primary and
   low-end builds, frame-time evidence at multiplier and boss peaks, a source-size report,
   and an updated license manifest.
@@ -281,8 +283,9 @@ from a clean save within the first ten minutes of play.
   measured attempts.
 - **SC-008**: Every store-preview shot is reproduced from the production build within the
   first ten minutes of a clean save, with zero absent or behaviorally misleading moments.
-- **SC-009**: Zero authored source files reach 1,500 non-blank lines, and every authored
-  file at or above 1,000 lines has an approved decomposition record before merge.
+- **SC-009**: Zero new or changed authored source files exceed 1,000 physical lines, zero
+  files reach the 1,500-line absolute ceiling, and every legacy oversized file is split
+  before receiving a behavioral change.
 - **SC-010**: Zero third-party assets or dependencies enter a release candidate without a
   complete and compatible license record.
 

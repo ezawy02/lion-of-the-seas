@@ -1,0 +1,11 @@
+{
+  "source": "Assets/_Project/Art/Environment/L01-GAT-001_Multiplier_Gate_Arch_Buoy_Optimized.fbx",
+  "revision": "Open Arch R1 REVIEW",
+  "preserves_source_materials": true,
+  "removed_center_components": 281,
+  "removed_center_vertices": 2411,
+  "blend": "ArtSource/Blender/Environment/L01-GAT-001_Multiplier_Gate_Arch_Buoy/OpenArch_R1_REVIEW/L01-GAT-001_Multiplier_Gate_OpenArch_R1_REVIEW.blend",
+  "fbx": "Assets/_Project/Art/Environment/L01-GAT-001_Multiplier_Gate_OpenArch_R1_REVIEW.fbx",
+  "preview": "ArtSource/Blender/Environment/L01-GAT-001_Multiplier_Gate_Arch_Buoy/OpenArch_R1_REVIEW/L01-GAT-001_Multiplier_Gate_OpenArch_R1_REVIEW.png",
+  "status": "Unity and user visual review required"
+}
