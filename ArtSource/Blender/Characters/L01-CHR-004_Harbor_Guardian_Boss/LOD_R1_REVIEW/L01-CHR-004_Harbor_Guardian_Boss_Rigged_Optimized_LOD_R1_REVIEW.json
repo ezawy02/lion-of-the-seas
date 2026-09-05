@@ -1,0 +1,33 @@
+{
+  "asset_id": "L01-CHR-004_Harbor_Guardian_Boss_Rigged_Optimized",
+  "source": "Assets/_Project/Art/Characters/L01-CHR-004_Harbor_Guardian_Boss_Rigged_Optimized.fbx",
+  "lods": {
+    "LOD1": {
+      "triangle_count_before": 29999,
+      "triangle_count_after": 17399,
+      "actual_ratio": 0.58,
+      "materials": [
+        "model"
+      ],
+      "armature_count": 1,
+      "weighted_mesh_count": 1,
+      "review_status": "REVIEW_ONLY_USER_APPROVAL_REQUIRED",
+      "editable_source": "ArtSource/Blender/Characters/L01-CHR-004_Harbor_Guardian_Boss/LOD_R1_REVIEW/L01-CHR-004_Harbor_Guardian_Boss_Rigged_Optimized_LOD1_REVIEW.blend",
+      "unity_export": "Assets/_Project/Art/Characters/L01-CHR-004_Harbor_Guardian_Boss_Rigged_Optimized_LOD1_REVIEW.fbx"
+    },
+    "LOD2": {
+      "triangle_count_before": 29999,
+      "triangle_count_after": 8399,
+      "actual_ratio": 0.28,
+      "materials": [
+        "model"
+      ],
+      "armature_count": 1,
+      "weighted_mesh_count": 1,
+      "review_status": "REVIEW_ONLY_USER_APPROVAL_REQUIRED",
+      "editable_source": "ArtSource/Blender/Characters/L01-CHR-004_Harbor_Guardian_Boss/LOD_R1_REVIEW/L01-CHR-004_Harbor_Guardian_Boss_Rigged_Optimized_LOD2_REVIEW.blend",
+      "unity_export": "Assets/_Project/Art/Characters/L01-CHR-004_Harbor_Guardian_Boss_Rigged_Optimized_LOD2_REVIEW.fbx"
+    }
+  },
+  "review_status": "REVIEW_ONLY_USER_APPROVAL_REQUIRED"
+}

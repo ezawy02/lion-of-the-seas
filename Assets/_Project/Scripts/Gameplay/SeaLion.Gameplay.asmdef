@@ -1,7 +1,7 @@
 {
   "name": "SeaLion.Gameplay",
   "rootNamespace": "SeaLion.Gameplay",
-  "references": ["SeaLion.Core", "SeaLion.Crowd", "SeaLion.Persistence", "Unity.InputSystem"],
+  "references": ["SeaLion.Core", "SeaLion.Crowd", "SeaLion.Combat", "SeaLion.Persistence", "Unity.InputSystem", "Unity.Mathematics"],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

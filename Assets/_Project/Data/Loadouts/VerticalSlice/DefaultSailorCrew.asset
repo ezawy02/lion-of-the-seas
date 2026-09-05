@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ed425ff9fae243bdaf34490465f5059, type: 3}
+  m_Name: DefaultSailorCrew
+  m_EditorClassIdentifier: SeaLion.Core::SeaLion.Core.Definitions.UnitRoleDefinition
+  id:
+    value: default-crew
+  allegiance: 0
+  role: 0
+  movement:
+    speed: 4.8
+    steering: 1.2
+  combat:
+    damage: 1.8
+    cadence: 1
+    range: 8
+  durability: 1
+  meshId:
+    value: crew-sailor-mesh
+  materialId:
+    value: crew-sailor-material
+  poseId:
+    value: crew-sailor-pose
+  vfxId:
+    value: crew-sailor-vfx
+  audioId:
+    value: crew-sailor-audio
+  simulationCostTier: 0

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ed425ff9fae243bdaf34490465f5059, type: 3}
+  m_Name: SailmakersCrew
+  m_EditorClassIdentifier: SeaLion.Core::SeaLion.Core.Definitions.UnitRoleDefinition
+  id:
+    value: loadout-crew-sailmakers
+  allegiance: 0
+  role: 3
+  movement:
+    speed: 4.1
+    steering: 1.2
+  combat:
+    damage: 1.62
+    cadence: 1.1
+    range: 6
+  durability: 1.5
+  meshId:
+    value: crew-sailmaker-mesh
+  materialId:
+    value: crew-sailmaker-material
+  poseId:
+    value: crew-sailmaker-pose
+  vfxId:
+    value: crew-sailmaker-vfx
+  audioId:
+    value: crew-sailmaker-audio
+  simulationCostTier: 0

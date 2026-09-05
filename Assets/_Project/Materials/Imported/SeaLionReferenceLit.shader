@@ -8,6 +8,8 @@ Shader "Sea Lion/Art/Reference Lit"
         _Contrast("Natural Contrast", Range(0.8, 1.3)) = 1.08
         _ColorBoost("Color Energy", Range(0.8, 1.3)) = 1.04
         _LightResponse("Light Response", Range(0, 1)) = 0.32
+        _HighlightCompression("Highlight Detail Recovery", Range(0, 1)) = 0
+        _HighlightTint("Highlight Tint", Color) = (1, 0.94, 0.82, 1)
         [Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull", Float) = 2
     }
 
@@ -27,6 +29,7 @@ Shader "Sea Lion/Art/Reference Lit"
             #pragma vertex Vert
             #pragma fragment Frag
             #pragma multi_compile_fog
+            #pragma multi_compile_instancing
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -42,6 +45,8 @@ Shader "Sea Lion/Art/Reference Lit"
                 half _Contrast;
                 half _ColorBoost;
                 half _LightResponse;
+                half _HighlightCompression;
+                half4 _HighlightTint;
             CBUFFER_END
 
             struct Attributes
@@ -49,6 +54,7 @@ Shader "Sea Lion/Art/Reference Lit"
                 float4 positionOS : POSITION;
                 half3 normalOS : NORMAL;
                 float2 uv : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct Varyings
@@ -62,6 +68,7 @@ Shader "Sea Lion/Art/Reference Lit"
 
             Varyings Vert(Attributes input)
             {
+                UNITY_SETUP_INSTANCE_ID(input);
                 Varyings output;
                 VertexPositionInputs positionInputs = GetVertexPositionInputs(input.positionOS.xyz);
                 output.positionCS = positionInputs.positionCS;
@@ -81,6 +88,9 @@ Shader "Sea Lion/Art/Reference Lit"
                 color = lerp(luminance.xxx, color, _Saturation);
                 color = (color - 0.18h) * _Contrast + 0.18h;
                 color *= _ColorBoost;
+                half highlightMask = smoothstep(0.62h, 1.05h, max(color.r, max(color.g, color.b)));
+                half3 recovered = color / (1.0h + color * 0.35h) * 1.18h * _HighlightTint.rgb;
+                color = lerp(color, recovered, highlightMask * _HighlightCompression);
 
                 float4 shadowCoord = TransformWorldToShadowCoord(input.positionWS);
                 Light mainLight = GetMainLight(shadowCoord);

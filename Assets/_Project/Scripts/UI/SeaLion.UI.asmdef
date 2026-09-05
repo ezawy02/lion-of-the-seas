@@ -1,7 +1,7 @@
 {
   "name": "SeaLion.UI",
   "rootNamespace": "SeaLion.UI",
-  "references": ["SeaLion.Core", "SeaLion.Gameplay", "SeaLion.Presentation"],
+  "references": ["SeaLion.Core", "SeaLion.Gameplay", "SeaLion.Loadout", "SeaLion.Persistence", "SeaLion.Presentation", "UnityEngine.UI"],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd77c4b719e6948b5af4c0837ad6a5c5, type: 3}
+  m_Name: LateenRaiderFlagship
+  m_EditorClassIdentifier: SeaLion.Core::SeaLion.Core.Definitions.FlagshipDefinition
+  id:
+    value: flagship-lateen-raider
+  controlBounds:
+    left: 0.08
+    right: 0.92
+  deployPattern: 1
+  deploymentCadence: 1.45
+  burstSize: 3
+  baseDeployment: 0.86
+  presentationShipId:
+    value: hero-flagship-raider
+  wakeId:
+    value: wake-raider
+  recoilId:
+    value: recoil-heavy
+  audioId:
+    value: audio-broadside-heavy
+  defaultUnlock: 0
+  unlockRewardId:
+    value: reward-level02-raider-blueprint

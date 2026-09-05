@@ -49,6 +49,7 @@ namespace SeaLion.Core.Persistence
     public sealed class SaveSettings
     {
         public string qualityPreference = "Auto";
+        public string languagePreference = "English";
         public bool haptics = true;
         public float musicVolume = 1f;
         public float effectsVolume = 1f;
@@ -101,6 +102,7 @@ namespace SeaLion.Core.Persistence
     public sealed class LocalSaveRepository
     {
         public const int CurrentSchemaVersion = 1;
+        public const string DefaultFileName = "player-save.json";
         private const string TemporarySuffix = ".tmp";
         private const string BackupSuffix = ".bak";
         private readonly string path;
@@ -254,6 +256,8 @@ namespace SeaLion.Core.Persistence
             if (data.settings.qualityPreference != "Auto" && data.settings.qualityPreference != "Primary" &&
                 data.settings.qualityPreference != "Reduced")
             { failure = "Quality preference is invalid."; return false; }
+            if (data.settings.languagePreference != "English" && data.settings.languagePreference != "Arabic")
+            { failure = "Language preference is invalid."; return false; }
             var transactions = new HashSet<string>();
             var rewards = new HashSet<string>();
             for (var i = 0; i < data.rewardTransactions.Count; i++)
@@ -272,6 +276,8 @@ namespace SeaLion.Core.Persistence
             try { data = JsonUtility.FromJson<PlayerSaveData>(files.ReadAllText(candidatePath)); }
             catch (Exception exception) { failure = "JSON read failed: " + exception.Message; return false; }
             if (data == null) { failure = "JSON produced no save data."; return false; }
+            if (data.settings != null && string.IsNullOrEmpty(data.settings.languagePreference))
+                data.settings.languagePreference = "English";
             failure = string.Empty;
             return true;
         }

@@ -51,6 +51,20 @@ namespace SeaLion.Crowd.Simulation
             return logicalCount;
         }
 
+        /// <summary>Adds a contribution while preserving the logical/role-count invariant atomically.</summary>
+        public int AddToRole(UnitRole role, int contribution)
+        {
+            ValidateCount(contribution, nameof(contribution));
+            if (contribution == 0) return logicalCount;
+            var nextLogicalCount = checked(logicalCount + contribution);
+            roleCounts.TryGetValue(role, out var current);
+            if (roleCounts.Count == 0 && logicalCount > 0) current = logicalCount;
+            roleCounts[role] = checked(current + contribution);
+            logicalCount = nextLogicalCount;
+            RebuildDisplayMap();
+            return logicalCount;
+        }
+
         public void SetDisplayCap(int cap)
         {
             if (cap < 0) throw new ArgumentOutOfRangeException(nameof(cap));

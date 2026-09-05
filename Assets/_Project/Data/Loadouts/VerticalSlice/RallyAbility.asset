@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4247b059d7f4df89f6f6e1ac89e8a1, type: 3}
+  m_Name: RallyAbility
+  m_EditorClassIdentifier: SeaLion.Core::SeaLion.Core.Definitions.CaptainAbilityDefinition
+  id:
+    value: default-ability
+  chargeRule: 0
+  activation: 0
+  gameplayEffect:
+    outcome: 1
+    value: 8
+    conversionId:
+      value: 
+  duration: 10
+  cooldown: 5
+  heroId:
+    value: hero-hayreddin
+  vfxId:
+    value: vfx-rally
+  audioId:
+    value: audio-rally
+  cameraProfileId:
+    value: camera-rally

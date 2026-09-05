@@ -28,6 +28,9 @@ MonoBehaviour:
   seed: 2701
   spacing: 1.35
   animate: 1
+  benchmarkMaterial: {fileID: 2100000, guid: fb32dd524c8cd48d985d926cd50175b0, type: 2}
+  cycleDevelopmentProfiles: 1
+  developmentProfileDuration: 20
 --- !u!1 &2000
 GameObject:
   m_ObjectHideFlags: 0

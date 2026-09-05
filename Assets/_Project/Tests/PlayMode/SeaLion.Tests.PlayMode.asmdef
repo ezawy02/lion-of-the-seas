@@ -1,7 +1,7 @@
 {
   "name": "SeaLion.Tests.PlayMode",
   "rootNamespace": "SeaLion.Tests.PlayMode",
-  "references": ["SeaLion.Core", "SeaLion.Crowd", "SeaLion.Gameplay", "SeaLion.Combat", "SeaLion.Persistence", "SeaLion.Presentation", "SeaLion.UI", "Unity.TestFramework"],
+  "references": ["SeaLion.Core", "SeaLion.Crowd", "SeaLion.Gameplay", "SeaLion.Loadout", "SeaLion.Combat", "SeaLion.Persistence", "SeaLion.Presentation", "SeaLion.UI", "Unity.Mathematics", "Unity.TestFramework"],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5cbe3137d5ac4ed59f391446498bbea, type: 3}
+  m_Name: Level01AudioLibrary
+  m_EditorClassIdentifier: SeaLion.Presentation::SeaLion.Presentation.Audio.Level01AudioLibrary
+  broadsideCannon: {fileID: 8300000, guid: 80b02ce385048466b8e53ff033f5d52e, type: 3}
+  gateMultiplyX4: {fileID: 8300000, guid: bf5eb274d7dc846099417b1e1e19ee39, type: 3}
+  gateDamage: {fileID: 8300000, guid: 49be6353f44b644ee99aafd347023daf, type: 3}
+  landingShallowWater: {fileID: 8300000, guid: 15bd5c6b0c82c4c6fa30e7d6ce97292e, type: 3}
+  crewLoss: {fileID: 8300000, guid: 00d3a013b591145bb92a4572f442d452, type: 3}
+  guardianArmorHit: {fileID: 8300000, guid: aac1680d1fe454db28ed307017182977, type: 3}
+  guardianDefeat: {fileID: 8300000, guid: 0f1907eebecef4fde86082a79dfbe178, type: 3}
+  rewardCorsair: {fileID: 8300000, guid: 9a0189f2b7a3e4282a4cbf281a17f2f5, type: 3}
+  failureMedieval: {fileID: 8300000, guid: 6c45aa758457443be9125bbd8c2c23f3, type: 3}
+  gateEnergyLoop: {fileID: 8300000, guid: 5cfabf6f683da473398c4550052d449d, type: 3}
+  seaAmbience: {fileID: 8300000, guid: e7b9d78e66ae34f15b5586d91ca690b6, type: 3}
+  windAmbience: {fileID: 8300000, guid: ac36bfb80b352406fa76222dcffeb4b0, type: 3}
+  traversalMusic: {fileID: 8300000, guid: 9362d6506c77c44b38a6a68dfef1157a, type: 3}
+  guardianBattleMusic: {fileID: 8300000, guid: 5c995d363613d4ffb9062ac17d327b26, type: 3}

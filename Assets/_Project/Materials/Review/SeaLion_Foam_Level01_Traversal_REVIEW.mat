@@ -26,16 +26,16 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _EffectAlphaBoost: 0.78
+    - _EffectAlphaBoost: 1.08
     - _EffectIntensity: 1
     - _EffectMode: 1
     - _EffectProgress: 0
     - _FoamScale: 3.6
-    - _FoamStrength: 0.82
+    - _FoamStrength: 0.9
     - _ForegroundStrength: 0
     - _FresnelStrength: 0.72
     - _NormalStrength: 1.25
-    - _Opacity: 0.22
+    - _Opacity: 0.28
     - _ReducedMode: 0
     - _ShoreStrength: 0.34
     - _SpecularStrength: 0.8

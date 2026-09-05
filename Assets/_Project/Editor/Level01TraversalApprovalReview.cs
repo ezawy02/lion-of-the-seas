@@ -71,13 +71,15 @@ public static partial class VerticalSliceBlockoutBuilder
         }
         if (water != null)
         {
-            water.SetColor("_ForegroundColor", new Color(0.03f, 0.235f, 0.245f, 1f));
-            water.SetColor("_HorizonColor", new Color(0.01f, 0.29f, 0.36f, 1f));
+            water.SetColor("_ForegroundColor", new Color(0.028f, 0.245f, 0.275f, 1f));
+            water.SetColor("_HorizonColor", new Color(0.008f, 0.29f, 0.38f, 1f));
             water.SetColor("_ShallowColor", new Color(0f, 0.58f, 0.68f, 0.82f));
-            water.SetFloat("_SpecularStrength", 0.65f);
-            water.SetFloat("_NormalStrength", 1.25f);
-            water.SetFloat("_WaveFrequency", 1.8f);
-            water.SetFloat("_FoamStrength", 0.42f);
+            water.SetFloat("_WaveAmplitude", 0.055f);
+            water.SetFloat("_SpecularStrength", 0.9f);
+            water.SetFloat("_NormalStrength", 1.5f);
+            water.SetFloat("_WaveFrequency", 1.9f);
+            water.SetFloat("_FoamScale", 2.6f);
+            water.SetFloat("_FoamStrength", 0.56f);
             EditorUtility.SetDirty(water);
         }
 
@@ -90,9 +92,9 @@ public static partial class VerticalSliceBlockoutBuilder
         }
         if (wake != null)
         {
-            wake.SetFloat("_FoamStrength", 0.82f);
-            wake.SetFloat("_EffectAlphaBoost", 0.78f);
-            wake.SetFloat("_Opacity", 0.22f);
+            wake.SetFloat("_FoamStrength", 0.9f);
+            wake.SetFloat("_EffectAlphaBoost", 1.08f);
+            wake.SetFloat("_Opacity", 0.28f);
             EditorUtility.SetDirty(wake);
         }
 
@@ -105,35 +107,36 @@ public static partial class VerticalSliceBlockoutBuilder
         }
         if (sky == null) return;
         sky.SetFloat("_Exposure", 0.78f);
-        sky.SetColor("_ZenithColor", new Color(0.09f, 0.39f, 0.65f, 1f));
-        sky.SetColor("_HorizonColor", new Color(0.39f, 0.60f, 0.69f, 1f));
-        sky.SetColor("_CloudColor", new Color(0.72f, 0.73f, 0.71f, 1f));
-        sky.SetFloat("_CloudStrength", 0.92f);
+        sky.SetColor("_ZenithColor", new Color(0.05f, 0.36f, 0.66f, 1f));
+        sky.SetColor("_HorizonColor", new Color(0.31f, 0.58f, 0.73f, 1f));
+        sky.SetColor("_CloudColor", new Color(0.54f, 0.73f, 0.83f, 1f));
+        sky.SetFloat("_CloudStrength", 0.72f);
+        sky.SetFloat("_CloudScale", 1.7f);
         EditorUtility.SetDirty(sky);
     }
 
     static void ApplyTraversalReviewLighting()
     {
         RenderSettings.skybox = AssetDatabase.LoadAssetAtPath<Material>(TraversalReviewSky);
-        RenderSettings.ambientLight = new Color(0.30f, 0.34f, 0.36f);
-        RenderSettings.ambientIntensity = 0.76f;
-        RenderSettings.fogColor = new Color(0.37f, 0.53f, 0.59f);
+        RenderSettings.ambientLight = new Color(0.27f, 0.32f, 0.35f);
+        RenderSettings.ambientIntensity = 0.65f;
+        RenderSettings.fogColor = new Color(0.30f, 0.48f, 0.58f);
         var key = GameObject.Find("KEY_LIGHT__Blockout");
         var light = key == null ? null : key.GetComponent<Light>();
-        if (light != null) light.intensity = 0.82f;
+        if (light != null) light.intensity = 0.72f;
     }
 
     static void BuildTraversalReviewFleet(Transform root)
     {
         var ship = Model(root, "PLAYER__Flagship_REVIEW", Level01ReferenceShip,
-            new Vector3(-1.2f, 0.05f, 14.5f), Vector3.one * 9.5f, new Vector3(-90f, 350f, 0f));
+            new Vector3(-1.3f, 0.05f, 14.5f), Vector3.one * 9.8f, new Vector3(-90f, 350f, 0f));
         ApprovedOpeningModel(root, "PLAYER__SecondLateenAndHelm_REVIEW", ApprovedOpeningAddon,
-            new Vector3(-1.2f, 0.05f, 14.5f), Vector3.one * 5.4f, new Vector3(-90f, 350f, 0f));
+            new Vector3(-1.3f, 0.05f, 14.5f), Vector3.one * 5.58f, new Vector3(-90f, 350f, 0f));
         Model(root, "CHARACTER__Hayreddin_OnDeck_REVIEW", Level01HeroPose,
-            new Vector3(-0.4f, 2.4f, 9.5f), Vector3.one * 1.3f, new Vector3(0f, -10f, 0f));
+            new Vector3(-0.43f, 2.5f, 9.3f), Vector3.one * 1.36f, new Vector3(0f, -10f, 0f));
         var banner = Model(root, "PROP__FlagshipLionWaveBanner_REVIEW",
             EnvironmentRoot + "L01-PRP-002_Lion_Wave_Banner_Optimized.fbx",
-            new Vector3(-1f, 7.75f, 14.43f), Vector3.one * 0.97f, new Vector3(-90f, 350f, 0f));
+            new Vector3(-1.08f, 7.98f, 14.43f), Vector3.one, new Vector3(-90f, 350f, 0f));
         if (ship != null && banner != null) banner.transform.SetParent(ship.transform, true);
         TraversalReviewCraftFormation(root);
     }
@@ -142,9 +145,9 @@ public static partial class VerticalSliceBlockoutBuilder
     {
         var positions = new[]
         {
-            new Vector3(-1.7f, 0.05f, 42f), new Vector3(1.4f, 0.05f, 47f),
-            new Vector3(-2.6f, 0.05f, 51f), new Vector3(2.1f, 0.05f, 56f),
-            new Vector3(-0.4f, 0.05f, 61f)
+            new Vector3(-0.8f, 0.05f, 42f), new Vector3(2.3f, 0.05f, 47f),
+            new Vector3(-1.7f, 0.05f, 51f), new Vector3(3f, 0.05f, 56f),
+            new Vector3(0.5f, 0.05f, 61f)
         };
         var headings = new[] { 4f, -5f, 5f, -4f, 1f };
         for (var index = 0; index < positions.Length; index++)
@@ -163,14 +166,15 @@ public static partial class VerticalSliceBlockoutBuilder
     static void BuildTraversalReviewObjectives(Transform root)
     {
         var gate = Model(root, "GATE__Multiplier_x4_REVIEW", TraversalGateAsset,
-            new Vector3(0.7f, 0.1f, 61f), Vector3.one * 6f, new Vector3(-90f, 0f, 0f));
+            new Vector3(0.9f, 0.1f, 60f), Vector3.one * 6.1f, new Vector3(-90f, 0f, 0f));
         if (gate == null) throw new FileNotFoundException("Registered L01-GAT-001 gate is missing.");
         var gateMaterial = ImportedMaterial(TraversalGateMaterialSource);
         if (gateMaterial != null)
             foreach (var renderer in gate.GetComponentsInChildren<Renderer>())
                 renderer.sharedMaterial = gateMaterial;
-        GateValueBadge(root, new Vector3(0.7f, 8.2f, 58.8f));
-        GateValueLabel(root, new Vector3(0.7f, 8.2f, 58.5f), "X4");
+        BuildGateEnergyReview(root, "Traversal", new Vector3(0.9f, 0.1f, 60f), 11.7f, 10.4f);
+        GateValueBadge(root, new Vector3(0.9f, 8.35f, 57.8f));
+        GateValueLabel(root, new Vector3(0.9f, 8.35f, 57.5f), "X4");
         Model(root, "RESCUE__CaptiveSailmakers_REVIEW",
             EnvironmentRoot + "L01-PRP-004_Captive_Sailmakers_Rescue_Raft_Cage_Optimized.fbx",
             new Vector3(3.6f, 0.05f, 22f), Vector3.one * 2.3f, new Vector3(-90f, -16f, 0f));
@@ -210,6 +214,7 @@ public static partial class VerticalSliceBlockoutBuilder
         var gate = GameObject.Find("GATE__Multiplier_x4_REVIEW");
         if (gate == null || PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(gate) != TraversalGateAsset)
             throw new InvalidDataException("Traversal review must use the registered L01-GAT-001 gate.");
+        ValidateGateEnergyReview("Traversal");
         var ship = GameObject.Find("PLAYER__Flagship_REVIEW");
         var banner = GameObject.Find("PROP__FlagshipLionWaveBanner_REVIEW");
         if (ship == null || banner == null || !banner.transform.IsChildOf(ship.transform))

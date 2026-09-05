@@ -1,0 +1,33 @@
+{
+  "asset_id": "L01-SHP-004_Hero_Flagship_TripoV31_R2",
+  "source": "ArtSource/Blender/Ships/L01-SHP-004_Hero_Flagship_TripoV31_R2/L01-SHP-004_Hero_Flagship_TripoV31_R2_Optimized_REVIEW.blend",
+  "lods": {
+    "LOD1": {
+      "triangle_count_before": 34727,
+      "triangle_count_after": 20141,
+      "actual_ratio": 0.58,
+      "materials": [
+        "tripo_mat_5948f69a"
+      ],
+      "armature_count": 0,
+      "weighted_mesh_count": 0,
+      "review_status": "REVIEW_ONLY_USER_APPROVAL_REQUIRED",
+      "editable_source": "ArtSource/Blender/Ships/L01-SHP-004_Hero_Flagship_TripoV31_R2/LOD_R1_REVIEW/L01-SHP-004_Hero_Flagship_TripoV31_R2_LOD1_REVIEW.blend",
+      "unity_export": "Assets/_Project/Art/Ships/L01-SHP-004_Hero_Flagship_TripoV31_R2_LOD1_REVIEW.fbx"
+    },
+    "LOD2": {
+      "triangle_count_before": 34727,
+      "triangle_count_after": 9723,
+      "actual_ratio": 0.28,
+      "materials": [
+        "tripo_mat_5948f69a"
+      ],
+      "armature_count": 0,
+      "weighted_mesh_count": 0,
+      "review_status": "REVIEW_ONLY_USER_APPROVAL_REQUIRED",
+      "editable_source": "ArtSource/Blender/Ships/L01-SHP-004_Hero_Flagship_TripoV31_R2/LOD_R1_REVIEW/L01-SHP-004_Hero_Flagship_TripoV31_R2_LOD2_REVIEW.blend",
+      "unity_export": "Assets/_Project/Art/Ships/L01-SHP-004_Hero_Flagship_TripoV31_R2_LOD2_REVIEW.fbx"
+    }
+  },
+  "review_status": "REVIEW_ONLY_USER_APPROVAL_REQUIRED"
+}

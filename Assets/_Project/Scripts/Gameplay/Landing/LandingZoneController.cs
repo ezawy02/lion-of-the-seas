@@ -110,12 +110,7 @@ namespace SeaLion.Gameplay.Landing
 
         private void Transfer(int contribution, UnitRole role)
         {
-            var counts = new Dictionary<UnitRole, int>();
-            foreach (var pair in landForce.RoleCounts) counts[pair.Key] = pair.Value;
-            counts.TryGetValue(role, out var current);
-            counts[role] = checked(current + contribution);
-            landForce.SetLogicalCount(checked(landForce.LogicalCount + contribution));
-            landForce.SetRoleCounts(counts);
+            landForce.AddToRole(role, contribution);
             transferred = checked(transferred + contribution);
         }
 

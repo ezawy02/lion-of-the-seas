@@ -30,23 +30,23 @@ Material:
     - _EffectIntensity: 1
     - _EffectMode: 0
     - _EffectProgress: 0
-    - _FoamScale: 2.2
-    - _FoamStrength: 0.42
+    - _FoamScale: 2.6
+    - _FoamStrength: 0.56
     - _ForegroundStrength: 1
     - _FresnelStrength: 0.72
-    - _NormalStrength: 1.25
+    - _NormalStrength: 1.5
     - _Opacity: 0.88
     - _ReducedMode: 0
     - _ShoreStrength: 1
-    - _SpecularStrength: 0.65
-    - _WaveAmplitude: 0.045
-    - _WaveFrequency: 1.8
+    - _SpecularStrength: 0.9
+    - _WaveAmplitude: 0.055
+    - _WaveFrequency: 1.9
     - _WaveSpeed: 0.32
     m_Colors:
     - _DeepColor: {r: 0, g: 0.02, b: 0.03, a: 0.96}
     - _FoamColor: {r: 0.87, g: 0.98, b: 0.9, a: 1}
-    - _ForegroundColor: {r: 0.03, g: 0.235, b: 0.245, a: 1}
-    - _HorizonColor: {r: 0.01, g: 0.29, b: 0.36, a: 1}
+    - _ForegroundColor: {r: 0.028, g: 0.245, b: 0.275, a: 1}
+    - _HorizonColor: {r: 0.008, g: 0.29, b: 0.38, a: 1}
     - _ShallowColor: {r: 0, g: 0.58, b: 0.68, a: 0.82}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

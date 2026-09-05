@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SeaLion_GateEnergyBeam_REVIEW
+  m_Shader: {fileID: 4800000, guid: 23748917d071f47f397d3d6e28334f7b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _BeamStrength: 0.78
+    - _DstBlend: 1
+    - _EdgeSoftness: 0.32
+    - _FieldStrength: 0.14
+    - _Intensity: 0.48
+    - _Opacity: 0.46
+    - _PulseSpeed: 2.8
+    - _SrcBlend: 5
+    m_Colors:
+    - _CoreColor: {r: 0.08, g: 0.62, b: 1.35, a: 1}
+    - _EdgeColor: {r: 0.03, g: 0.3, b: 1.05, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

@@ -1,0 +1,14 @@
+{
+  "name": "SeaLion.Loadout",
+  "rootNamespace": "SeaLion.Core.Loadout",
+  "references": ["SeaLion.Core", "SeaLion.Persistence"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

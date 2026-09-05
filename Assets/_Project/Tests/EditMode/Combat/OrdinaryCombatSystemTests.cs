@@ -42,5 +42,20 @@ namespace SeaLion.Tests.EditMode.Combat
             Assert.IsTrue(units[0].Dead);
             Assert.IsTrue(units[1].Dead);
         }
+
+        [Test] public void HostileOnlyStepCannotAutoplayFriendlyDamage()
+        {
+            var units = new[]
+            {
+                new CombatUnit(CombatTeam.Friendly, float3.zero, 5, 5, 2, 1),
+                new CombatUnit(CombatTeam.Hostile, new float3(1, 0, 0), 5, 1, 2, 1)
+            };
+            var system = new OrdinaryCombatSystem();
+            system.StepHostileAttacks(units, 0f);
+            Assert.AreEqual(4, units[0].Health);
+            Assert.AreEqual(5, units[1].Health);
+            Assert.AreEqual(1, system.ApplyPlayerDamage(units, 5, CombatTeam.Hostile));
+            Assert.IsTrue(units[1].Dead);
+        }
     }
 }

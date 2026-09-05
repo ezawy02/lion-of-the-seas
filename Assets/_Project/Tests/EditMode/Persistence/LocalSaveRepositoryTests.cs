@@ -35,6 +35,36 @@ namespace SeaLion.Tests.EditMode.Persistence
             Assert.IsTrue(result.Succeeded);
             Assert.IsTrue(result.UsedDefault);
             Assert.AreEqual(1, result.Data.highestUnlockedLevel);
+            Assert.AreEqual("English", result.Data.settings.languagePreference);
+        }
+
+        [Test]
+        public void LanguagePreferenceRoundTripsAndLegacyEmptyValueFallsBackToEnglish()
+        {
+            var files = new MemorySaveFileSystem();
+            var repository = new LocalSaveRepository(Path, files);
+            var data = LocalSaveRepository.CreateDefault();
+            data.settings.languagePreference = "Arabic";
+            string failure;
+
+            Assert.IsTrue(repository.Save(data, out failure), failure);
+            Assert.AreEqual("Arabic", repository.Load().Data.settings.languagePreference);
+
+            data.settings.languagePreference = string.Empty;
+            files.WriteAllText(Path, UnityEngine.JsonUtility.ToJson(data));
+            var legacy = repository.Load();
+            Assert.IsTrue(legacy.Succeeded, legacy.Failure);
+            Assert.AreEqual("English", legacy.Data.settings.languagePreference);
+        }
+
+        [Test]
+        public void SaveRejectsUnknownLanguagePreference()
+        {
+            var data = LocalSaveRepository.CreateDefault();
+            data.settings.languagePreference = "Pirate";
+            Assert.IsFalse(new LocalSaveRepository(Path, new MemorySaveFileSystem())
+                .Save(data, out var failure));
+            StringAssert.Contains("Language preference", failure);
         }
 
         [TestCase("bad id")]

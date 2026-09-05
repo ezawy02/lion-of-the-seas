@@ -53,5 +53,18 @@ namespace SeaLion.Tests.EditMode.Crowd
             Assert.That(force.RoleCounts[UnitRole.Musketeer], Is.EqualTo(12));
             Assert.That(force.DisplayedLogicalIndices[force.DisplayedAgentCount - 1], Is.EqualTo(29));
         }
+
+        [Test]
+        public void RoleContributionsUpdateLogicalAndRoleCountsAtomically()
+        {
+            var force = new ForceRuntime(0, 100);
+            force.AddToRole(UnitRole.Sailor, 3);
+            force.AddToRole(UnitRole.Sailor, 4);
+            force.AddToRole(UnitRole.Musketeer, 2);
+
+            Assert.That(force.LogicalCount, Is.EqualTo(9));
+            Assert.That(force.RoleCounts[UnitRole.Sailor], Is.EqualTo(7));
+            Assert.That(force.RoleCounts[UnitRole.Musketeer], Is.EqualTo(2));
+        }
     }
 }

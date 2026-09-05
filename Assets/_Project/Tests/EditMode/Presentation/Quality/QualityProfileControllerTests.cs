@@ -61,6 +61,22 @@ namespace SeaLion.Tests.EditMode.Presentation.Quality
             Assert.That(controller.ActiveProfile, Is.SameAs(primary));
         }
 
+        [Test] public void ProductionSamplerRequiresSustainedPressureBeforeFallback()
+        {
+            controller.SetPreference(QualityPreference.Auto);
+            controller.SampleFrameTime(.050f);
+            Assert.That(controller.ActiveProfile, Is.SameAs(primary));
+            for (var index = 0; index < 20; index++) controller.SampleFrameTime(.050f);
+            Assert.That(controller.ActiveProfile, Is.SameAs(reduced));
+        }
+
+        [Test] public void ResumeSpikeDoesNotImmediatelyForceFallback()
+        {
+            controller.SetPreference(QualityPreference.Auto);
+            controller.SampleFrameTime(4f);
+            Assert.That(controller.ActiveProfile, Is.SameAs(primary));
+        }
+
         private static void SetPrivate(Object target, string field, object value)
         {
             var info = target.GetType().GetField(field, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);

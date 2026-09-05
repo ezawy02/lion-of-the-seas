@@ -41,7 +41,32 @@ namespace SeaLion.Combat
         public event Action<CombatHit> Hit;
         public event Action<CombatDeath> Death;
 
+        public int ApplyPlayerDamage(CombatUnit[] units, float amount, CombatTeam targetTeam)
+        {
+            if (units == null || !Finite(amount) || amount <= 0f) return -1;
+            var best = -1; var bestDistance = float.MaxValue;
+            for (var i = 0; i < units.Length; i++)
+            {
+                if (units[i].Dead || units[i].Team != targetTeam || !Finite(units[i].Health) || units[i].Health <= 0f) continue;
+                var distance = math.lengthsq(units[i].Position);
+                if (distance < bestDistance) { best = i; bestDistance = distance; }
+            }
+            if (best < 0) return -1;
+            Apply(units, (0, best, amount));
+            return best;
+        }
+
+        public void StepHostileAttacks(CombatUnit[] units, float deltaTime)
+        {
+            StepFiltered(units, deltaTime, CombatTeam.Hostile);
+        }
+
         public void Step(CombatUnit[] units, float deltaTime)
+        {
+            StepFiltered(units, deltaTime, null);
+        }
+
+        private void StepFiltered(CombatUnit[] units, float deltaTime, CombatTeam? attackingTeam)
         {
             if (units == null || !Finite(deltaTime) || deltaTime < 0f) return;
             StepIndex++;
@@ -49,6 +74,7 @@ namespace SeaLion.Combat
             for (var i = 0; i < units.Length; i++)
             {
                 ref var attacker = ref units[i];
+                if (attackingTeam.HasValue && attacker.Team != attackingTeam.Value) continue;
                 if (attacker.Dead || !Finite(attacker.Health) || attacker.Health <= 0f) continue;
                 attacker.Cooldown = Math.Max(0f, Finite(attacker.Cooldown) ? attacker.Cooldown - deltaTime : 0f);
                 if (!Finite(attacker.Damage) || attacker.Damage <= 0f || !Finite(attacker.Range) || attacker.Range < 0f ||

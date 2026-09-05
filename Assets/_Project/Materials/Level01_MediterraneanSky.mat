@@ -27,6 +27,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AtmosphereThickness: 0.78
+    - _CloudScale: 1
     - _CloudStrength: 0.92
     - _Exposure: 1.05
     - _SunDisk: 2

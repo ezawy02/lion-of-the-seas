@@ -27,16 +27,17 @@ Material:
     m_Ints: []
     m_Floats:
     - _AtmosphereThickness: 0.78
-    - _CloudStrength: 0.92
+    - _CloudScale: 1.7
+    - _CloudStrength: 0.72
     - _Exposure: 0.78
     - _SunDisk: 2
     - _SunSize: 0.04
     - _SunSizeConvergence: 5
     m_Colors:
-    - _CloudColor: {r: 0.72, g: 0.73, b: 0.71, a: 1}
+    - _CloudColor: {r: 0.54, g: 0.73, b: 0.83, a: 1}
     - _GroundColor: {r: 0.38, g: 0.57, b: 0.61, a: 1}
-    - _HorizonColor: {r: 0.39, g: 0.6, b: 0.69, a: 1}
+    - _HorizonColor: {r: 0.31, g: 0.58, b: 0.73, a: 1}
     - _SkyTint: {r: 0.34, g: 0.7, b: 0.92, a: 1}
-    - _ZenithColor: {r: 0.09, g: 0.39, b: 0.65, a: 1}
+    - _ZenithColor: {r: 0.05, g: 0.36, b: 0.66, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

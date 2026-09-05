@@ -115,20 +115,20 @@ with the selected option present and behaviorally different.
 
 ### Tests first
 
-- [ ] T052 [P] [US2] Add EditMode tests for owned-option validation, defaults, persistence, and invalid selection fallback in `Assets/_Project/Tests/EditMode/Loadout/LoadoutServiceTests.cs` [FR-014] [FR-015]
-- [ ] T053 [P] [US2] Add PlayMode tests for reward unlock, three-slot selection, restart persistence, and replay difference in `Assets/_Project/Tests/PlayMode/Loadout/LoadoutJourneyTests.cs` [FR-014] [FR-015] [FR-016]
+- [x] T052 [P] [US2] Add EditMode tests for owned-option validation, defaults, persistence, and invalid selection fallback in `Assets/_Project/Tests/EditMode/Loadout/LoadoutServiceTests.cs` [FR-014] [FR-015]
+- [x] T053 [P] [US2] Add PlayMode tests for reward unlock, three-slot selection, restart persistence, and replay difference in `Assets/_Project/Tests/PlayMode/Loadout/LoadoutJourneyTests.cs` [FR-014] [FR-015] [FR-016]
 
 ### Implementation
 
-- [ ] T054 [P] [US2] Author two flagship, two crew, and two captain ability definitions under `Assets/_Project/Data/Loadouts/VerticalSlice/` [FR-014]
-- [ ] T055 [US2] Implement loadout ownership, selection, validation, and immutable battle snapshot in `Assets/_Project/Scripts/Loadout/LoadoutService.cs` [FR-014] [FR-015]
-- [ ] T056 [P] [US2] Build the three-slot loadout screen with role, trade-off, lock, and active state in `Assets/_Project/Scripts/UI/Loadout/` and `Assets/_Project/Prefabs/UI/Loadout/` [FR-014]
-- [ ] T057 [US2] Connect flagship selection to deployment pattern and presentation in `Assets/_Project/Scripts/Gameplay/Flagship/FlagshipLoadoutAdapter.cs` [FR-014]
-- [ ] T058 [US2] Connect crew selection to role composition and combat contribution in `Assets/_Project/Scripts/Combat/CrewRoleLoadoutAdapter.cs` [FR-014]
-- [ ] T059 [US2] Implement charge, accepted activation, outcome event, and cooldown for captain abilities in `Assets/_Project/Scripts/Gameplay/Abilities/CaptainAbilitySystem.cs` [FR-014]
-- [ ] T060 [P] [US2] Add ability-ready, rejected, active, and cooldown feedback in `Assets/_Project/Scripts/UI/Battle/CaptainAbilityView.cs` [FR-008]
-- [ ] T061 [US2] Connect Level 1 reward ownership to the relevant loadout option in `Assets/_Project/Data/Rewards/Level01Blueprint.asset` [FR-016]
-- [ ] T062 [US2] Capture default-versus-changed replay evidence and review whether the trade-off is visible in `Artifacts/Local/playtests/loadout-replay.md` [SC-004]
+- [x] T054 [P] [US2] Author two flagship, two crew, and two captain ability definitions under `Assets/_Project/Data/Loadouts/VerticalSlice/` [FR-014]
+- [x] T055 [US2] Implement loadout ownership, selection, validation, and immutable battle snapshot in `Assets/_Project/Scripts/Loadout/LoadoutService.cs` [FR-014] [FR-015]
+- [x] T056 [P] [US2] Build the three-slot loadout screen with role, trade-off, lock, and active state in `Assets/_Project/Scripts/UI/Loadout/` and `Assets/_Project/Prefabs/UI/Loadout/` [FR-014]
+- [x] T057 [US2] Connect flagship selection to deployment pattern and presentation in `Assets/_Project/Scripts/Gameplay/Flagship/FlagshipLoadoutAdapter.cs` [FR-014]
+- [x] T058 [US2] Connect crew selection to role composition and combat contribution in `Assets/_Project/Scripts/Combat/CrewRoleLoadoutAdapter.cs` [FR-014]
+- [x] T059 [US2] Implement charge, accepted activation, outcome event, and cooldown for captain abilities in `Assets/_Project/Scripts/Gameplay/Abilities/CaptainAbilitySystem.cs` [FR-014]
+- [x] T060 [P] [US2] Add ability-ready, rejected, active, and cooldown feedback in `Assets/_Project/Scripts/UI/Battle/CaptainAbilityView.cs` [FR-008]
+- [x] T061 [US2] Connect Level 1 reward ownership to the relevant loadout option in `Assets/_Project/Data/Rewards/Level01Blueprint.asset` [FR-016]
+- [x] T062 [US2] Capture default-versus-changed replay evidence and review whether the trade-off is visible in `Artifacts/Local/playtests/loadout-replay.md` [SC-004]
 
 **Checkpoint**: User Stories 1 and 2 work independently and persist through restart.
 
@@ -208,17 +208,51 @@ verify the same choices, arithmetic, units, boss phases, rewards, and outcome.
 - [ ] T096 Create final stylized water, wakes, foam, storm, smoke, impacts, destruction, and reward presentation under `Assets/_Project/Materials/Water/` and `Assets/_Project/VFX/` [SC-004]
 - [ ] T097 Refresh and revalidate `Assets/_Project/Scenes/Benchmark_Art.unity` after final slice assets, then pass every item in `specs/001-vertical-slice/contracts/art-quality-contract.md` [SC-003] [SC-004]
 - [ ] T098 [P] Add pooled battle audio, music transitions, and mix snapshots under `Assets/_Project/Audio/` and `Assets/_Project/Scripts/Presentation/Audio/` [FR-008]
-- [ ] T099 [P] Add optional gate, broadside, armor-break, and victory haptics in `Assets/_Project/Scripts/Presentation/Haptics/HapticsController.cs` [FR-023]
+- [x] T099 [P] Add optional gate, broadside, armor-break, and victory haptics in `Assets/_Project/Scripts/Presentation/Haptics/HapticsController.cs` [FR-023]
 - [ ] T100 Profile multiplier, landing, peak combat, boss break, destruction, reward, memory, and allocations on the primary physical device and record `Artifacts/Performance/primary/evidence.md` [SC-006]
 - [ ] T101 Profile the 500-agent stress sequence and 10-minute thermal loop on the floor physical device and record `Artifacts/Performance/floor/evidence.md` [SC-006]
 - [ ] T102 Verify Primary and Reduced profiles produce identical arithmetic, combat, reward, and terminal outcomes in `Artifacts/Performance/outcome-parity.md` [FR-018]
-- [ ] T103 Run the source-size checker and resolve every failure/warning into `Artifacts/Quality/source-size-report.md` [SC-009]
+- [x] T103 Run the source-size checker and resolve every failure/warning into `Artifacts/Quality/source-size-report.md` [SC-009]
 - [ ] T104 Audit all third-party code and assets and complete `THIRD_PARTY_NOTICES.md` with zero unresolved licenses [FR-020] [SC-010]
-- [ ] T105 Run the full EditMode, PlayMode, and Performance suites and record the release test matrix in `Artifacts/Quality/test-matrix.md`
+- [x] T105 Run the full EditMode, PlayMode, and Performance suites and record the release test matrix in `Artifacts/Quality/test-matrix.md`
 - [ ] T106 Run a target-player satisfaction test for growth, landing, and boss payoff and record ratings in `Artifacts/Local/playtests/final-satisfaction.md` [SC-004]
 - [ ] T107 Validate offline installation, restart persistence, pause/resume, and all three direct launches in `Artifacts/Quality/release-checklist.md` [FR-015] [FR-019]
 - [ ] T108 Update `README.md`, `specs/001-vertical-slice/quickstart.md`, and build/capture instructions to match the tested release candidate
 - [ ] T109 Verify repository privacy, tracked-file scope, secret scan, ignored build output, and exact remote destination in `Artifacts/Quality/private-repository-audit.md`
+
+### Level 1 QA closure — R1
+
+- [x] T110 [P] [US1] Add regression coverage for combat presentation counts, automatic quality fallback, risky-gate truth, traversal bounds, wake ownership, audio concurrency, bilingual HUD formatting, result reasons, loading readiness, and haptic bindings under `Assets/_Project/Tests/EditMode/Levels/` and `Assets/_Project/Tests/PlayMode/Levels/` [FR-004] [FR-008] [FR-018] [FR-023]
+- [x] T111 [US1] Replace the authored per-unit assault rendering path with authoritative count-driven GPU-instanced friendly and hostile cohorts, including deterministic movement and visible hit, loss, and defeat reactions under `Assets/_Project/Scripts/Presentation/Levels/` [FR-004] [FR-008] [SC-006]
+- [x] T112 [US1] Wire sustained frame-time sampling and hysteresis into the Auto quality path so Primary and Reduced profiles switch at runtime without changing battle outcomes in `Assets/_Project/Scripts/Presentation/Quality/QualityProfileController.cs` [FR-018] [SC-006]
+- [x] T113 [US1] Make the risky gate's bilingual promise and sound reflect its configured damage outcome while preserving the ×4 multiplier path in `Assets/_Project/Scripts/UI/Levels/Level01TrialLocalization.cs` and `Assets/_Project/Scripts/Presentation/Audio/Level01AudioDirector.cs` [FR-003] [FR-008]
+- [x] T114 [US1] Attach the traversal wake to the moving flagship and derive portrait-safe horizontal movement limits from the camera and complete flagship presentation bounds in `Assets/_Project/Scripts/Presentation/Levels/` [FR-002] [SC-004]
+- [ ] T115 [US1] Add cue-specific concurrency limits, distinct hit/loss treatment, music ducking, and silent-loop suspension to the Level 1 audio director in `Assets/_Project/Scripts/Presentation/Audio/Level01AudioDirector.cs` [FR-008]
+- [x] T116 [US1] Correct the bilingual HUD safe-area layout, unambiguous Arabic force fraction, terminal-state headline, and localized failure reason in `Assets/_Project/Scripts/UI/Levels/` [FR-008] [FR-014]
+- [x] T117 [US1] Bind optional gate, broadside, boss-break, and victory haptics to the live Level 1 event stream and add a branded local loading presentation that remains visible until the art scene is ready in `Assets/_Project/Scripts/Presentation/` [FR-023]
+- [ ] T118 [US1] Prepare a highlight-compressed Harbor Guardian/captain material revision, compare it with the approved reference inside Unity, and keep it explicitly pending until the user approves the exact revision in `Artifacts/Local/Approval/Level01/` [SC-003] [SC-004]
+- [x] T119 [US1] Run the full source-size, EditMode, PlayMode, compilation, and deterministic journey regression matrix and record exact results in `Artifacts/Quality/level01-qa-r1-test-matrix.md` [SC-005] [SC-009]
+- [x] T120 [US1] Build and replay the complete Level 1 path on Android, capture traversal, landing, assault, terminal, frame-time, draw-call, triangle, memory, and console evidence, and compare it with the R1 baseline in `Artifacts/Performance/level01-qa-r1/evidence.md` [SC-006]
+- [ ] T121 [US1] Present the exact Unity revision for bilingual UI, loading, wake, combat feedback, sound, and character highlight review; record the user's explicit approve/reject decision before closing the affected art and audio tasks [SC-003] [SC-004]
+
+### Level 1 control HUD polish — R2
+
+- [x] T122 [P] [US1] Record the current portrait HUD and input baseline, compare it with representative mobile crowd and naval-control patterns, and document the actionable readability gaps in `Artifacts/Local/playtests/level01-control-hud-r2.md` [FR-002] [FR-008] [SC-003]
+- [x] T123 [P] [US1] Create compact steering and captain-ability icon candidates through Unity AI under `Assets/_Project/Art/UI/Generated/`, remove their backgrounds, and keep the exact revision explicitly pending user approval [FR-008] [SC-003]
+- [x] T124 [US1] Replace the hidden drag affordance and text-box ability control with a portrait-safe dynamic steering deck, first-use guidance, circular captain ability control, cooldown feedback, and press response in `Assets/_Project/Scripts/UI/Levels/` [FR-002] [FR-008]
+- [x] T125 [US1] Expose presentation-only pointer state from `Assets/_Project/Scripts/Gameplay/Input/FlagshipInputAdapter.cs` without changing authoritative movement intent or terminal-state behavior [FR-002]
+- [x] T126 [US1] Add bilingual control-HUD regression coverage and validate drag, ability activation, safe-area placement, language switching, and retry through the exact Level 1 path on the target portrait resolution [FR-002] [FR-008] [SC-005]
+- [x] T127 [US1] Present the exact control HUD and Unity-AI icon revision inside Unity and record the user's explicit approve/reject decision before closing the visual tasks [SC-003] [SC-004]
+
+### Level 1 real-play remediation — R3
+
+- [x] T128 [US1] Reproduce the reported non-playable behavior, distinguish timed demo progression from player-authored input, and record the root cause in `Artifacts/Quality/level01-playability-remediation.md` [FR-001] [FR-008]
+- [x] T129 [P] [US1] Add regression coverage proving traversal cannot advance without steering, combat cannot defeat enemies without fire input, reload is enforced, and a complete attempt can win through player actions in `Assets/_Project/Tests/EditMode/Levels/Level01TrialRuntimeTests.cs` and `Assets/_Project/Tests/EditMode/Combat/OrdinaryCombatSystemTests.cs` [FR-001] [FR-008]
+- [x] T130 [US1] Replace time-only traversal progression with steering-gated lane commitment and presentation progress in `Assets/_Project/Scripts/Gameplay/Levels/` and `Assets/_Project/Scripts/Presentation/Levels/` [FR-001] [FR-003]
+- [x] T131 [US1] Add a player-triggered primary broadside, reload state, bilingual fire control, projectile feedback, existing broadside audio, and optional haptics without allowing presentation to write battle state in `Assets/_Project/Scripts/Gameplay/Levels/`, `Assets/_Project/Scripts/UI/Levels/`, and `Assets/_Project/Scripts/Presentation/Levels/` [FR-008] [FR-023]
+- [ ] T132 [US1] Compile, run the focused EditMode and PlayMode suites, then play the exact Level 1 scene through movement, gate, landing, repeated fire, ability, victory/failure, and retry; record current evidence in `Artifacts/Quality/level01-real-play-r3-test-matrix.md` [SC-005] [SC-009]
+- [ ] T133 [US1] Present the exact R3 controls, firing, and phase-camera revision inside Unity and record the user's explicit approve/reject decision before any visual or Level 1 completion claim [SC-003] [SC-004]
+- [x] T134 [US1] Replace the fixed Level 1 camera with smooth objective-aware traversal, landing, assault, failure, and victory framing; calculate steering bounds against the traversal lens, repair atomic landing-role transfer, and capture the complete local review sequence in `Artifacts/Local/Approval/Level01CameraR1/` [FR-001] [FR-002] [SC-004]
 
 ## Dependencies and Execution Order
 
@@ -286,5 +320,5 @@ Art Lock / Performance / Release
 - US2: 11 tasks
 - US3: 20 tasks
 - US4: 9 tasks
-- Final quality and release: 18 tasks
-- **Total: 109 tasks**
+- Final quality and release: 43 tasks
+- **Total: 134 tasks**

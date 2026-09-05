@@ -16,6 +16,8 @@ namespace SeaLion.Core.Definitions
         [SerializeField] private StableId unlockRewardId;
         public NormalizedBounds ControlBounds => controlBounds; public DeployPattern DeployPattern => deployPattern; public float DeploymentCadence => deploymentCadence;
         public int BurstSize => burstSize; public float BaseDeployment => baseDeployment; public bool IsDefault => defaultUnlock; public StableId UnlockRewardId => unlockRewardId;
+        public StableId PresentationShipId => presentationShipId; public StableId WakeId => wakeId;
+        public StableId RecoilId => recoilId; public StableId AudioId => audioId;
         public override IReadOnlyList<string> Validate()
         {
             var e = new List<string>(base.Validate()); if (!controlBounds.IsValid) e.Add("controlBounds must be normalized and left < right.");

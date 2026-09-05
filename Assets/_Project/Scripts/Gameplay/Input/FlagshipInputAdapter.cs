@@ -9,12 +9,17 @@ namespace SeaLion.Gameplay.Input
         [SerializeField, Min(1f)] private float dragPixelsForFullIntent = 240f;
 
         private bool dragging;
+        private bool uiSteering;
         private Vector2 dragStart;
+        private float releasedIntentHold;
 
         public float HorizontalIntent { get; private set; }
+        public bool IsDragging => dragging;
+        public bool HasSteered { get; private set; }
 
         private void Update()
         {
+            if (uiSteering) return;
             if (TryReadTouch(out var position, out var pressed, out var released))
             {
                 SamplePointer(position, pressed, released);
@@ -27,6 +32,11 @@ namespace SeaLion.Gameplay.Input
                 return;
             }
 
+            if (releasedIntentHold > 0f)
+            {
+                releasedIntentHold -= Time.unscaledDeltaTime;
+                if (releasedIntentHold > 0f) return;
+            }
             Reset();
         }
 
@@ -38,11 +48,17 @@ namespace SeaLion.Gameplay.Input
                 dragStart = position;
             }
 
-            if (dragging && !released)
+            if (dragging)
+            {
                 HorizontalIntent = MapHorizontalDrag(position.x - dragStart.x, dragPixelsForFullIntent);
+                if (Mathf.Abs(HorizontalIntent) > 0.08f) HasSteered = true;
+            }
 
             if (released)
-                Reset();
+            {
+                dragging = false;
+                releasedIntentHold = 0.12f;
+            }
         }
 
         private static bool TryReadTouch(out Vector2 position, out bool pressed, out bool released)
@@ -80,7 +96,23 @@ namespace SeaLion.Gameplay.Input
         public void Reset()
         {
             dragging = false;
+            uiSteering = false;
+            releasedIntentHold = 0f;
             HorizontalIntent = 0f;
+            HasSteered = false;
+        }
+
+        public void SetUiIntent(float value)
+        {
+            uiSteering = true;
+            HorizontalIntent = Mathf.Clamp(value, -1f, 1f);
+            if (Mathf.Abs(HorizontalIntent) > 0.08f) HasSteered = true;
+        }
+
+        public void ReleaseUiIntent()
+        {
+            uiSteering = false;
+            releasedIntentHold = 0.18f;
         }
 
         private void OnApplicationFocus(bool hasFocus)

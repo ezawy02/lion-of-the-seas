@@ -36,5 +36,24 @@ namespace SeaLion.Tests.EditMode.Input
             Assert.That(FlagshipController.ClampPosition(float.NaN, -5f, 5f), Is.Zero);
             Assert.That(FlagshipController.ClampPosition(2f, float.NaN, 5f), Is.EqualTo(2f));
         }
+
+        [Test]
+        public void NudgeMovesImmediatelyWithinConfiguredBounds()
+        {
+            var owner = new UnityEngine.GameObject("flagship-nudge-test");
+            try
+            {
+                var controller = owner.AddComponent<FlagshipController>();
+                controller.Configure(null, -2f, 2f);
+                controller.Nudge(-0.3f);
+                Assert.That(owner.transform.position.x, Is.EqualTo(-1.2f).Within(0.0001f));
+                controller.Nudge(-1f);
+                Assert.That(owner.transform.position.x, Is.EqualTo(-2f));
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(owner);
+            }
+        }
     }
 }

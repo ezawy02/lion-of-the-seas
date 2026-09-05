@@ -21,6 +21,16 @@ namespace SeaLion.Gameplay.Flagship
         public float LeftBound => Mathf.Min(leftBound, rightBound);
         public float RightBound => Mathf.Max(leftBound, rightBound);
 
+        public void Configure(FlagshipInputAdapter inputSource, float firstBound, float secondBound,
+            float speed = 8f, float response = 14f)
+        {
+            input = inputSource;
+            leftBound = firstBound;
+            rightBound = secondBound;
+            moveSpeed = Mathf.Max(0f, speed);
+            smoothing = Mathf.Max(0.01f, response);
+        }
+
         private void Update()
         {
             if (appPaused || focusLost || gameplayPaused || !isActiveAndEnabled)
@@ -45,6 +55,15 @@ namespace SeaLion.Gameplay.Flagship
         {
             gameplayPaused = value;
             if (value) smoothedIntent = 0f;
+        }
+
+        public void Nudge(float normalizedDelta)
+        {
+            if (!IsFinite(normalizedDelta) || gameplayPaused || appPaused || focusLost) return;
+            var position = transform.position;
+            position.x = ClampPosition(position.x + Mathf.Clamp(normalizedDelta, -1f, 1f) *
+                (RightBound - LeftBound), leftBound, rightBound);
+            transform.position = position;
         }
 
         public static float SmoothNormalized(float current, float target, float sharpness, float deltaTime)
