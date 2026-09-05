@@ -231,7 +231,7 @@ namespace SeaLion.Presentation.Levels
         private float TravelDistance(MotionKind kind, float offset)
         {
             var elapsed = runtime.Phase == Level01TrialPhase.Traversal
-                ? runtime.TraversalActiveElapsed
+                ? runtime.RouteProgress * 10f
                 : runtime.PhaseElapsed;
             if (runtime.Phase == Level01TrialPhase.Opening)
                 return Level01SeaMotion.ForwardDistance(elapsed, 3f,

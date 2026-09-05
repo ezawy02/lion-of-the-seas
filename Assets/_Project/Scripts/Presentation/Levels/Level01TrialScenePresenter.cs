@@ -91,13 +91,17 @@ namespace SeaLion.Presentation.Levels
         private void Update()
         {
             if (!IsReady || flagship == null) return;
-            var choice = Mathf.InverseLerp(flagship.LeftBound, flagship.RightBound,
-                flagship.transform.position.x) * 2f - 1f;
-            var steered = input != null && input.HasSteered;
-            if (runtime.Phase == Level01TrialPhase.Traversal)
-                runtime.SetTraversalControl(choice, steered);
-            else if (runtime.Phase == Level01TrialPhase.Assault)
-                runtime.SetHorizontalChoice(choice);
+            runtime.SetSteeringIntent(input != null ? input.HorizontalIntent : 0f,
+                input != null && input.HasSteered);
+        }
+
+        private void LateUpdate()
+        {
+            if (!IsReady || flagship == null) return;
+            var position = flagship.transform.position;
+            position.x = Mathf.Lerp(flagship.LeftBound, flagship.RightBound,
+                (runtime.HorizontalChoice + 1f) * .5f);
+            flagship.transform.position = position;
         }
 
         private bool BindScene(Scene scene)
@@ -148,6 +152,7 @@ namespace SeaLion.Presentation.Levels
                 flagship.transform.position.x);
             phaseCamera.ApplyImmediate(Level01TrialPhase.Loading);
             flagship.Configure(input, travelRange.Left, travelRange.Right, 7.5f, 16f);
+            flagship.enabled = false; // Authoritative movement is advanced by the fixed-step runtime.
             flagshipStart = flagship.transform.position;
             var quality = FindFirstObjectByType<QualityProfileController>(FindObjectsInactive.Include);
             crowd = GetComponent<Level01TrialCrowdPresenter>();
@@ -196,6 +201,14 @@ namespace SeaLion.Presentation.Levels
         {
             if (audioDirector != null) audioDirector.Bind(session.Events);
             haptics?.Bind(session.Events);
+            var saved = new SeaLion.Core.Persistence.LocalSaveRepository(System.IO.Path.Combine(
+                Application.persistentDataPath, runtime.SaveFileName)).Load();
+            if (saved.Succeeded && saved.Data != null)
+            {
+                var settings = saved.Data.settings;
+                audioDirector?.ApplyPreferences(settings.musicVolume, settings.effectsVolume);
+                if (haptics != null) haptics.EnabledBySetting = settings.haptics;
+            }
         }
 
         private void ApplyState()

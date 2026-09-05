@@ -1,13 +1,16 @@
 # Level 01 Full-Scene Reference Manifest
 
-These five images define the chronological Level 01 composition targets. They are full-scene
-references only. Do not convert them to 3D and do not treat them as isolated asset references.
+These five images describe the chronological Level 01 visual references. The opening,
+traversal, and landing images are execution references. Boss battle and victory are
+poster/key art only, as classified in `LEVEL01_ASSET_REUSE_LOCK.md`; they do not prescribe
+camera, placement, direction, or scale. Do not convert full-scene references to 3D or treat
+them as isolated asset references.
 
-1. `01_Opening.png` — opening approach; multiplier gate forbidden.
-2. `02_GateRescue.png` — traversal, multiplier gate, and captive rescue.
-3. `03_BeachLanding.png` — beach landing transition; multiplier gate forbidden.
-4. `04_BossBattle.png` — Harbor Guardian encounter.
-5. `05_VictoryReward.png` — victory and blueprint reward; multiplier gate forbidden.
+1. `REF_Level01_Opening.png` — execution reference; multiplier gate forbidden.
+2. `REF_Level01_Traversal_GateRescue.png` — execution reference; gate and rescue.
+3. `REF_Level01_BeachLanding.png` — execution reference; multiplier gate forbidden.
+4. `REF_Level01_BossBattle.png` — poster/key art for the Harbor Guardian encounter.
+5. `REF_Level01_VictoryReward.png` — poster/key art for victory and blueprint reward.
 
 ## Production rules
 

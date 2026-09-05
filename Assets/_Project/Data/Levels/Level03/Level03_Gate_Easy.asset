@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Name: Gate03_Easy
+  m_Script: {fileID: 11500000, guid: 20a09863b1a91406c9b68d9758855cff, type: 3}
+  id: {value: level03-gate-easy}
+  outcome: 0
+  value: 4
+  conversionId: {value: }
+  eligibleForce: 0
+  movementProfile: 0
+  commitmentLine: 0.44
+  visualStyle: 0
+  feedbackProfileId: {value: feedback-gate-breeze}

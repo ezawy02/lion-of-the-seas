@@ -6,6 +6,22 @@ namespace SeaLion.Tests.EditMode.Combat
 {
     public sealed class OrdinaryCombatSystemTests
     {
+        [Test] public void VolleyDistributesOnlyAvailableDamageAndSkipsDeadTargets()
+        {
+            var units = new[] {
+                new CombatUnit(CombatTeam.Friendly, float3.zero, 10, 1, 10, 1),
+                new CombatUnit(CombatTeam.Hostile, new float3(1, 0, 0), 5, 1, 10, 1),
+                new CombatUnit(CombatTeam.Hostile, new float3(2, 0, 0), 5, 1, 10, 1) };
+            var system = new OrdinaryCombatSystem();
+            Assert.That(system.ApplyPlayerVolley(units, 7, CombatTeam.Hostile, out var applied), Is.EqualTo(1));
+            Assert.That(applied, Is.EqualTo(7));
+            Assert.That(units[1].Dead, Is.True);
+            Assert.That(units[2].Health, Is.EqualTo(3));
+            system.ApplyPlayerVolley(units, 100, CombatTeam.Hostile, out applied);
+            Assert.That(applied, Is.EqualTo(3));
+            Assert.That(units[0].Health, Is.EqualTo(10));
+        }
+
         [Test] public void ChoosesLowestIndexAndAppliesQueuedDamage()
         {
             var units = new[] { new CombatUnit(CombatTeam.Friendly, float3.zero, 10, 3, 5, 1), new CombatUnit(CombatTeam.Hostile, new float3(2, 0, 0), 5, 1, 5, 1), new CombatUnit(CombatTeam.Hostile, new float3(-2, 0, 0), 5, 1, 5, 1) };

@@ -81,7 +81,7 @@ namespace SeaLion.Presentation.Levels
             var friendlyCount = Level01CrowdPresentationBudget.FriendlyVisibleCount(
                 runtime.DisplayedForceCount, runtime.DisplayCap, friendly.BaseMatrices.Length, scale);
             var hostileCount = Level01CrowdPresentationBudget.HostileVisibleCount(
-                runtime.HostileRemaining, runtime.InitialHostileCombatants, hostile.BaseMatrices.Length, scale);
+                runtime.HostileRemaining, runtime.InitialHostileCombatants, runtime.InitialHostileCombatants, scale);
             if (friendly.VisibleCount > 0 && friendlyCount < friendly.VisibleCount) friendlyPulse = .42f;
             if (hostile.VisibleCount > 0 && hostileCount < hostile.VisibleCount) hostilePulse = .42f;
             friendly.VisibleCount = friendlyCount;
@@ -148,13 +148,23 @@ namespace SeaLion.Presentation.Levels
                 matrices[index] = renderers[index].localToWorldMatrix;
                 renderers[index].enabled = false;
             }
+            var expanded = new Matrix4x4[Mathf.Max(500, matrices.Length)];
+            for (var index = 0; index < expanded.Length; index++)
+            {
+                var matrix = matrices[index % matrices.Length];
+                var row = index / matrices.Length;
+                var position = (Vector3)matrix.GetColumn(3);
+                position.z -= row * .7f;
+                matrix.SetColumn(3, new Vector4(position.x, position.y, position.z, 1f));
+                expanded[index] = matrix;
+            }
             return new CrowdBatch
             {
                 Mesh = mesh,
                 Material = material,
                 Sources = sources,
-                BaseMatrices = matrices,
-                DrawMatrices = new Matrix4x4[renderers.Count],
+                BaseMatrices = expanded,
+                DrawMatrices = new Matrix4x4[expanded.Length],
                 Layer = renderers[0].gameObject.layer
             };
         }

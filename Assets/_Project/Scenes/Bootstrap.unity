@@ -26,7 +26,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_Script: {fileID: 11500000, guid: b7a5c3d1e9f24680a1b2c3d4e5f60718, type: 3}
   frontendScene: Frontend
-  directLevelScene:
+  directLevelScene: Level_01_Playable_Trial
   qualityController: {fileID: 1003}
 --- !u!114 &1003
 MonoBehaviour:

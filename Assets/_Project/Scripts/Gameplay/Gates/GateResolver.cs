@@ -46,7 +46,7 @@ namespace SeaLion.Gameplay.Gates
         {
             Validate(gateId, outcome, value, conversionId, before, memberId);
             var key = gateId.Value + "\n" + memberId.Value;
-            if (!processed.Add(key)) return Result(before, before, 0, 0, conversionId, false);
+            if (processed.Contains(key)) return Result(before, before, 0, 0, conversionId, false);
 
             var converted = 0;
             var remainder = 0;
@@ -67,6 +67,7 @@ namespace SeaLion.Gameplay.Gates
                 }
             }
 
+            processed.Add(key);
             var result = Result(before, after, converted, remainder, conversionId, true);
             Publish(gateId, outcome, value, result);
             return result;

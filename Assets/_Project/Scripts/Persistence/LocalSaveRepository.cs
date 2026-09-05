@@ -124,15 +124,20 @@ namespace SeaLion.Core.Persistence
 
             string failure;
             PlayerSaveData data;
-            if (!TryRead(path, out data, out failure))
+            if (!TryReadValidated(path, out data, out failure))
             {
-                if (!TryRead(backupPath, out data, out failure))
-                    return SaveLoadResult.FailureWithDefault("Save recovery failed: " + failure);
+                var primaryFailure = failure;
+                if (!TryReadValidated(backupPath, out data, out failure))
+                    return SaveLoadResult.FailureWithDefault("Save recovery failed: " + primaryFailure + "; " + failure);
             }
 
-            if (!TryMigrate(data, out data, out failure) || !Validate(data, out failure))
-                return SaveLoadResult.FailureWithDefault("Save migration/validation failed: " + failure);
             return SaveLoadResult.Success(data);
+        }
+
+        private bool TryReadValidated(string candidate, out PlayerSaveData data, out string failure)
+        {
+            return TryRead(candidate, out data, out failure) &&
+                TryMigrate(data, out data, out failure) && Validate(data, out failure);
         }
 
         public bool Save(PlayerSaveData data, out string failure)

@@ -56,6 +56,30 @@ namespace SeaLion.Combat
             return best;
         }
 
+        /// <summary>Distributes one player volley over live targets in stable nearest-first order.</summary>
+        public int ApplyPlayerVolley(CombatUnit[] units, float amount, CombatTeam targetTeam, out float applied)
+        {
+            applied = 0f;
+            if (units == null || !Finite(amount) || amount <= 0f) return -1;
+            var first = -1;
+            while (amount > .0001f)
+            {
+                var best = -1; var distance = float.MaxValue;
+                for (var i = 0; i < units.Length; i++)
+                {
+                    if (units[i].Dead || units[i].Team != targetTeam || units[i].Health <= 0f) continue;
+                    var candidate = math.lengthsq(units[i].Position);
+                    if (candidate < distance) { distance = candidate; best = i; }
+                }
+                if (best < 0) break;
+                if (first < 0) first = best;
+                var hit = Math.Min(amount, units[best].Health);
+                Apply(units, (0, best, hit));
+                amount -= hit; applied += hit;
+            }
+            return first;
+        }
+
         public void StepHostileAttacks(CombatUnit[] units, float deltaTime)
         {
             StepFiltered(units, deltaTime, CombatTeam.Hostile);

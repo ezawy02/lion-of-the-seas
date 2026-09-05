@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fec1d1360664fd189fb21e4f039654, type: 3}
+  m_Name: Level02Blueprint
+  m_EditorClassIdentifier: SeaLion.Core::SeaLion.Core.Definitions.RewardDefinition
+  id:
+    value: reward-level02-loadout-blueprint
+  grantType: 0
+  grantTargetId:
+    value: flagship-lateen-raider
+  amount: 1
+  firstCompletionOnly: 1
+  iconId:
+    value: icon-blueprint-sailmakers
+  revealId:
+    value: reveal-blueprint-sailmakers
+  audioId:
+    value: audio-reward-sailmakers
+  descriptionId:
+    value: reward-level02-sailmakers-description

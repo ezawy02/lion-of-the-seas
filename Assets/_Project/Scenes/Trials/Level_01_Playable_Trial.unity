@@ -127,6 +127,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 700511520}
   - component: {fileID: 700511510}
   - component: {fileID: 700511509}
   - component: {fileID: 700511508}
@@ -209,7 +210,8 @@ MonoBehaviour:
   rewardDefinition: {fileID: 11400000, guid: 606a719397458447ea8dde0a876c1846, type: 2}
   saveFileName: player-save.json
   initialForce: 8
-  displayCap: 120
+  levelDefinition: {fileID: 11400000, guid: 03260a5dd1f844b1da66df45c19e4832, type: 2}
+  displayCap: 300
   guardianHealth: 140
 --- !u!114 &700511509
 MonoBehaviour:
@@ -323,3 +325,17 @@ SceneRoots:
   m_Roots:
   - {fileID: 700511510}
   - {fileID: 718675067}
+
+--- !u!114 &700511520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700511504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fdfd2cf24d54865bd9252d026ea3d3c, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  loadoutPrefab: {fileID: 4449716020737078136, guid: e1da0c38771374e60bf1412841b5faa8, type: 3}

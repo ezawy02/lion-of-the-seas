@@ -45,6 +45,7 @@ namespace SeaLion.Core.Loadout
         public bool TrySelect(LoadoutSlot slot, StableId optionId, out string failure)
         {
             failure = string.Empty;
+            if (!Refresh()) { failure = "Could not refresh loadout state."; return false; }
             if (!IsValidOption(slot, optionId))
             {
                 failure = "The selected loadout option is not defined for this slot.";
@@ -66,6 +67,7 @@ namespace SeaLion.Core.Loadout
         public bool TrySetLoadout(LoadoutSnapshot snapshot, out string failure)
         {
             failure = string.Empty;
+            if (!Refresh()) { failure = "Could not refresh loadout state."; return false; }
             if (!IsOwnedOption(LoadoutSlot.Flagship, snapshot.FlagshipId) ||
                 !IsOwnedOption(LoadoutSlot.Crew, snapshot.CrewRoleId) ||
                 !IsOwnedOption(LoadoutSlot.CaptainAbility, snapshot.CaptainAbilityId))

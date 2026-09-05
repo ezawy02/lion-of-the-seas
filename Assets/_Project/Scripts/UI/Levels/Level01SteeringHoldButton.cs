@@ -25,7 +25,7 @@ namespace SeaLion.UI.Levels
         {
             pressed = true;
             input?.SetUiIntent(direction);
-            flagship?.Nudge(direction * 0.3f);
+
         }
 
         public void OnPointerUp(PointerEventData eventData) => Release();

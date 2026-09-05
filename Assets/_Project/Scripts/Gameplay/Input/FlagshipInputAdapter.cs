@@ -57,7 +57,8 @@ namespace SeaLion.Gameplay.Input
             if (released)
             {
                 dragging = false;
-                releasedIntentHold = 0.12f;
+                HorizontalIntent = 0f;
+                releasedIntentHold = 0f;
             }
         }
 

@@ -20,6 +20,14 @@ namespace SeaLion.Core.Bootstrap
         public bool IsCompleting => completing;
         public string TargetScene => targetScene ?? string.Empty;
 
+        private void Awake() { UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded; }
+        private void OnDestroy() { UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded; }
+        private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+        {
+            if (mode == UnityEngine.SceneManagement.LoadSceneMode.Single && scene.name.EndsWith("_Playable_Trial"))
+                Begin(scene.name);
+        }
+
         public void Begin(string sceneName)
         {
             targetScene = sceneName ?? string.Empty;
@@ -40,6 +48,8 @@ namespace SeaLion.Core.Bootstrap
             {
                 var presenter = FindFirstObjectByType<Level01TrialScenePresenter>(FindObjectsInactive.Include);
                 if (presenter != null && presenter.IsReady) MarkReady();
+                var campaign = FindFirstObjectByType<CampaignScenePresenter>(FindObjectsInactive.Include);
+                if (campaign != null && campaign.IsReady) MarkReady();
             }
             if (!completing) return;
             alpha = Mathf.MoveTowards(alpha, 0f, Time.unscaledDeltaTime * 2.5f);

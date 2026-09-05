@@ -16,12 +16,14 @@ Read in this order:
 7. `specs/001-vertical-slice/contracts/delivery-quality-contract.md`
 8. `specs/001-vertical-slice/tasks.md`
 
-## 2. Install the missing engine locally
+## 2. Match the pinned tools when editor work is available
 
-The workstation currently has Blender 5.1.1 but no Unity Editor installation.
+The project pins Unity `6000.3.22f1`; machine installations can differ. During the current
+source remediation, do not start Unity or Blender. Use the editor-free checks in README
+and see `source-remediation.md` for the unverified import/playthrough/art gates.
 
-- Install Unity Hub.
-- Install the latest patched Unity 6.3 LTS editor.
+- When editor work is authorized, use Unity Hub as needed.
+- Use Unity `6000.3.22f1`, matching `ProjectSettings/ProjectVersion.txt`.
 - Include Android Build Support, Android SDK & NDK Tools, and OpenJDK.
 - Do not add cloud services or sign the app during the vertical-slice bootstrap.
 - Record the exact editor revision in `ProjectSettings/ProjectVersion.txt` after creation.

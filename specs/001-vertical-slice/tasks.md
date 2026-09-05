@@ -322,3 +322,13 @@ Art Lock / Performance / Release
 - US4: 9 tasks
 - Final quality and release: 43 tasks
 - **Total: 134 tasks**
+
+## Current source remediation — 2026-09-05
+
+See [source-remediation.md](source-remediation.md) for the changes against the current
+requirements. Historical checkmarks above describe earlier work and do not certify this
+revision. All 12 assembly boundaries and aggregate authored C# compile against the available
+6000.3.20f1 references; 29 managed domain checks pass. Scene-link and source-size checks pass.
+The new campaign and Level 1 journey regressions are authored and compiled but not executed
+in Unity. T047, T050, T051, T100, T101, T132, T133 and store-capture acceptance remain open.
+No art or release approval is inferred from source checks.

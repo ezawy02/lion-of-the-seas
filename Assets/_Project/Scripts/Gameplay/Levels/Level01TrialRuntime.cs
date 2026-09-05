@@ -39,8 +39,9 @@ namespace SeaLion.Gameplay.Levels
     public sealed partial class Level01TrialRuntime : MonoBehaviour
     {
         private const int LandingCraftCount = 6;
-        private const int FriendlyCombatants = 8;
-        private const int HostileCombatants = 8;
+        private int FriendlyCombatants = 8;
+        private int HostileCombatants => levelDefinition != null ? levelDefinition.EnemyCount : 8;
+        [SerializeField] private LevelDefinition levelDefinition;
         [Header("Definitions")]
         [SerializeField] private FlagshipDefinition[] flagships = Array.Empty<FlagshipDefinition>();
         [SerializeField] private UnitRoleDefinition[] crewRoles = Array.Empty<UnitRoleDefinition>();
@@ -54,7 +55,7 @@ namespace SeaLion.Gameplay.Levels
         [Header("Trial tuning")]
         [SerializeField] private string saveFileName = LocalSaveRepository.DefaultFileName;
         [SerializeField, Min(1)] private int initialForce = 8;
-        [SerializeField, Min(1)] private int displayCap = 120;
+        [SerializeField, Min(1)] private int displayCap = 300;
         [SerializeField, Min(10f)] private float guardianHealth = 140f;
         private readonly List<LandingToken> landingTokens = new List<LandingToken>(LandingCraftCount);
         private LandingCraftDeployer deployer;
@@ -72,8 +73,6 @@ namespace SeaLion.Gameplay.Levels
         private CombatUnit[] combatants;
         private int hostileRemaining;
         private int landingIndex;
-        private int landingContribution;
-        private int landingRemainder;
         private int lossPerFriendly;
         private float phaseElapsed;
         private float totalElapsed;
@@ -111,7 +110,7 @@ namespace SeaLion.Gameplay.Levels
         public GateDefinition EasyGate => easyGate;
         public GateDefinition RiskyGate => riskyGate;
         public float LandingProgress01 => Phase != Level01TrialPhase.Landing ? 0f :
-            Mathf.Clamp01((float)landingIndex / Mathf.Max(1, LandingCraftCount));
+            Mathf.Clamp01((float)landingIndex / Mathf.Max(1, fleet.Count));
         public bool IsRunning => started && Phase != Level01TrialPhase.Victory && Phase != Level01TrialPhase.Failure;
         public FlagshipDefinition ActiveFlagship => loadout == null ? null : FindFlagship(session.SelectedLoadout.FlagshipId);
 
@@ -149,9 +148,23 @@ namespace SeaLion.Gameplay.Levels
                 LocalSaveRepository.DefaultFileName : localSaveFileName;
         }
 
+        public void ConfigureLevel(LevelDefinition definition) { levelDefinition = definition; }
+        public LevelDefinition Level => levelDefinition;
+        public IReadOnlyList<FlagshipDefinition> Flagships => flagships;
+        public IReadOnlyList<UnitRoleDefinition> CrewRoles => crewRoles;
+        public IReadOnlyList<CaptainAbilityDefinition> CaptainAbilities => captainAbilities;
+        public string SaveFileName => saveFileName;
+        public CaptainAbilityDefinition ActiveAbility => loadout?.Ability.Definition;
+
         public bool Begin()
         {
             if (started || !DefinitionsReady()) return false;
+            if (levelDefinition != null)
+            {
+                initialForce = levelDefinition.InitialForce;
+                displayCap = levelDefinition.DisplayCap;
+                guardianHealth = levelDefinition.BossHealth;
+            }
             if (deployer == null || landing == null) Awake();
             repository = new LocalSaveRepository(Path.Combine(Application.persistentDataPath, saveFileName));
             rewardService = new RewardGrantService(repository);
@@ -161,10 +174,26 @@ namespace SeaLion.Gameplay.Levels
             started = BeginAttempt(session);
             return started;
         }
+        private double pendingSeconds;
+        private readonly SeaLion.Core.Simulation.FixedStepClock clock = new SeaLion.Core.Simulation.FixedStepClock();
+        public long SimulationTick => clock.Tick;
         public void Step(float deltaSeconds)
         {
-            if (!IsRunning || !Finite(deltaSeconds) || deltaSeconds <= 0f) return;
-            var step = Mathf.Min(deltaSeconds, 0.1f);
+            if (!IsRunning || paused || !Finite(deltaSeconds) || deltaSeconds <= 0f) return;
+            pendingSeconds += deltaSeconds;
+            while (pendingSeconds + 1e-9 >= clock.FixedDeltaSeconds && IsRunning && !paused)
+            {
+                pendingSeconds -= clock.FixedDeltaSeconds;
+                clock.AdvanceTicks(1);
+                Simulate((float)clock.FixedDeltaSeconds);
+            }
+            StateChanged?.Invoke();
+        }
+
+        private void Simulate(float step)
+        {
+            if (Phase == Level01TrialPhase.Traversal || Phase == Level01TrialPhase.Assault)
+                horizontalChoice = Mathf.Clamp(horizontalChoice + steeringIntent * step * 1.4f, -1f, 1f);
             phaseElapsed += step;
             totalElapsed += step;
             session.TryAdvance(step);
@@ -174,7 +203,7 @@ namespace SeaLion.Gameplay.Levels
             switch (Phase)
             {
                 case Level01TrialPhase.Opening:
-                    if (phaseElapsed >= 3f) SetPhase(Level01TrialPhase.Traversal);
+                    if (phaseElapsed >= (levelDefinition != null ? levelDefinition.OpeningThreatRevealSeconds : 2f)) SetPhase(Level01TrialPhase.Traversal);
                     break;
                 case Level01TrialPhase.Traversal:
                     StepTraversal(step);
@@ -189,6 +218,15 @@ namespace SeaLion.Gameplay.Levels
             StateChanged?.Invoke();
         }
 
+        private float steeringIntent;
+        public void SetSteeringIntent(float intent, bool engaged)
+        {
+            steeringIntent = Finite(intent) ? Mathf.Clamp(intent, -1f, 1f) : 0f;
+            if (engaged && Mathf.Abs(steeringIntent) > .01f && Phase == Level01TrialPhase.Traversal)
+                traversalPlayerSteered = true;
+        }
+        private void OnApplicationPause(bool value) { SetPaused(value); steeringIntent = 0f; }
+        private void OnApplicationFocus(bool value) { if (!value) steeringIntent = 0f; }
         public void SetHorizontalChoice(float value)
         {
             if (Finite(value)) horizontalChoice = Mathf.Clamp(value, -1f, 1f);
@@ -196,7 +234,7 @@ namespace SeaLion.Gameplay.Levels
 
         public AbilityActivationResult TryActivateAbility()
         {
-            if (!IsRunning || loadout == null) return AbilityActivationResult.Rejected;
+            if (!IsRunning || paused || loadout == null || (Phase != Level01TrialPhase.Traversal && Phase != Level01TrialPhase.Assault)) return AbilityActivationResult.Rejected;
             var result = loadout.TryActivateAbility();
             if (result != AbilityActivationResult.Activated) return result;
             var effect = loadout.Ability.Definition.GameplayEffect;
@@ -206,7 +244,8 @@ namespace SeaLion.Gameplay.Levels
             else if (effect.Outcome == GateOutcome.Multiply && target != null)
                 ChangeForce(target, Mathf.Max(0, Mathf.RoundToInt(target.LogicalCount * effect.Value)));
             else if (effect.Outcome == GateOutcome.Damage && guardian != null)
-                guardian.ApplyDamage(Mathf.Max(0f, effect.Value), Mathf.RoundToInt(totalElapsed * 10f));
+                ApplyBossDamage(Mathf.Max(0f, effect.Value));
+            if (target == seaForce && Phase == Level01TrialPhase.Traversal) ReconcileFleetCount();
             StateChanged?.Invoke();
             return result;
         }
@@ -216,7 +255,9 @@ namespace SeaLion.Gameplay.Levels
             if (!CanRetry || !results.TryRetry(out var next)) return false;
             ClearAttempt();
             session = next;
-            return BeginAttempt(session);
+            var began = BeginAttempt(session);
+            if (began) SetPhase(Level01TrialPhase.Traversal);
+            return began;
         }
 
         public void SetPaused(bool value)
@@ -231,10 +272,17 @@ namespace SeaLion.Gameplay.Levels
             RewardResult = null;
             FailureReason = string.Empty;
             gateCommitted = rescueApplied = false;
+            LastGateBefore = LastGateAfter = 0;
             ChoseEasyGate = true;
             totalElapsed = horizontalChoice = 0f;
+            pendingSeconds = 0d;
+            clock.Reset();
+            paused = false;
+            steeringIntent = 0f;
             hostileRemaining = 0;
             ResetPlayerInteraction();
+            ResetCampaign();
+            ResetVoyage();
             seaForce = new ForceRuntime(initialForce, displayCap);
             landForce = new ForceRuntime(0, displayCap);
             gateResolver = new GateResolver(displayCap, attempt);
@@ -248,112 +296,25 @@ namespace SeaLion.Gameplay.Levels
             return true;
         }
 
-        private void CommitGate(GateDefinition gate)
-        {
-            var before = seaForce.LogicalCount;
-            var result = gateResolver.Resolve(gate, before, new StableId("trial-fleet"));
-            if (!result.Applied) return;
-            ChoseEasyGate = gate == easyGate;
-            gateCommitted = true;
-            LastGateBefore = before;
-            LastGateAfter = result.After;
-            seaForce.SetLogicalCount(result.After);
-            loadout.ReportGateResolved();
-        }
-
-        private void ApplyRescue()
-        {
-            rescueApplied = true;
-            ChangeForce(seaForce, checked(seaForce.LogicalCount + rescue.SurvivorCount));
-        }
-
         private void BeginLanding()
         {
-            landingTokens.Clear();
-            for (var index = 0; index < LandingCraftCount; index++) landingTokens.Add(new LandingToken());
             landingIndex = 0;
-            landingContribution = seaForce.LogicalCount / LandingCraftCount;
-            landingRemainder = seaForce.LogicalCount % LandingCraftCount;
-            landing.Configure(session, landForce, new StableId("level01-beach"), LandingCraftCount);
+            landing.Configure(session, landForce, new StableId("level01-beach"), fleet.Count);
         }
 
         private void StepLanding()
         {
-            while (landingIndex < LandingCraftCount && phaseElapsed >= 0.8f + landingIndex * 1.15f)
-            {
-                var contribution = landingContribution + (landingIndex < landingRemainder ? 1 : 0);
-                landing.TryAccept(landingTokens[landingIndex], landingIndex, contribution, contribution > 0);
-                landingIndex++;
-            }
-            if (phaseElapsed < 9f) return;
+            while (landingIndex < fleet.Count && phaseElapsed >=
+                LandingDuration * (landingIndex + 1) / Mathf.Max(1, fleet.Count)) TransferNextCraft();
+            if (landingIndex < fleet.Count) return;
             landing.Complete();
             SetPhase(Level01TrialPhase.Assault);
         }
 
-        private void BeginAssault()
-        {
-            guardian = new HarborGuardianController(guardianDefinition.Id, guardianHealth,
-                guardianDefinition.Phases, guardianDefinition.Attacks,
-                guardianDefinition.FailurePressure, 1f);
-            guardian.Event += HandleGuardianEvent;
-            guardian.Enter();
-            combat = new OrdinaryCombatSystem();
-            combat.Death += HandleCombatDeath;
-            BuildCombatants();
-            hostileRemaining = HostileCombatants;
-            lossPerFriendly = Mathf.Max(1, landForce.LogicalCount / 32);
-            combatAccumulator = guardianAttackAccumulator = 0f;
-        }
-
-        private void StepAssault(float step)
-        {
-            combatAccumulator += step;
-            while (combatAccumulator >= 0.25f && hostileRemaining > 0)
-            {
-                combatAccumulator -= 0.25f;
-                combat.StepHostileAttacks(combatants, 0.25f);
-            }
-
-            guardianAttackAccumulator += step;
-            if (guardianAttackAccumulator >= 6f && guardian.State == HarborGuardianState.Active)
-            {
-                guardianAttackAccumulator -= 6f;
-                var attack = FirstAttack();
-                guardian.TryFireAttack(attack, Mathf.RoundToInt(totalElapsed * 10f));
-                var baseLoss = Mathf.Max(3, Mathf.CeilToInt(landForce.LogicalCount * 0.12f));
-                var loss = ComputeGuardianLoss(baseLoss);
-                ChangeForce(landForce, Mathf.Max(0, landForce.LogicalCount - loss));
-                guardian.NotifyForceRemaining(landForce.LogicalCount, Mathf.RoundToInt(totalElapsed * 10f));
-            }
-            if (AssaultTimedOut(phaseElapsed) && Phase == Level01TrialPhase.Assault)
-                Finish(false, "guardian-timeout");
-        }
-
-        private void BuildCombatants()
-        {
-            combatants = new CombatUnit[FriendlyCombatants + HostileCombatants];
-            for (var index = 0; index < FriendlyCombatants; index++)
-            {
-                var unit = new CombatUnit(CombatTeam.Friendly, new float3(index % 4, 0f, index / 4),
-                    6f, 2f, 12f, 0.75f);
-                combatants[index] = loadout.ApplyCrewTo(unit);
-            }
-            for (var index = 0; index < HostileCombatants; index++)
-                combatants[FriendlyCombatants + index] = new CombatUnit(CombatTeam.Hostile,
-                    new float3(index % 4, 0f, 1f + index / 4), 5f, 1.1f, 12f, 1.15f);
-        }
-
-        private void HandleCombatDeath(CombatDeath death)
-        {
-            if (death.Unit < FriendlyCombatants)
-                ChangeForce(landForce, Mathf.Max(0, landForce.LogicalCount - lossPerFriendly));
-            else
-                hostileRemaining = Mathf.Max(0, hostileRemaining - 1);
-        }
-
         private void HandleDeployment(LandingCraftDeployment deployment)
         {
-            ChangeForce(seaForce, checked(seaForce.LogicalCount + deployment.Contribution));
+            AddCraft(deployment.Contribution);
+            SyncSeaForce();
         }
 
         private void HandleGuardianEvent(HarborGuardianEvent item)
@@ -365,7 +326,7 @@ namespace SeaLion.Gameplay.Levels
                         Allegiance.Hostile, Mathf.RoundToInt(item.Before), Mathf.RoundToInt(item.After),
                         item.Phase, default, default));
             else if (item.Type == HarborGuardianEventType.Victory)
-                Finish(true, "guardian-defeated");
+            { if (!AdvanceAssaultStage()) Finish(true, "guardian-defeated"); }
             else if (item.Type == HarborGuardianEventType.Failure)
                 Finish(false, "force-depleted");
         }
@@ -377,7 +338,7 @@ namespace SeaLion.Gameplay.Levels
             if (!session.End(victory, reason)) return;
             var reward = default(RewardGrantResult);
             if (victory) rewardService.TryGrant(session, rewardDefinition, out reward);
-            if (victory) RewardResult = reward;
+            if (victory) { RewardResult = reward; SaveCampaignProgress(); }
             if (victory && !reward.Succeeded) FailureReason = reward.Failure;
             if (!victory) FailureReason = reason;
             SetPhase(victory ? Level01TrialPhase.Victory : Level01TrialPhase.Failure);
@@ -387,6 +348,9 @@ namespace SeaLion.Gameplay.Levels
             if (target == null || next == target.LogicalCount) return;
             var before = target.LogicalCount;
             target.SetLogicalCount(next);
+            if (target == landForce && loadout != null)
+                target.SetRoleCounts(new[] { new KeyValuePair<UnitRole, int>(loadout.Crew.Role, next) });
+
             session.TryPublishGameplayEvent(BattleEventType.ForceChanged,
                 new BattleEventPayload(session.SessionId, new StableId("trial-fleet"), default,
                     Allegiance.Friendly, before, next, next - before, default, default));
@@ -398,20 +362,20 @@ namespace SeaLion.Gameplay.Levels
             deployer.SetPaused(paused || next != Level01TrialPhase.Traversal);
             if (next == Level01TrialPhase.Landing)
             {
-                session.TrySetPhase(new StableId("level01-landing"));
+                session.TrySetPhase(PhaseId("landing"));
                 session.TryTransition(BattleState.Landing);
                 BeginLanding();
             }
             else if (next == Level01TrialPhase.Assault)
             {
-                session.TrySetPhase(new StableId("level01-assault"));
+                session.TrySetPhase(PhaseId("assault"));
                 session.TryTransition(BattleState.Assault);
                 BeginAssault();
             }
             else if (next == Level01TrialPhase.Traversal)
-                session.TrySetPhase(new StableId("level01-traversal"));
+                session.TrySetPhase(PhaseId("traversal"));
             else if (next == Level01TrialPhase.Opening)
-                session.TrySetPhase(new StableId("level01-opening"));
+                session.TrySetPhase(PhaseId("opening"));
             PhaseChanged?.Invoke(next);
             StateChanged?.Invoke();
         }
@@ -422,8 +386,8 @@ namespace SeaLion.Gameplay.Levels
             var data = loaded.Data ?? LocalSaveRepository.CreateDefault();
             var snapshot = data.selectedLoadout.ToSnapshot();
             if (!HasDefinitions(snapshot)) snapshot = DefaultSnapshot();
-            return new BattleSession(new StableId("level-01-hundred-sails"),
-                new StableId("level01-opening"), snapshot);
+            return new BattleSession(levelDefinition != null ? levelDefinition.Id : new StableId("level-01-hundred-sails"),
+                PhaseId("opening"), snapshot);
         }
 
         private bool TryCreateLoadout(BattleSession attempt, out BattleLoadoutRuntime value)
@@ -472,11 +436,12 @@ namespace SeaLion.Gameplay.Levels
 
         private void ClearAttempt()
         {
-            deployer.Deployed -= HandleDeployment;
+            if (deployer != null) deployer.Deployed -= HandleDeployment;
             if (guardian != null) guardian.Event -= HandleGuardianEvent;
             if (combat != null) combat.Death -= HandleCombatDeath;
-            deployer.Dispose();
+            deployer?.Dispose();
             landingTokens.Clear();
+            fleet.Clear();
             guardian = null;
             combat = null;
             combatants = null;

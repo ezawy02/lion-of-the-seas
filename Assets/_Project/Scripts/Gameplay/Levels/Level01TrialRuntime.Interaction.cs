@@ -6,14 +6,13 @@ namespace SeaLion.Gameplay.Levels
 {
     public sealed partial class Level01TrialRuntime
     {
-        private const float GateChoiceThreshold = 0.18f;
-        private const float GateCommitTime = 4f;
-        private const float RescueTime = 7f;
-        private const float LandingTime = 10f;
-        private const float PrimaryAttackCooldownSeconds = 0.55f;
-        private const float OrdinaryTargetDamage = 5f;
-        private const float GuardianTargetDamage = 18f;
-        private const float AssaultTimeLimit = 55f;
+        private float PrimaryAttackCooldownSeconds => (levelDefinition != null ? levelDefinition.PrimaryCooldown : .55f) * (loadout != null ? Mathf.Max(.1f, loadout.Crew.CadenceMultiplier) : 1f);
+        private float OrdinaryTargetDamage => (levelDefinition != null ? levelDefinition.OrdinaryDamage : 5f) * ArmyDamageScale;
+        private float GuardianTargetDamage => (levelDefinition != null ? levelDefinition.GuardianDamage : 18f) * ArmyDamageScale;
+        private float AssaultTimeLimit => levelDefinition != null ? levelDefinition.AssaultTimeLimit : 55f;
+        public float ArmyDamageScale => Mathf.Max(0f, ForceCount) /
+            (levelDefinition != null ? levelDefinition.ReferenceForce : 32f) *
+            (loadout != null ? loadout.Crew.DamageMultiplier : 1f);
 
         private bool traversalPlayerSteered;
         private float traversalActiveElapsed;
@@ -23,10 +22,10 @@ namespace SeaLion.Gameplay.Levels
 
         public bool TraversalPlayerSteered => traversalPlayerSteered;
         public float TraversalActiveElapsed => traversalActiveElapsed;
-        public bool CanPrimaryAttack => IsRunning && Phase == Level01TrialPhase.Assault &&
+        public bool CanPrimaryAttack => IsRunning && !paused && (Phase == Level01TrialPhase.Assault || BlockadeActive) &&
             primaryAttackCooldown <= 0f;
-        public bool CanAssistLanding => IsRunning && Phase == Level01TrialPhase.Landing &&
-            landingIndex < LandingCraftCount && primaryAttackCooldown <= 0f;
+        public bool CanAssistLanding => IsRunning && !paused && Phase == Level01TrialPhase.Landing &&
+            landingIndex < fleet.Count && primaryAttackCooldown <= 0f;
         public bool NeedsSteeringChoice => Phase == Level01TrialPhase.Traversal && !traversalPlayerSteered;
         public bool NeedsGateCommit => Phase == Level01TrialPhase.Traversal &&
             traversalPlayerSteered && !gateCommitted;
@@ -45,16 +44,25 @@ namespace SeaLion.Gameplay.Levels
         public Level01PrimaryAttackResult TryPrimaryAttack()
         {
             if (!CanPrimaryAttack) return Level01PrimaryAttackResult.Rejected;
+            if (FireAtBlockade(out var blockadeResult)) return blockadeResult;
+            if (ForceCount <= 0) return Level01PrimaryAttackResult.Rejected;
             primaryAttackCooldown = PrimaryAttackCooldownSeconds;
-            var target = hostileRemaining > 0 && combat != null
-                ? combat.ApplyPlayerDamage(combatants, OrdinaryTargetDamage, CombatTeam.Hostile)
-                : -1;
-            var hitGuardian = target < 0 && hostileRemaining <= 0 && guardian != null;
+            var hitGuardian = hostileRemaining <= 0 && guardian != null;
             var damage = hitGuardian ? GuardianTargetDamage : OrdinaryTargetDamage;
+            if (LevelNumber == 3 && powder > 0) { powder--; damage += PowderDamage; }
+            var applied = 0f;
+            var target = hitGuardian || combat == null ? -1 :
+                combat.ApplyPlayerVolley(combatants, damage, CombatTeam.Hostile, out applied);
             if (hitGuardian)
-                guardian.ApplyDamage(damage, Mathf.RoundToInt(totalElapsed * 10f));
+            {
+                var targetGuardian = guardian;
+                var before = targetGuardian.Health;
+                ApplyBossDamage(damage);
+                applied = before - targetGuardian.Health;
+            }
             var result = new Level01PrimaryAttackResult(true, target >= 0 || hitGuardian,
                 damage, target);
+            if (applied > 0f) loadout.ReportDamage(applied);
             PrimaryAttackFired?.Invoke(new Level01PrimaryAttackEvent(result));
             StateChanged?.Invoke();
             return result;
@@ -64,11 +72,8 @@ namespace SeaLion.Gameplay.Levels
         {
             if (!CanAssistLanding) return false;
             primaryAttackCooldown = PrimaryAttackCooldownSeconds;
-            var contribution = landingContribution + (landingIndex < landingRemainder ? 1 : 0);
-            if (landingIndex < landingTokens.Count)
-                landing.TryAccept(landingTokens[landingIndex], landingIndex, contribution, contribution > 0);
-            landingIndex++;
-            if (landingIndex >= LandingCraftCount)
+            TransferNextCraft();
+            if (landingIndex >= fleet.Count)
             {
                 landing.Complete();
                 SetPhase(Level01TrialPhase.Assault);
@@ -84,19 +89,7 @@ namespace SeaLion.Gameplay.Levels
             return Mathf.Max(1, reduced);
         }
 
-        private void StepTraversal(float step)
-        {
-            if (!traversalPlayerSteered) return;
-            traversalActiveElapsed += step;
-            deployer.Tick(step);
-            if (!gateCommitted && traversalActiveElapsed >= GateCommitTime &&
-                Mathf.Abs(horizontalChoice) >= GateChoiceThreshold)
-                CommitGate(horizontalChoice < 0f ? easyGate : riskyGate);
-            if (gateCommitted && !rescueApplied && traversalActiveElapsed >= RescueTime)
-                ApplyRescue();
-            if (gateCommitted && rescueApplied && traversalActiveElapsed >= LandingTime)
-                SetPhase(Level01TrialPhase.Landing);
-        }
+        private void StepTraversal(float step) => AdvanceVoyage(step);
 
         private void TickPlayerInteraction(float step)
         {
@@ -110,6 +103,6 @@ namespace SeaLion.Gameplay.Levels
             primaryAttackCooldown = 0f;
         }
 
-        private static bool AssaultTimedOut(float elapsed) => elapsed >= AssaultTimeLimit;
+        private bool AssaultTimedOut(float elapsed) => elapsed >= AssaultTimeLimit;
     }
 }

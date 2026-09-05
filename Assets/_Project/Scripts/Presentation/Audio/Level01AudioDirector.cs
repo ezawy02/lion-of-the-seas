@@ -47,6 +47,14 @@ namespace SeaLion.Presentation.Audio
         public int OneShotCapacity => oneShotCapacity;
         public Level01AudioCue? LastPlayedCue { get; private set; }
 
+        public void ApplyPreferences(float music, float effects)
+        {
+            musicVolume = Mathf.Clamp01(music);
+            effectsVolume = Mathf.Clamp01(effects);
+            ambienceVolume = effectsVolume;
+            SetSnapshot(CurrentSnapshot);
+        }
+
         public void Configure(Level01AudioLibrary value, bool autoStart)
         {
             library = value;

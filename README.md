@@ -5,10 +5,30 @@ building a fleet, choosing sea gates, landing an army, and breaking coastal stro
 
 ## Current status
 
-The repository contains the approved Spec Kit foundation for the first playable vertical
-slice. Unity implementation has not started yet. The first scope is three short sea-to-land
-levels, one small loadout, one reward flow, mobile quality benchmarks, and a truthful
-30-second store preview.
+The repository contains the Unity implementation and an active source remediation of the
+three-level vertical slice. `Bootstrap` now launches `Level_01_Playable_Trial`; victory
+unlocks the next encounter, and the result screen opens the existing three-slot loadout UI.
+Standalone playable shells for Chain Strait and Storm Fortress bind their existing art scenes.
+
+The current changes have source-level checks, not current Unity playthrough or visual approval.
+Asset import, all three uninterrupted journeys, exact-revision art approval, Android 300/500-agent
+performance evidence, and the store preview remain pending. See
+[the remediation record](specs/001-vertical-slice/source-remediation.md) for implemented behavior
+and verification limits. Task checkmarks from older revisions are not evidence for this revision.
+
+## Working without opening editors
+
+Use Git LFS when checking out binary assets. The project targets Unity `6000.3.22f1`.
+The following check invokes only the installed C# compiler and managed test runtime; it does
+not launch Unity or Blender, import assets, or touch another project:
+
+```sh
+python3 tools/check-csharp-without-editor.py --unity-resources /path/to/Unity.app/Contents/Resources --run-domain-tests
+bash tools/check-source-size.sh
+```
+
+The compiler check reports the assemblies it can verify from the provided installation.
+It is not a substitute for importing and testing with the pinned project version.
 
 ## Start here
 

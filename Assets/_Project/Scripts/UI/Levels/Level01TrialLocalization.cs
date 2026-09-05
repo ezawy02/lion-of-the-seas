@@ -53,6 +53,12 @@ namespace SeaLion.UI.Levels
             return language == GameLanguage.Arabic ? ArabicTextShaper.Shape(value) : value;
         }
 
+        public static string FormatCurrentForce(int count, GameLanguage language)
+        {
+            if (language == GameLanguage.English) return Get("force", language) + "  " + count;
+            return ArabicTextShaper.Shape(Get("force", language) + "  " + ArabicDigits(count));
+        }
+
         public static string FormatForce(int count, int cap, GameLanguage language)
         {
             if (language == GameLanguage.English) return Get("force", language) + "  " + count + " / " + cap;

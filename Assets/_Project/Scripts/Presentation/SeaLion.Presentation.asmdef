@@ -1,7 +1,7 @@
 {
   "name": "SeaLion.Presentation",
   "rootNamespace": "SeaLion.Presentation",
-  "references": ["SeaLion.Core", "SeaLion.Crowd", "SeaLion.Gameplay", "SeaLion.Combat", "Unity.Cinemachine", "Unity.InputSystem"],
+  "references": ["SeaLion.Core", "SeaLion.Crowd", "SeaLion.Gameplay", "SeaLion.Combat", "SeaLion.Persistence", "Unity.Cinemachine", "Unity.InputSystem"],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

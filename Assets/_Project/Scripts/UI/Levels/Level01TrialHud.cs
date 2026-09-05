@@ -10,7 +10,7 @@ namespace SeaLion.UI.Levels
 {
     /// <summary>Self-contained, safe-area portrait HUD for the direct Level 1 trial.</summary>
     [RequireComponent(typeof(Level01TrialRuntime))]
-    public sealed class Level01TrialHud : MonoBehaviour
+    public sealed partial class Level01TrialHud : MonoBehaviour
     {
         private static readonly Color Ink = new Color(0.025f, 0.09f, 0.12f, 0.94f);
         private static readonly Color Teal = new Color(0.04f, 0.46f, 0.48f, 0.96f);
@@ -98,6 +98,10 @@ namespace SeaLion.UI.Levels
             reward = Label(resultCard.transform, "Reward", new Vector2(0.5f, 0.47f), new Vector2(0.5f, 0.47f), new Vector2(-240f, -32f), new Vector2(240f, 32f), 18, TextAnchor.MiddleCenter, Color.white);
             retry = Button(resultCard.transform, "Retry", new Vector2(0.5f, 0.14f), new Vector2(0.5f, 0.14f), new Vector2(-145f, -26f), new Vector2(145f, 26f), "SAIL AGAIN", Retry);
             retryButton = retry.transform.parent.GetComponent<Button>();
+            loadoutLabel = Button(resultCard.transform, "Change Loadout", new Vector2(.5f, .30f),
+                new Vector2(.5f, .30f), new Vector2(-145f, -22f), new Vector2(145f, 22f),
+                "CHANGE LOADOUT", () => GetComponent<Level01LoadoutFlow>()?.Open());
+            BuildCampaignControls(resultCard.transform);
             ApplyLanguage();
             ApplySafeArea();
         }
@@ -107,19 +111,19 @@ namespace SeaLion.UI.Levels
             if (runtime == null || stage == null) return;
             stage.text = Local("stage");
             phase.text = runtime.CanRetry ? string.Empty : Local(PhaseKey(runtime.Phase));
-            force.text = Level01TrialLocalization.FormatForce(runtime.DisplayedForceCount,
-                runtime.DisplayCap, language);
+            force.text = Level01TrialLocalization.FormatCurrentForce(runtime.ForceCount, language);
             gate.text = BuildGateText();
             bossCard.SetActive(runtime.Phase == Level01TrialPhase.Assault);
             boss.text = Local("guardian");
             bossHealth.value = runtime.BossHealth01;
-            ability.text = Local("abilityShort");
+            ability.text = runtime.ActiveAbility != null && runtime.ActiveAbility.GameplayEffect.Outcome == SeaLion.Core.Definitions.GateOutcome.Damage
+                ? (language == GameLanguage.Arabic ? SeaLion.UI.Localization.ArabicTextShaper.Shape("القصف") : "BARRAGE") : Local("abilityShort");
             abilityCharge.fillAmount = runtime.AbilityCharge01;
             abilityState.text = Local(runtime.AbilityReady ? "ready" : "charging");
             abilityPercent.text = runtime.AbilityReady ? string.Empty :
                 Level01TrialLocalization.FormatPercent(runtime.AbilityCharge01, language);
             abilityButton.interactable = runtime.AbilityReady;
-            var inAssault = runtime.Phase == Level01TrialPhase.Assault && !runtime.CanRetry;
+            var inAssault = (runtime.Phase == Level01TrialPhase.Assault || runtime.BlockadeActive) && !runtime.CanRetry;
             var inLanding = runtime.Phase == Level01TrialPhase.Landing && !runtime.CanRetry;
             fireRoot.SetActive((inAssault || inLanding));
             fireButton.interactable = (inAssault && runtime.CanPrimaryAttack) ||
@@ -132,16 +136,30 @@ namespace SeaLion.UI.Levels
                 (language == GameLanguage.Arabic ? "جاهز" : "READY") :
                 (language == GameLanguage.Arabic ? "إعادة التلقيم" : "RELOADING");
             RefreshControlDeck();
+            RefreshCampaign();
             resultOverlay.SetActive(runtime.CanRetry);
             if (!runtime.CanRetry) return;
             result.text = Local(runtime.Phase == Level01TrialPhase.Victory ? "victory" : "failure");
             if (runtime.Phase == Level01TrialPhase.Failure)
                 reward.text = Local(Level01TrialLocalization.FailureKey(runtime.FailureReason));
             else reward.text = !runtime.RewardResult.HasValue ? string.Empty :
-                runtime.RewardResult.Value.Succeeded ? Local("reward") + "\n" + Local("rewardBody") :
+                runtime.RewardResult.Value.Succeeded ? RewardDescription() :
                 Local("rewardFailure");
             retry.text = Local("retry");
+            loadoutLabel.text = language == GameLanguage.Arabic ? SeaLion.UI.Localization.ArabicTextShaper.Shape("تغيير التجهيزات") : "CHANGE LOADOUT";
             retryButton.interactable = true;
+        }
+
+        private Text loadoutLabel;
+
+        private string RewardDescription()
+        {
+            var item = runtime.RewardResult.Value;
+            if (runtime.LevelNumber > 1) return CampaignReward(item);
+            var heading = item.AlreadyGranted ? (language == GameLanguage.Arabic ? "مخطط مملوك بالفعل" : "BLUEPRINT ALREADY OWNED") : Local("reward");
+            var text = heading + "\n" + Local("rewardBody");
+            return item.AlreadyGranted && language == GameLanguage.Arabic
+                ? SeaLion.UI.Localization.ArabicTextShaper.Shape("مخطط مملوك بالفعل") + "\n" + Local("rewardBody") : text;
         }
 
         private void SetLanguage(GameLanguage value)
@@ -292,7 +310,7 @@ namespace SeaLion.UI.Levels
                 rightSteering.Bind(input, flagship, 1f);
             }
             var traversal = runtime.Phase == Level01TrialPhase.Traversal && !runtime.CanRetry;
-            var assaultSteer = runtime.Phase == Level01TrialPhase.Assault && !runtime.CanRetry;
+            var assaultSteer = (runtime.Phase == Level01TrialPhase.Assault || runtime.BlockadeActive) && !runtime.CanRetry;
             steeringRoot.SetActive(traversal || assaultSteer);
             abilityRoot.SetActive(!runtime.CanRetry);
             if (input != null && input.HasSteered) hasSteered = true;
@@ -306,7 +324,7 @@ namespace SeaLion.UI.Levels
                 steeringHint.text = Local("steerToChoose");
                 steeringSubHint.text = Local("steerAnywhere");
             }
-            else if (runtime.Phase == Level01TrialPhase.Assault && !runtime.CanRetry)
+            else if ((runtime.Phase == Level01TrialPhase.Assault || runtime.BlockadeActive) && !runtime.CanRetry)
             {
                 steeringHint.text = Local("dodgeHint");
                 steeringSubHint.text = string.Empty;
@@ -332,9 +350,17 @@ namespace SeaLion.UI.Levels
 
         private string BuildGateText()
         {
-            if (!runtime.GateCommitted) return Local("gatePending");
-            var verdict = Local(runtime.ChoseEasyGate ? "gateSafe" : "gateRisk");
-            return verdict + "  " + runtime.LastGateBefore + "→" + runtime.LastGateAfter;
+            if (!runtime.GateCommitted)
+                return GateValue(runtime.EasyGate) + "  |  " + GateValue(runtime.RiskyGate);
+            return runtime.LastGateBefore + " → " + runtime.LastGateAfter;
+        }
+
+        private static string GateValue(SeaLion.Core.Definitions.GateDefinition definition)
+        {
+            if (definition == null) return string.Empty;
+            var prefix = definition.Outcome == SeaLion.Core.Definitions.GateOutcome.Multiply ? "×" :
+                definition.Outcome == SeaLion.Core.Definitions.GateOutcome.Damage ? "−" : "+";
+            return prefix + definition.Value.ToString("0.#");
         }
 
         private static void BuildFireGlyph(Transform parent, Sprite circle)

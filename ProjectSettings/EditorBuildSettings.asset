@@ -17,6 +17,24 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/Level_01_HundredSails.unity
     guid: 36f5654ecc37c4c06b9d3393833b1822
+  - enabled: 1
+    path: Assets/_Project/Scenes/Trials/Level_01_Playable_Trial.unity
+    guid: f5463576e51ab4de694a0747288ef408
+  - enabled: 1
+    path: Assets/_Project/Scenes/Trials/Bootstrap_Level01_Trial.unity
+    guid: 4ac882e49259241a88a55a2fce4c8cb8
+  - enabled: 1
+    path: Assets/_Project/Scenes/Trials/Level_02_Playable_Trial.unity
+    guid: c6d9fdf9268942908caa0c2877f08729
+  - enabled: 1
+    path: Assets/_Project/Scenes/Level_02_ChainStrait.unity
+    guid: 910b7e32238514e6a85f2c3861839f52
+  - enabled: 1
+    path: Assets/_Project/Scenes/Trials/Level_03_Playable_Trial.unity
+    guid: ce222e5a4895427184e85b6a188e628f
+  - enabled: 1
+    path: Assets/_Project/Scenes/Level_03_StormFortress.unity
+    guid: bcc5b1b0d6f7f42d9b0f27a726f3eb62
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
   m_UseUCBPForAssetBundles: 0
