@@ -305,6 +305,7 @@ namespace SeaLion.Gameplay.Levels
             PeakForce = initialForce;
             LastForceDelta = 0;
             ResetPlayerInteraction();
+            ResetPower();
             ResetCampaign();
             ResetVoyage();
             seaForce = new ForceRuntime(initialForce, displayCap);

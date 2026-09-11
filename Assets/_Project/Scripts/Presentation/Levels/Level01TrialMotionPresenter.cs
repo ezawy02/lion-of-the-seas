@@ -145,14 +145,17 @@ namespace SeaLion.Presentation.Levels
                 case MotionKind.Character:
                     position.y += Mathf.Abs(wave) * 0.018f;
                     rotation *= Quaternion.Euler(secondary * 0.65f, 0f, wave * 0.5f);
+                    if (runtime.EliteGuardActive && track.Target.name.IndexOf("EnemyCommander") >= 0)
+                        scale *= 1.1f;
                     break;
                 case MotionKind.Guardian:
-                    position.y += Mathf.Abs(wave) * 0.06f;
+                    var windup = runtime.GuardianTelegraphing ? 1f : 0f;
+                    position.y += Mathf.Abs(wave) * 0.06f + windup * 0.18f;
                     var hit = guardianHitPulse <= 0f ? 0f :
                         Mathf.Sin(Mathf.Clamp01(guardianHitPulse / .3f) * Mathf.PI);
-                    rotation *= Quaternion.Euler(secondary * 1.1f - hit * 7f,
+                    rotation *= Quaternion.Euler(secondary * 1.1f - hit * 7f - windup * 8f,
                         wave * 1.5f, -wave * 0.75f + hit * 3f);
-                    scale *= 1f + secondary * 0.012f + hit * .055f;
+                    scale *= 1f + secondary * 0.012f + hit * .055f + windup * .07f;
                     break;
                 case MotionKind.Attachment:
                     if (track.Anchor != null)

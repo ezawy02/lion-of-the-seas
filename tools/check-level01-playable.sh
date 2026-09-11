@@ -75,7 +75,7 @@ do
   require_text "$scene" "$name"
 done
 
-for key in sailToShore holdBeach clearDefenders strikeGuardian engage gatePending landing
+for key in sailToShore holdBeach clearDefenders strikeGuardian engage gatePending landing rescueCaptives breakElite giantSlam shields
 do
   require_text "$copy" "\"$key\""
 done

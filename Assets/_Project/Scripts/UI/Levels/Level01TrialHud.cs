@@ -77,7 +77,7 @@ namespace SeaLion.UI.Levels
             scaler.matchWidthOrHeight = 0.5f;
 
             safeArea = Rect(canvas.transform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-            var top = Panel(safeArea, "Command Deck", new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(-360f, -180f), new Vector2(360f, 0f), Ink);
+            var top = Panel(safeArea, "Command Deck", new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(-360f, -152f), new Vector2(360f, 0f), Ink);
             stage = Label(top.transform, "Stage", new Vector2(0.5f, 0.78f), new Vector2(0.5f, 0.78f), new Vector2(-310f, -17f), new Vector2(310f, 17f), 18, TextAnchor.MiddleCenter, Gold);
             phase = Label(top.transform, "Phase", new Vector2(0.5f, 0.49f), new Vector2(0.5f, 0.49f), new Vector2(-320f, -25f), new Vector2(320f, 25f), 28, TextAnchor.MiddleCenter, Color.white);
             force = Label(top.transform, "Force", new Vector2(0.08f, 0.18f), new Vector2(0.48f, 0.18f), new Vector2(0f, -16f), new Vector2(0f, 16f), 17, TextAnchor.MiddleLeft, new Color(0.65f, 0.88f, 0.9f));
@@ -86,7 +86,7 @@ namespace SeaLion.UI.Levels
             englishToggle = Button(languages.transform, "English", new Vector2(0f, 0f), new Vector2(0.5f, 1f), Vector2.zero, Vector2.zero, "EN", () => SetLanguage(GameLanguage.English));
             arabicToggle = Button(languages.transform, "Arabic", new Vector2(0.5f, 0f), new Vector2(1f, 1f), Vector2.zero, Vector2.zero, "ع", () => SetLanguage(GameLanguage.Arabic));
 
-            bossCard = Panel(safeArea, "Guardian Card", new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(-290f, -242f), new Vector2(290f, -170f), Ink);
+            bossCard = Panel(safeArea, "Guardian Card", new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(-290f, -214f), new Vector2(290f, -158f), Ink);
             boss = Label(bossCard.transform, "Guardian", new Vector2(0.5f, 0.68f), new Vector2(0.5f, 0.68f), new Vector2(-260f, -16f), new Vector2(260f, 16f), 16, TextAnchor.MiddleCenter, Gold);
             bossHealth = Bar(bossCard.transform, "Boss Health", new Vector2(0.5f, 0.31f), new Vector2(0.5f, 0.31f), new Vector2(520f, 22f), new Color(0.12f, 0.21f, 0.24f), new Color(0.84f, 0.19f, 0.16f));
 
@@ -144,6 +144,7 @@ namespace SeaLion.UI.Levels
                 (language == GameLanguage.Arabic ? "إعادة التلقيم" : "RELOADING");
             RefreshControlDeck();
             RefreshCampaign();
+            RefreshPower();
             resultOverlay.SetActive(runtime.CanRetry);
             if (!runtime.CanRetry) return;
             result.text = Local(runtime.Phase == Level01TrialPhase.Victory ? "victory" : "failure");

@@ -29,6 +29,15 @@ namespace SeaLion.UI.Levels
             return language == GameLanguage.Arabic ? ArabicTextShaper.Shape(raw) : raw;
         }
 
+        public static string FormatPowerStatus(int shields, int fireRank, GameLanguage language)
+        {
+            var fireKey = fireRank >= 3 ? "fireVolley" : fireRank <= 0 ? "fireWeak" :
+                fireRank == 2 ? "fireHot" : "fireSteady";
+            var raw = Get("shields", language) + "  ×" + Digits(Mathf.Max(0, shields), language) +
+                "  •  " + Get(fireKey, language);
+            return language == GameLanguage.Arabic ? ArabicTextShaper.Shape(raw) : raw;
+        }
+
         public static string FormatResultBody(bool victory, int remaining, int peak,
             string failureReason, GameLanguage language)
         {

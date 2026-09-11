@@ -24,6 +24,7 @@ namespace SeaLion.Gameplay.Levels
             combatAccumulator = guardianAttackAccumulator = 0f;
             assaultStance = AssaultStance.Hold;
             assaultAdvance = 0f;
+            ClearGuardianTelegraph();
             if (combat != null) combat.ClearFocus();
         }
 
@@ -41,15 +42,18 @@ namespace SeaLion.Gameplay.Levels
             }
 
             guardianAttackAccumulator += step;
-            if (guardianAttackAccumulator >= GuardianInterval && guardian.State == HarborGuardianState.Active)
+            var interval = GuardianInterval;
+            if (GuardianShouldTelegraph(interval)) TryStartGuardianTelegraph();
+            if (guardianAttackAccumulator >= interval && guardian.State == HarborGuardianState.Active)
             {
-                guardianAttackAccumulator -= GuardianInterval;
-                var attack = FirstAttack();
-                guardian.TryFireAttack(attack, clock.Tick);
-                var baseLoss = Mathf.Max(3, Mathf.CeilToInt(landForce.LogicalCount * 0.12f));
-                var loss = ComputeGuardianLoss(baseLoss);
+                guardianAttackAccumulator -= interval;
+                guardian.TryFireAttack(FirstAttack(), clock.Tick);
+                var phaseScale = 1f + GuardianPhase * 0.35f;
+                var baseLoss = Mathf.Max(3, Mathf.CeilToInt(landForce.LogicalCount * 0.12f * phaseScale));
+                var loss = AbsorbGuardianSlam(ComputeGuardianLoss(baseLoss));
                 ChangeForce(landForce, Mathf.Max(0, landForce.LogicalCount - loss));
                 guardian.NotifyForceRemaining(landForce.LogicalCount, clock.Tick);
+                ClearGuardianTelegraph();
             }
             if (AssaultTimedOut(phaseElapsed) && Phase == Level01TrialPhase.Assault)
                 Finish(false, "guardian-timeout");
@@ -65,8 +69,12 @@ namespace SeaLion.Gameplay.Levels
                 combatants[index] = loadout.ApplyCrewTo(unit);
             }
             for (var index = 0; index < HostileCombatants; index++)
+            {
+                var elite = index == HostileCombatants - 1;
                 combatants[FriendlyCombatants + index] = new CombatUnit(CombatTeam.Hostile,
-                    new float3(index % 4, 0f, 1f + index / 4), 5f, 1.1f, 12f, 1.15f);
+                    elite ? new float3(0.4f, 0f, 3.2f) : new float3(index % 4, 0f, 1f + index / 4),
+                    elite ? 16f : 5f, elite ? 2.1f : 1.1f, 12f, elite ? 1.35f : 1.15f);
+            }
         }
 
         private void HandleCombatDeath(CombatDeath death)
@@ -75,10 +83,14 @@ namespace SeaLion.Gameplay.Levels
             if (death.Unit < FriendlyCombatants)
             {
                 ChangeForce(landForce, Mathf.Max(0, landForce.LogicalCount - lossPerFriendly));
+                OnFriendlyHit();
                 if (landForce.LogicalCount == 0) Finish(false, "force-depleted");
             }
             else
+            {
                 hostileRemaining = Mathf.Max(0, hostileRemaining - 1);
+                if (hostileRemaining == 0) OnEliteBroken();
+            }
         }
 
     }

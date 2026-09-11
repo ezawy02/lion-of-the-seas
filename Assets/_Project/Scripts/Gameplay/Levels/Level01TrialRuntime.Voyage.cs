@@ -73,6 +73,11 @@ namespace SeaLion.Gameplay.Levels
             {
                 gateCommitted = true;
                 loadout.ReportGateResolved();
+                if (LevelNumber == 1)
+                {
+                    if (selected == easyGate) GainSafePassageBuff();
+                    else ApplyRiskyPassageDebuff();
+                }
             }
             if (!rescueApplied && routeProgress < RescueProgress && next >= RescueProgress)
             {
@@ -81,6 +86,7 @@ namespace SeaLion.Gameplay.Levels
                 {
                     rescueCollected = true;
                     AddCraft(rescue.SurvivorCount).Progress = next;
+                    GainRescueBuff();
                 }
             }
             routeProgress = LevelNumber == 2 && blockadeHealth > 0f ? Mathf.Min(next, BlockadeProgress) : next;

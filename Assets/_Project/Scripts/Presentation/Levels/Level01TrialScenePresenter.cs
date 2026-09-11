@@ -252,7 +252,9 @@ namespace SeaLion.Presentation.Levels
 
         private void HandleGuardianEvent(HarborGuardianEvent item)
         {
-            if (item.Type == HarborGuardianEventType.AttackFired)
+            if (item.Type == HarborGuardianEventType.AttackTelegraphed)
+                haptics?.TryPulse(HapticCue.ArmorBreak);
+            else if (item.Type == HarborGuardianEventType.AttackFired)
             {
                 audioDirector?.PlayBroadside();
                 haptics?.TryPulse(HapticCue.Broadside);

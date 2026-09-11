@@ -34,6 +34,8 @@ namespace SeaLion.Presentation.Levels
         private GameObject assaultRoot;
         private GameObject victoryRoot;
         private Transform phaseFocus;
+        private Transform assaultCommander;
+        private Transform assaultGuardian;
         private Vector3 phaseFocusOrigin;
         private bool bound;
 
@@ -50,6 +52,8 @@ namespace SeaLion.Presentation.Levels
             landingRoot = landing;
             assaultRoot = assault;
             victoryRoot = victory;
+            assaultCommander = Find(assault, "HOSTILE__EnemyCommander_REVIEW");
+            assaultGuardian = Find(assault, "BOSS__HarborGuardian");
             if (runtime == null || targetCamera == null) return;
             runtime.PhaseChanged += SetPhase;
             bound = true;
@@ -69,22 +73,27 @@ namespace SeaLion.Presentation.Levels
             switch (phase)
             {
                 case Level01TrialPhase.Traversal:
-                    return new Level01CameraPreset(new Vector3(-.6f, 11.2f, -8f),
-                        new Vector3(0f, 2.4f, 48f), 35f);
+                    return new Level01CameraPreset(new Vector3(-.35f, 8.8f, -3.5f),
+                        new Vector3(0f, 2.2f, 28f), 33f);
                 case Level01TrialPhase.Landing:
-                    return new Level01CameraPreset(new Vector3(-1.2f, 11.4f, 8f),
-                        new Vector3(0f, 3.4f, 79f), 35f);
+                    return new Level01CameraPreset(new Vector3(-.55f, 8.9f, 22f),
+                        new Vector3(0f, 2.8f, 66f), 33f);
                 case Level01TrialPhase.Assault:
                 case Level01TrialPhase.Failure:
-                    return new Level01CameraPreset(new Vector3(-1.8f, 10.2f, 28f),
-                        new Vector3(-.6f, 4.6f, 78f), 32f);
+                    return new Level01CameraPreset(new Vector3(-.7f, 8.2f, 40f),
+                        new Vector3(0f, 3.1f, 69f), 30f);
                 case Level01TrialPhase.Victory:
-                    return new Level01CameraPreset(new Vector3(-.8f, 9.2f, 42f),
-                        new Vector3(.5f, 3.8f, 92f), 31f);
+                    return new Level01CameraPreset(new Vector3(-.35f, 7.6f, 52f),
+                        new Vector3(.35f, 3.1f, 84f), 29f);
                 default:
-                    return new Level01CameraPreset(new Vector3(0f, 10.5f, -16f),
-                        new Vector3(0f, .25f, 50f), 39f);
+                    return new Level01CameraPreset(new Vector3(0f, 8.2f, -11f),
+                        new Vector3(0f, 1.7f, 22f), 36f);
             }
+        }
+
+        public static float CorridorDepth(Level01CameraPreset preset)
+        {
+            return preset.LookAt.z - preset.Position.z;
         }
 
         private void SetPhase(Level01TrialPhase phase)
@@ -153,13 +162,22 @@ namespace SeaLion.Presentation.Levels
                 position = Vector3.Lerp(position, next.Position, push);
                 lookAt = Vector3.Lerp(lookAt, next.LookAt, push);
             }
+            var fov = target.FieldOfView;
             if (CurrentPhase == Level01TrialPhase.Assault && runtime != null)
             {
+                var content = runtime.GuardianTelegraphing || runtime.HostileRemaining <= 0
+                    ? assaultGuardian : assaultCommander;
+                if (content != null)
+                    lookAt = Vector3.Lerp(lookAt, content.position + Vector3.up * 2.1f, .58f);
                 var push = CombatPushIn(runtime.HostileRemaining, runtime.BossHealth01);
-                position += new Vector3(0f, -.8f * push, 14f * push);
-                lookAt += new Vector3(0f, .4f * push, 8f * push);
+                if (runtime.GuardianTelegraphing) push = Mathf.Max(push, .74f);
+                else if (runtime.EliteGuardActive) push = Mathf.Max(push, .38f);
+                position += new Vector3(0f, -.7f * push, 11f * push);
+                lookAt += new Vector3(0f, .35f * push, 6.5f * push);
+                if (runtime.GuardianTelegraphing) fov -= 2.2f;
+                else if (runtime.EliteGuardActive) fov -= 1.1f;
             }
-            return new Level01CameraPreset(position, lookAt, target.FieldOfView);
+            return new Level01CameraPreset(position, lookAt, fov);
         }
 
         private Transform FocusFor(Level01TrialPhase phase)

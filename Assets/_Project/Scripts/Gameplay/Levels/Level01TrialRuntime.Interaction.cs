@@ -8,9 +8,12 @@ namespace SeaLion.Gameplay.Levels
 
     public sealed partial class Level01TrialRuntime
     {
-        private float PrimaryAttackCooldownSeconds => (levelDefinition != null ? levelDefinition.PrimaryCooldown : .55f) * (loadout != null ? Mathf.Max(.1f, loadout.Crew.CadenceMultiplier) : 1f);
-        private float OrdinaryTargetDamage => (levelDefinition != null ? levelDefinition.OrdinaryDamage : 5f) * ArmyDamageScale;
-        private float GuardianTargetDamage => (levelDefinition != null ? levelDefinition.GuardianDamage : 18f) * ArmyDamageScale;
+        private float PrimaryAttackCooldownSeconds => (levelDefinition != null ? levelDefinition.PrimaryCooldown : .55f) *
+            (loadout != null ? Mathf.Max(.1f, loadout.Crew.CadenceMultiplier) : 1f) * FireCadence;
+        private float OrdinaryTargetDamage => (levelDefinition != null ? levelDefinition.OrdinaryDamage : 5f) *
+            ArmyDamageScale * FireDensity;
+        private float GuardianTargetDamage => (levelDefinition != null ? levelDefinition.GuardianDamage : 18f) *
+            ArmyDamageScale * FireDensity;
         private float AssaultTimeLimit => levelDefinition != null ? levelDefinition.AssaultTimeLimit : 55f;
         public float ArmyDamageScale => Mathf.Max(0f, ForceCount) /
             (levelDefinition != null ? levelDefinition.ReferenceForce : 32f) *
@@ -35,8 +38,10 @@ namespace SeaLion.Gameplay.Levels
             {
                 if (Phase == Level01TrialPhase.Assault)
                 {
+                    if (GuardianTelegraphing) return "giantSlam";
                     if (assaultStance == AssaultStance.Hold) return "holdBeach";
-                    if (hostileRemaining > 0) return "clearDefenders";
+                    if (hostileRemaining > 1) return "clearDefenders";
+                    if (hostileRemaining == 1) return "breakElite";
                     return "strikeGuardian";
                 }
                 if (Phase == Level01TrialPhase.Landing) return "landing";
@@ -44,6 +49,8 @@ namespace SeaLion.Gameplay.Levels
                 {
                     if (NeedsSteeringChoice) return "steerToChoose";
                     if (NeedsGateCommit) return "traversal";
+                    if (LevelNumber == 1 && ChoseEasyGate && !rescueCollected &&
+                        routeProgress < RescueProgress) return "rescueCaptives";
                     return "sailToShore";
                 }
                 if (Phase == Level01TrialPhase.Victory) return "victory";
@@ -78,7 +85,11 @@ namespace SeaLion.Gameplay.Levels
         public Level01PrimaryAttackResult TryPrimaryAttack()
         {
             if (!CanPrimaryAttack) return Level01PrimaryAttackResult.Rejected;
-            if (Phase == Level01TrialPhase.Assault) assaultStance = AssaultStance.Engage;
+            if (Phase == Level01TrialPhase.Assault)
+            {
+                if (assaultStance == AssaultStance.Hold) SpendEngageVolley();
+                assaultStance = AssaultStance.Engage;
+            }
             if (FireAtBlockade(out var blockadeResult)) return blockadeResult;
             if (ForceCount <= 0) return Level01PrimaryAttackResult.Rejected;
             primaryAttackCooldown = PrimaryAttackCooldownSeconds;
@@ -129,6 +140,7 @@ namespace SeaLion.Gameplay.Levels
         private void TickPlayerInteraction(float step)
         {
             primaryAttackCooldown = Mathf.Max(0f, primaryAttackCooldown - step);
+            TickPower(step);
         }
 
         private void ResetPlayerInteraction()

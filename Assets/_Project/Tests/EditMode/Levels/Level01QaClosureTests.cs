@@ -74,6 +74,11 @@ namespace SeaLion.Tests.EditMode.Levels
                 Is.GreaterThan(Level01PhaseCameraPresenter.FollowFactor(Level01TrialPhase.Traversal)));
             Assert.That(Level01PhaseCameraPresenter.FollowFactor(Level01TrialPhase.Victory),
                 Is.GreaterThan(0f));
+            Assert.That(opening.Position.y, Is.LessThan(9f));
+            Assert.That(assault.Position.y, Is.LessThan(9f));
+            Assert.That(Level01PhaseCameraPresenter.CorridorDepth(opening), Is.LessThan(40f));
+            Assert.That(Level01PhaseCameraPresenter.CorridorDepth(traversal), Is.LessThan(40f));
+            Assert.That(Level01PhaseCameraPresenter.CorridorDepth(assault), Is.LessThan(40f));
             Assert.That(Level01PhaseCameraPresenter.CombatPushIn(0, 0f), Is.EqualTo(1f));
             Assert.That(Level01PhaseCameraPresenter.CombatPushIn(8, 1f), Is.Zero);
             Assert.That(Level01SeaMotion.ShoreBlend01(.4f, false), Is.Zero);
@@ -122,6 +127,9 @@ namespace SeaLion.Tests.EditMode.Levels
             Assert.That(Level01TrialLocalization.Get("holdBeach", GameLanguage.Arabic), Does.Contain("اثبت"));
             Assert.That(Level01TrialLocalization.Get("clearDefenders", GameLanguage.English), Does.Contain("CLEAR"));
             Assert.That(Level01TrialLocalization.Get("strikeGuardian", GameLanguage.English), Does.Contain("STRIKE"));
+            Assert.That(Level01TrialLocalization.Get("breakElite", GameLanguage.English), Does.Contain("ELITE"));
+            Assert.That(Level01TrialLocalization.Get("giantSlam", GameLanguage.Arabic), Does.Contain("العملاق"));
+            Assert.That(Level01TrialLocalization.Get("rescueCaptives", GameLanguage.Arabic), Does.Contain("الأسرى"));
             Assert.That(Level01TrialLocalization.Get("engage", GameLanguage.Arabic), Does.Contain("اشتبك"));
             Assert.That(Level01TrialLocalization.Get("sailToShore", GameLanguage.English), Does.Contain("SAIL"));
             Assert.That(Level01TrialLocalization.Get("sailToShore", GameLanguage.Arabic), Does.Contain("أبحر"));
@@ -147,6 +155,12 @@ namespace SeaLion.Tests.EditMode.Levels
             var committed = Level01TrialLocalization.FormatJourneyGate(true, true, 8, 32,
                 GameLanguage.English);
             Assert.That(committed, Does.Contain("8 → 32"));
+            var power = Level01TrialLocalization.FormatPowerStatus(2, 3, GameLanguage.English);
+            Assert.That(power, Does.Contain("SHIELD"));
+            Assert.That(power, Does.Contain("VOLLEY"));
+            Assert.That(Level01TrialLocalization.Get("shields", GameLanguage.Arabic), Does.Contain("درع"));
+            var arabicPower = Level01TrialLocalization.FormatPowerStatus(1, 0, GameLanguage.Arabic);
+            Assert.That(arabicPower, Does.Contain("١"));
             var arabicForce = Level01TrialLocalization.FormatJourneyForce(32, 8, 2, 7, false, true,
                 GameLanguage.Arabic);
             Assert.That(arabicForce, Does.Contain("٣٢"));
