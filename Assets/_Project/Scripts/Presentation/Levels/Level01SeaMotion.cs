@@ -18,6 +18,24 @@ namespace SeaLion.Presentation.Levels
             return SmoothProgress(elapsed, duration) * distance;
         }
 
+        public static float RouteTravel(float progress, float gateProgress = .4f,
+            float distanceAtGate = 48f, float distanceAtShore = 70f)
+        {
+            if (!IsFinite(progress) || !IsFinite(gateProgress) || gateProgress <= 0f ||
+                !IsFinite(distanceAtGate) || !IsFinite(distanceAtShore)) return 0f;
+            progress = Mathf.Clamp01(progress);
+            if (progress <= gateProgress)
+                return SmoothProgress(progress, gateProgress) * distanceAtGate;
+            var after = SmoothProgress(progress - gateProgress, 1f - gateProgress);
+            return Mathf.Lerp(distanceAtGate, distanceAtShore, after);
+        }
+
+        public static float ShoreBlend01(float routeProgress, bool gateCommitted, float gateProgress = .4f)
+        {
+            if (!gateCommitted || !IsFinite(routeProgress) || !IsFinite(gateProgress)) return 0f;
+            return Mathf.Clamp01((Mathf.Clamp01(routeProgress) - gateProgress) / Mathf.Max(.01f, 1f - gateProgress));
+        }
+
         private static bool IsFinite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
     }
 }

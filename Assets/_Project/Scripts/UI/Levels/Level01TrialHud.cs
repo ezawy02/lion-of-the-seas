@@ -77,7 +77,7 @@ namespace SeaLion.UI.Levels
             scaler.matchWidthOrHeight = 0.5f;
 
             safeArea = Rect(canvas.transform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-            var top = Panel(safeArea, "Command Deck", new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(-360f, -180f), new Vector2(360f, 0f), Ink);
+            var top = Panel(safeArea, "Command Deck", new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(-360f, -152f), new Vector2(360f, 0f), Ink);
             stage = Label(top.transform, "Stage", new Vector2(0.5f, 0.78f), new Vector2(0.5f, 0.78f), new Vector2(-310f, -17f), new Vector2(310f, 17f), 18, TextAnchor.MiddleCenter, Gold);
             phase = Label(top.transform, "Phase", new Vector2(0.5f, 0.49f), new Vector2(0.5f, 0.49f), new Vector2(-320f, -25f), new Vector2(320f, 25f), 28, TextAnchor.MiddleCenter, Color.white);
             force = Label(top.transform, "Force", new Vector2(0.08f, 0.18f), new Vector2(0.48f, 0.18f), new Vector2(0f, -16f), new Vector2(0f, 16f), 17, TextAnchor.MiddleLeft, new Color(0.65f, 0.88f, 0.9f));
@@ -86,7 +86,7 @@ namespace SeaLion.UI.Levels
             englishToggle = Button(languages.transform, "English", new Vector2(0f, 0f), new Vector2(0.5f, 1f), Vector2.zero, Vector2.zero, "EN", () => SetLanguage(GameLanguage.English));
             arabicToggle = Button(languages.transform, "Arabic", new Vector2(0.5f, 0f), new Vector2(1f, 1f), Vector2.zero, Vector2.zero, "ع", () => SetLanguage(GameLanguage.Arabic));
 
-            bossCard = Panel(safeArea, "Guardian Card", new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(-290f, -242f), new Vector2(290f, -170f), Ink);
+            bossCard = Panel(safeArea, "Guardian Card", new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(-290f, -214f), new Vector2(290f, -158f), Ink);
             boss = Label(bossCard.transform, "Guardian", new Vector2(0.5f, 0.68f), new Vector2(0.5f, 0.68f), new Vector2(-260f, -16f), new Vector2(260f, 16f), 16, TextAnchor.MiddleCenter, Gold);
             bossHealth = Bar(bossCard.transform, "Boss Health", new Vector2(0.5f, 0.31f), new Vector2(0.5f, 0.31f), new Vector2(520f, 22f), new Color(0.12f, 0.21f, 0.24f), new Color(0.84f, 0.19f, 0.16f));
 
@@ -110,9 +110,16 @@ namespace SeaLion.UI.Levels
         {
             if (runtime == null || stage == null) return;
             stage.text = Local("stage");
-            phase.text = runtime.CanRetry ? string.Empty : Local(PhaseKey(runtime.Phase));
-            force.text = Level01TrialLocalization.FormatCurrentForce(runtime.ForceCount, language);
-            gate.text = BuildGateText();
+            phase.text = runtime.CanRetry ? string.Empty : Local(runtime.ObjectiveKey);
+            force.text = Level01TrialLocalization.FormatJourneyForce(runtime.ForceCount,
+                runtime.HostileRemaining, runtime.LandedCraftCount, runtime.LandingCraftTotal,
+                runtime.ShowsEnemyCount, runtime.ShowsLandingCount, language,
+                runtime.LastForceDelta, runtime.ShowsForceDelta);
+            force.color = runtime.ShowsForceDelta && runtime.LastForceDelta > 0 ? Gold :
+                runtime.ShowsForceDelta && runtime.LastForceDelta < 0 ?
+                new Color(0.95f, 0.42f, 0.32f) : new Color(0.65f, 0.88f, 0.9f);
+            gate.text = Level01TrialLocalization.FormatJourneyGate(runtime.GateCommitted,
+                runtime.ChoseEasyGate, runtime.LastGateBefore, runtime.LastGateAfter, language);
             bossCard.SetActive(runtime.Phase == Level01TrialPhase.Assault);
             boss.text = Local("guardian");
             bossHealth.value = runtime.BossHealth01;
@@ -129,7 +136,7 @@ namespace SeaLion.UI.Levels
             fireButton.interactable = (inAssault && runtime.CanPrimaryAttack) ||
                 (inLanding && runtime.CanAssistLanding);
             reloadCharge.fillAmount = runtime.PrimaryAttackReady01;
-            fireLabel.text = language == GameLanguage.Arabic ? "إطلاق" : "FIRE";
+            fireLabel.text = Local(runtime.UnitsAreHolding ? "engage" : "fire");
             if (inLanding)
                 reloadLabel.text = Local("landingAssist");
             else reloadLabel.text = runtime.CanPrimaryAttack ?
@@ -137,14 +144,22 @@ namespace SeaLion.UI.Levels
                 (language == GameLanguage.Arabic ? "إعادة التلقيم" : "RELOADING");
             RefreshControlDeck();
             RefreshCampaign();
+            RefreshPower();
             resultOverlay.SetActive(runtime.CanRetry);
             if (!runtime.CanRetry) return;
             result.text = Local(runtime.Phase == Level01TrialPhase.Victory ? "victory" : "failure");
+            var summary = Level01TrialLocalization.FormatResultBody(
+                runtime.Phase == Level01TrialPhase.Victory, runtime.ForceCount, runtime.PeakForce,
+                runtime.FailureReason, language);
             if (runtime.Phase == Level01TrialPhase.Failure)
-                reward.text = Local(Level01TrialLocalization.FailureKey(runtime.FailureReason));
-            else reward.text = !runtime.RewardResult.HasValue ? string.Empty :
-                runtime.RewardResult.Value.Succeeded ? RewardDescription() :
-                Local("rewardFailure");
+                reward.text = summary;
+            else
+            {
+                var rewardText = !runtime.RewardResult.HasValue ? string.Empty :
+                    runtime.RewardResult.Value.Succeeded ? RewardDescription() :
+                    Local("rewardFailure");
+                reward.text = string.IsNullOrEmpty(rewardText) ? summary : summary + "\n" + rewardText;
+            }
             retry.text = Local("retry");
             loadoutLabel.text = language == GameLanguage.Arabic ? SeaLion.UI.Localization.ArabicTextShaper.Shape("تغيير التجهيزات") : "CHANGE LOADOUT";
             retryButton.interactable = true;
@@ -184,7 +199,7 @@ namespace SeaLion.UI.Levels
             bossHealth.direction = arabic ? Slider.Direction.RightToLeft : Slider.Direction.LeftToRight;
             englishToggle.color = language == GameLanguage.English ? Ink : Color.white;
             arabicToggle.color = language == GameLanguage.Arabic ? Ink : Color.white;
-            if (fireLabel != null) fireLabel.text = arabic ? "إطلاق" : "FIRE";
+            if (fireLabel != null) fireLabel.text = Local(runtime != null && runtime.UnitsAreHolding ? "engage" : "fire");
             if (reloadLabel != null) reloadLabel.text = arabic ? "إعادة التلقيم" : "RELOADING";
         }
 
@@ -348,21 +363,6 @@ namespace SeaLion.UI.Levels
                 runtime.TryPrimaryAttack();
         }
 
-        private string BuildGateText()
-        {
-            if (!runtime.GateCommitted)
-                return GateValue(runtime.EasyGate) + "  |  " + GateValue(runtime.RiskyGate);
-            return runtime.LastGateBefore + " → " + runtime.LastGateAfter;
-        }
-
-        private static string GateValue(SeaLion.Core.Definitions.GateDefinition definition)
-        {
-            if (definition == null) return string.Empty;
-            var prefix = definition.Outcome == SeaLion.Core.Definitions.GateOutcome.Multiply ? "×" :
-                definition.Outcome == SeaLion.Core.Definitions.GateOutcome.Damage ? "−" : "+";
-            return prefix + definition.Value.ToString("0.#");
-        }
-
         private static void BuildFireGlyph(Transform parent, Sprite circle)
         {
             var gold = new Color(1f, 0.86f, 0.62f, 1f);
@@ -473,19 +473,6 @@ namespace SeaLion.UI.Levels
             var value = new GameObject(name, types);
             value.transform.SetParent(parent, false);
             return value;
-        }
-
-        private static string PhaseKey(Level01TrialPhase phase)
-        {
-            switch (phase)
-            {
-                case Level01TrialPhase.Assault: return "assault";
-                case Level01TrialPhase.Victory: return "victory";
-                case Level01TrialPhase.Failure: return "failure";
-                case Level01TrialPhase.Landing: return "landing";
-                case Level01TrialPhase.Traversal: return "traversal";
-                default: return "opening";
-            }
         }
 
     }

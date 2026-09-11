@@ -21,9 +21,9 @@ namespace SeaLion.Presentation.Levels
     [DisallowMultipleComponent]
     public sealed class Level01PhaseCameraPresenter : MonoBehaviour
     {
-        private const float PositionSharpness = 2.35f;
-        private const float RotationSharpness = 2.8f;
-        private const float LensSharpness = 2.6f;
+        private const float PositionSharpness = 1.85f;
+        private const float RotationSharpness = 2.15f;
+        private const float LensSharpness = 2.05f;
 
         private Level01TrialRuntime runtime;
         private Camera targetCamera;
@@ -32,14 +32,17 @@ namespace SeaLion.Presentation.Levels
         private GameObject traversalRoot;
         private GameObject landingRoot;
         private GameObject assaultRoot;
+        private GameObject victoryRoot;
         private Transform phaseFocus;
+        private Transform assaultCommander;
+        private Transform assaultGuardian;
         private Vector3 phaseFocusOrigin;
         private bool bound;
 
         public Level01TrialPhase CurrentPhase { get; private set; } = Level01TrialPhase.Loading;
 
         public void Bind(Level01TrialRuntime trialRuntime, Camera camera, GameObject opening,
-            GameObject traversal, GameObject landing, GameObject assault)
+            GameObject traversal, GameObject landing, GameObject assault, GameObject victory = null)
         {
             Unbind();
             runtime = trialRuntime;
@@ -48,6 +51,9 @@ namespace SeaLion.Presentation.Levels
             traversalRoot = traversal;
             landingRoot = landing;
             assaultRoot = assault;
+            victoryRoot = victory;
+            assaultCommander = Find(assault, "HOSTILE__EnemyCommander_REVIEW");
+            assaultGuardian = Find(assault, "BOSS__HarborGuardian");
             if (runtime == null || targetCamera == null) return;
             runtime.PhaseChanged += SetPhase;
             bound = true;
@@ -67,22 +73,27 @@ namespace SeaLion.Presentation.Levels
             switch (phase)
             {
                 case Level01TrialPhase.Traversal:
-                    return new Level01CameraPreset(new Vector3(-.6f, 11.2f, -8f),
-                        new Vector3(0f, 2.4f, 48f), 35f);
+                    return new Level01CameraPreset(new Vector3(-.35f, 8.8f, -3.5f),
+                        new Vector3(0f, 2.2f, 28f), 33f);
                 case Level01TrialPhase.Landing:
-                    return new Level01CameraPreset(new Vector3(-1.2f, 11.4f, 8f),
-                        new Vector3(0f, 3.4f, 79f), 35f);
+                    return new Level01CameraPreset(new Vector3(-.55f, 8.9f, 22f),
+                        new Vector3(0f, 2.8f, 66f), 33f);
                 case Level01TrialPhase.Assault:
                 case Level01TrialPhase.Failure:
-                    return new Level01CameraPreset(new Vector3(-1.8f, 10.2f, 28f),
-                        new Vector3(-.6f, 4.6f, 78f), 32f);
+                    return new Level01CameraPreset(new Vector3(-.7f, 8.2f, 40f),
+                        new Vector3(0f, 3.1f, 69f), 30f);
                 case Level01TrialPhase.Victory:
-                    return new Level01CameraPreset(new Vector3(-.8f, 9.2f, 42f),
-                        new Vector3(.5f, 3.8f, 92f), 31f);
+                    return new Level01CameraPreset(new Vector3(-.35f, 7.6f, 52f),
+                        new Vector3(.35f, 3.1f, 84f), 29f);
                 default:
-                    return new Level01CameraPreset(new Vector3(0f, 10.5f, -16f),
-                        new Vector3(0f, .25f, 50f), 39f);
+                    return new Level01CameraPreset(new Vector3(0f, 8.2f, -11f),
+                        new Vector3(0f, 1.7f, 22f), 36f);
             }
+        }
+
+        public static float CorridorDepth(Level01CameraPreset preset)
+        {
+            return preset.LookAt.z - preset.Position.z;
         }
 
         private void SetPhase(Level01TrialPhase phase)
@@ -115,6 +126,7 @@ namespace SeaLion.Presentation.Levels
                 case Level01TrialPhase.Opening: return .45f;
                 case Level01TrialPhase.Traversal: return .78f;
                 case Level01TrialPhase.Landing: return .82f;
+                case Level01TrialPhase.Victory: return .28f;
                 default: return 0f;
             }
         }
@@ -136,13 +148,36 @@ namespace SeaLion.Presentation.Levels
                 position += new Vector3(delta.x * .34f, delta.y * .12f, delta.z * follow);
                 lookAt += new Vector3(delta.x * .18f, delta.y * .08f, delta.z * follow * .68f);
             }
+            if (CurrentPhase == Level01TrialPhase.Opening && runtime != null)
+            {
+                var intro = Mathf.Clamp01(runtime.PhaseElapsed / 2f);
+                var next = PresetFor(Level01TrialPhase.Traversal);
+                position = Vector3.Lerp(position, next.Position, intro * .4f);
+                lookAt = Vector3.Lerp(lookAt, next.LookAt, intro * .4f);
+            }
+            else if (CurrentPhase == Level01TrialPhase.Traversal && runtime != null)
+            {
+                var push = Level01SeaMotion.ShoreBlend01(runtime.RouteProgress, runtime.GateCommitted);
+                var next = PresetFor(Level01TrialPhase.Landing);
+                position = Vector3.Lerp(position, next.Position, push);
+                lookAt = Vector3.Lerp(lookAt, next.LookAt, push);
+            }
+            var fov = target.FieldOfView;
             if (CurrentPhase == Level01TrialPhase.Assault && runtime != null)
             {
+                var content = runtime.GuardianTelegraphing || runtime.HostileRemaining <= 0
+                    ? assaultGuardian : assaultCommander;
+                if (content != null)
+                    lookAt = Vector3.Lerp(lookAt, content.position + Vector3.up * 2.1f, .58f);
                 var push = CombatPushIn(runtime.HostileRemaining, runtime.BossHealth01);
-                position += new Vector3(0f, -.8f * push, 14f * push);
-                lookAt += new Vector3(0f, .4f * push, 8f * push);
+                if (runtime.GuardianTelegraphing) push = Mathf.Max(push, .74f);
+                else if (runtime.EliteGuardActive) push = Mathf.Max(push, .38f);
+                position += new Vector3(0f, -.7f * push, 11f * push);
+                lookAt += new Vector3(0f, .35f * push, 6.5f * push);
+                if (runtime.GuardianTelegraphing) fov -= 2.2f;
+                else if (runtime.EliteGuardActive) fov -= 1.1f;
             }
-            return new Level01CameraPreset(position, lookAt, target.FieldOfView);
+            return new Level01CameraPreset(position, lookAt, fov);
         }
 
         private Transform FocusFor(Level01TrialPhase phase)
@@ -153,6 +188,7 @@ namespace SeaLion.Presentation.Levels
                 case Level01TrialPhase.Traversal: return Find(traversalRoot, "PLAYER__Flagship");
                 case Level01TrialPhase.Landing: return Find(landingRoot, "CRAFT__LandingFan_3");
                 case Level01TrialPhase.Assault: return Find(assaultRoot, "PLAYER__BattleFlagship");
+                case Level01TrialPhase.Victory: return Find(victoryRoot, "CHARACTER__Hayreddin_Victory");
                 default: return null;
             }
         }

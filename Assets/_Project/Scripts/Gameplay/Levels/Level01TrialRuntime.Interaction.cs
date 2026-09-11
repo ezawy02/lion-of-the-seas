@@ -4,11 +4,16 @@ using UnityEngine;
 
 namespace SeaLion.Gameplay.Levels
 {
+    public enum AssaultStance : byte { Hold, Engage }
+
     public sealed partial class Level01TrialRuntime
     {
-        private float PrimaryAttackCooldownSeconds => (levelDefinition != null ? levelDefinition.PrimaryCooldown : .55f) * (loadout != null ? Mathf.Max(.1f, loadout.Crew.CadenceMultiplier) : 1f);
-        private float OrdinaryTargetDamage => (levelDefinition != null ? levelDefinition.OrdinaryDamage : 5f) * ArmyDamageScale;
-        private float GuardianTargetDamage => (levelDefinition != null ? levelDefinition.GuardianDamage : 18f) * ArmyDamageScale;
+        private float PrimaryAttackCooldownSeconds => (levelDefinition != null ? levelDefinition.PrimaryCooldown : .55f) *
+            (loadout != null ? Mathf.Max(.1f, loadout.Crew.CadenceMultiplier) : 1f) * FireCadence;
+        private float OrdinaryTargetDamage => (levelDefinition != null ? levelDefinition.OrdinaryDamage : 5f) *
+            ArmyDamageScale * FireDensity;
+        private float GuardianTargetDamage => (levelDefinition != null ? levelDefinition.GuardianDamage : 18f) *
+            ArmyDamageScale * FireDensity;
         private float AssaultTimeLimit => levelDefinition != null ? levelDefinition.AssaultTimeLimit : 55f;
         public float ArmyDamageScale => Mathf.Max(0f, ForceCount) /
             (levelDefinition != null ? levelDefinition.ReferenceForce : 32f) *
@@ -17,8 +22,42 @@ namespace SeaLion.Gameplay.Levels
         private bool traversalPlayerSteered;
         private float traversalActiveElapsed;
         private float primaryAttackCooldown;
+        private AssaultStance assaultStance;
+        private float assaultAdvance;
 
         public event Action<Level01PrimaryAttackEvent> PrimaryAttackFired;
+        public AssaultStance Stance => Phase == Level01TrialPhase.Assault ? assaultStance : AssaultStance.Hold;
+        public float AssaultAdvance01 => Phase == Level01TrialPhase.Landing ? LandingProgress01 :
+            Mathf.Clamp01(assaultAdvance);
+        public bool UnitsAreHolding => Phase == Level01TrialPhase.Assault && assaultStance == AssaultStance.Hold;
+        public bool UnitsAreMarching => Phase == Level01TrialPhase.Landing ||
+            (Phase == Level01TrialPhase.Assault && assaultStance == AssaultStance.Engage && assaultAdvance < .99f);
+        public string ObjectiveKey
+        {
+            get
+            {
+                if (Phase == Level01TrialPhase.Assault)
+                {
+                    if (GuardianTelegraphing) return "giantSlam";
+                    if (assaultStance == AssaultStance.Hold) return "holdBeach";
+                    if (hostileRemaining > 1) return "clearDefenders";
+                    if (hostileRemaining == 1) return "breakElite";
+                    return "strikeGuardian";
+                }
+                if (Phase == Level01TrialPhase.Landing) return "landing";
+                if (Phase == Level01TrialPhase.Traversal)
+                {
+                    if (NeedsSteeringChoice) return "steerToChoose";
+                    if (NeedsGateCommit) return "traversal";
+                    if (LevelNumber == 1 && ChoseEasyGate && !rescueCollected &&
+                        routeProgress < RescueProgress) return "rescueCaptives";
+                    return "sailToShore";
+                }
+                if (Phase == Level01TrialPhase.Victory) return "victory";
+                if (Phase == Level01TrialPhase.Failure) return "failure";
+                return "opening";
+            }
+        }
 
         public bool TraversalPlayerSteered => traversalPlayerSteered;
         public float TraversalActiveElapsed => traversalActiveElapsed;
@@ -37,6 +76,8 @@ namespace SeaLion.Gameplay.Levels
         public void SetTraversalControl(float normalizedChoice, bool playerSteered)
         {
             SetHorizontalChoice(normalizedChoice);
+            if (playerSteered && Phase == Level01TrialPhase.Opening)
+                SetPhase(Level01TrialPhase.Traversal);
             if (Phase == Level01TrialPhase.Traversal && playerSteered)
                 traversalPlayerSteered = true;
         }
@@ -44,6 +85,11 @@ namespace SeaLion.Gameplay.Levels
         public Level01PrimaryAttackResult TryPrimaryAttack()
         {
             if (!CanPrimaryAttack) return Level01PrimaryAttackResult.Rejected;
+            if (Phase == Level01TrialPhase.Assault)
+            {
+                if (assaultStance == AssaultStance.Hold) SpendEngageVolley();
+                assaultStance = AssaultStance.Engage;
+            }
             if (FireAtBlockade(out var blockadeResult)) return blockadeResult;
             if (ForceCount <= 0) return Level01PrimaryAttackResult.Rejected;
             primaryAttackCooldown = PrimaryAttackCooldownSeconds;
@@ -94,6 +140,7 @@ namespace SeaLion.Gameplay.Levels
         private void TickPlayerInteraction(float step)
         {
             primaryAttackCooldown = Mathf.Max(0f, primaryAttackCooldown - step);
+            TickPower(step);
         }
 
         private void ResetPlayerInteraction()
@@ -101,6 +148,8 @@ namespace SeaLion.Gameplay.Levels
             traversalPlayerSteered = false;
             traversalActiveElapsed = 0f;
             primaryAttackCooldown = 0f;
+            assaultStance = AssaultStance.Hold;
+            assaultAdvance = 0f;
         }
 
         private bool AssaultTimedOut(float elapsed) => elapsed >= AssaultTimeLimit;

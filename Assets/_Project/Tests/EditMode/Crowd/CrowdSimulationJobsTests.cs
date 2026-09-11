@@ -98,5 +98,53 @@ namespace SeaLion.Tests.EditMode.Crowd
             }
             finally { states.Dispose(); positions.Dispose(); targets.Dispose(); health.Dispose(); flags.Dispose(); }
         }
+
+        [Test]
+        public void FightingAgentsStayFightingWhenTheyReachTheObjective()
+        {
+            var states = new NativeArray<CrowdAgentState>(1, Allocator.TempJob);
+            var positions = new NativeArray<float3>(1, Allocator.TempJob);
+            var targets = new NativeArray<float3>(1, Allocator.TempJob);
+            var health = new NativeArray<float>(1, Allocator.TempJob);
+            var flags = new NativeArray<CrowdAgentFlags>(1, Allocator.TempJob);
+            try
+            {
+                states[0] = CrowdAgentState.Fighting;
+                health[0] = 4f;
+                positions[0] = targets[0] = float3.zero;
+                new CrowdStateTransitionJob
+                {
+                    States = states, Positions = positions, Targets = targets, HealthOrHits = health,
+                    Flags = flags, Rules = new CrowdStateTransitionRules { ArrivalDistance = .5f, LandingDistance = 1f, CompleteDistance = 2f }
+                }.Schedule(1, 1).Complete();
+                Assert.That(states[0], Is.EqualTo(CrowdAgentState.Fighting));
+            }
+            finally { states.Dispose(); positions.Dispose(); targets.Dispose(); health.Dispose(); flags.Dispose(); }
+        }
+
+        [Test]
+        public void HoldPositionStopsLivingAgentsFromSeekingOnTheirOwn()
+        {
+            var positions = new NativeArray<float3>(1, Allocator.TempJob);
+            var velocities = new NativeArray<float3>(1, Allocator.TempJob);
+            var targets = new NativeArray<float3>(1, Allocator.TempJob);
+            var states = new NativeArray<CrowdAgentState>(1, Allocator.TempJob);
+            var flags = new NativeArray<CrowdAgentFlags>(1, Allocator.TempJob);
+            try
+            {
+                positions[0] = float3.zero;
+                targets[0] = new float3(10, 0, 0);
+                states[0] = CrowdAgentState.Fighting;
+                flags[0] = CrowdAgentFlags.HoldPosition;
+                new CrowdMovementIntegrationJob
+                {
+                    Positions = positions, Velocities = velocities, Targets = targets,
+                    States = states, Flags = flags, DeltaTime = 1f / 60f, MaxSpeed = 6f, Acceleration = 60f
+                }.Schedule(1, 1).Complete();
+                Assert.That(positions[0], Is.EqualTo(float3.zero));
+                Assert.That(velocities[0], Is.EqualTo(float3.zero));
+            }
+            finally { positions.Dispose(); velocities.Dispose(); targets.Dispose(); states.Dispose(); flags.Dispose(); }
+        }
     }
 }

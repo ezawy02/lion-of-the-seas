@@ -98,7 +98,9 @@ namespace SeaLion.Presentation.Levels
             var count = batch == null ? 0 : batch.VisibleCount;
             if (count <= 0 || batch.Mesh == null || batch.Material == null) return;
             var time = runtime.TotalElapsed;
-            var progress = Mathf.Clamp01(runtime.PhaseElapsed / Mathf.Max(.1f, travelSeconds));
+            var progress = runtime.Phase == Level01TrialPhase.Landing
+                ? Mathf.Clamp01(runtime.PhaseElapsed / Mathf.Max(.1f, travelSeconds))
+                : Level01CrowdPresentationBudget.CommandedMarch(1f, runtime.AssaultAdvance01);
             var pulse01 = pulse <= 0f ? 0f : Mathf.Sin(Mathf.Clamp01(pulse / .42f) * Mathf.PI);
             for (var index = 0; index < count; index++)
             {
@@ -107,8 +109,8 @@ namespace SeaLion.Presentation.Levels
                 var source = batch.BaseMatrices[sourceIndex];
                 var position = (Vector3)source.GetColumn(3);
                 var phase = sourceIndex * .71f;
-                var stride = Mathf.Sin(time * 4.8f + phase);
-                position.y += Mathf.Abs(stride) * .045f;
+                var stride = runtime.UnitsAreMarching ? Mathf.Sin(time * 4.8f + phase) : Mathf.Sin(time * 1.6f + phase) * .18f;
+                position.y += Mathf.Abs(stride) * (runtime.UnitsAreMarching ? .045f : .012f);
                 position.z += progress * (isFriendly ? travelDistance : -travelDistance);
                 var rotation = source.rotation * Quaternion.Euler(Mathf.Abs(stride) * 1.4f,
                     Mathf.Sin(time * 2.4f + phase) * .65f, 0f);

@@ -38,7 +38,9 @@ namespace SeaLion.Tests.EditMode.Levels
             Assert.That(runtime.GateCommitted, Is.True);
             Assert.That(runtime.ChoseEasyGate, Is.True);
             Assert.That(runtime.Phase, Is.EqualTo(Level01TrialPhase.Landing));
-            Assert.That(runtime.ForceCount, Is.Zero);
+            Assert.That(runtime.ForceCount, Is.GreaterThan(8));
+            Assert.That(runtime.DisplayedForceCount, Is.Zero);
+            Assert.That(runtime.PeakForce, Is.GreaterThanOrEqualTo(runtime.ForceCount));
 
             Advance(runtime, 9.1f);
             Assert.That(runtime.Phase, Is.EqualTo(Level01TrialPhase.Assault));
@@ -108,9 +110,39 @@ namespace SeaLion.Tests.EditMode.Levels
             Assert.That(first.Fired, Is.True);
             Assert.That(first.TargetIndex, Is.GreaterThanOrEqualTo(0));
             Assert.That(runtime.HostileRemaining, Is.LessThan(hostileBefore));
+            Assert.That(runtime.HostileLost, Is.GreaterThan(0));
+            Assert.That(runtime.ShowsEnemyCount, Is.True);
             Assert.That(runtime.TryPrimaryAttack().Fired, Is.False);
             Advance(runtime, 0.6f);
             Assert.That(runtime.CanPrimaryAttack, Is.True);
+        }
+
+        [Test]
+        public void AssaultHoldsUntilPlayerFireThenSetsEngageObjective()
+        {
+            var runtime = CreateRuntime();
+            Assert.That(runtime.Begin(), Is.True);
+            Advance(runtime, 3.1f);
+            runtime.SetTraversalControl(-1f, true);
+            Advance(runtime, 10.1f);
+            Advance(runtime, 9.1f);
+            Assert.That(runtime.Phase, Is.EqualTo(Level01TrialPhase.Assault));
+            Assert.That(runtime.Stance, Is.EqualTo(AssaultStance.Hold));
+            Assert.That(runtime.UnitsAreHolding, Is.True);
+            Assert.That(runtime.UnitsAreMarching, Is.False);
+            Assert.That(runtime.AssaultAdvance01, Is.Zero);
+            Assert.That(runtime.ObjectiveKey, Is.EqualTo("holdBeach"));
+            var forceBefore = runtime.ForceCount;
+            Advance(runtime, 3f);
+            Assert.That(runtime.ForceCount, Is.EqualTo(forceBefore));
+            Assert.That(runtime.AssaultAdvance01, Is.Zero);
+
+            Assert.That(runtime.TryPrimaryAttack().Fired, Is.True);
+            Assert.That(runtime.Stance, Is.EqualTo(AssaultStance.Engage));
+            Assert.That(runtime.ObjectiveKey, Is.EqualTo(runtime.HostileRemaining > 0 ? "clearDefenders" : "strikeGuardian"));
+            Advance(runtime, 1.2f);
+            Assert.That(runtime.UnitsAreMarching, Is.True);
+            Assert.That(runtime.AssaultAdvance01, Is.GreaterThan(0.4f));
         }
 
         private Level01TrialRuntime CreateRuntime()

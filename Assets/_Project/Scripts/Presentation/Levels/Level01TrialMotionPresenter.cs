@@ -145,14 +145,17 @@ namespace SeaLion.Presentation.Levels
                 case MotionKind.Character:
                     position.y += Mathf.Abs(wave) * 0.018f;
                     rotation *= Quaternion.Euler(secondary * 0.65f, 0f, wave * 0.5f);
+                    if (runtime.EliteGuardActive && track.Target.name.IndexOf("EnemyCommander") >= 0)
+                        scale *= 1.1f;
                     break;
                 case MotionKind.Guardian:
-                    position.y += Mathf.Abs(wave) * 0.06f;
+                    var windup = runtime.GuardianTelegraphing ? 1f : 0f;
+                    position.y += Mathf.Abs(wave) * 0.06f + windup * 0.18f;
                     var hit = guardianHitPulse <= 0f ? 0f :
                         Mathf.Sin(Mathf.Clamp01(guardianHitPulse / .3f) * Mathf.PI);
-                    rotation *= Quaternion.Euler(secondary * 1.1f - hit * 7f,
+                    rotation *= Quaternion.Euler(secondary * 1.1f - hit * 7f - windup * 8f,
                         wave * 1.5f, -wave * 0.75f + hit * 3f);
-                    scale *= 1f + secondary * 0.012f + hit * .055f;
+                    scale *= 1f + secondary * 0.012f + hit * .055f + windup * .07f;
                     break;
                 case MotionKind.Attachment:
                     if (track.Anchor != null)
@@ -183,6 +186,19 @@ namespace SeaLion.Presentation.Levels
             if (rig == null) return;
             if (track.Kind == MotionKind.FriendlyUnit || track.Kind == MotionKind.HostileUnit)
             {
+                if (!runtime.UnitsAreMarching)
+                {
+                    var idle = Mathf.Sin(time * 1.6f + track.Offset);
+                    Set(rig.Spine, rig.SpineRotation, Quaternion.Euler(idle * 0.8f, 0f, 0f));
+                    Set(rig.Head, rig.HeadRotation, Quaternion.Euler(0f, idle * 2f, 0f));
+                    Set(rig.LeftArm, rig.LeftArmRotation, Quaternion.Euler(idle * 2.5f, 0f, 0f));
+                    Set(rig.RightArm, rig.RightArmRotation, Quaternion.Euler(-idle * 2.5f, 0f, 0f));
+                    Set(rig.LeftLeg, rig.LeftLegRotation, Quaternion.identity);
+                    Set(rig.RightLeg, rig.RightLegRotation, Quaternion.identity);
+                    Set(rig.LeftKnee, rig.LeftKneeRotation, Quaternion.identity);
+                    Set(rig.RightKnee, rig.RightKneeRotation, Quaternion.identity);
+                    return;
+                }
                 var stride = Mathf.Sin(time * 5.2f + track.Offset);
                 Set(rig.LeftArm, rig.LeftArmRotation, Quaternion.Euler(-stride * 26f, 0f, 0f));
                 Set(rig.RightArm, rig.RightArmRotation, Quaternion.Euler(stride * 26f, 0f, 0f));
@@ -219,13 +235,15 @@ namespace SeaLion.Presentation.Levels
         private void AnimateUnit(MotionTrack track, float time, float direction,
             ref Vector3 position, ref Quaternion rotation)
         {
-            var march = Mathf.Abs(Mathf.Sin(time * 4.8f + track.Offset));
-            position.y += march * 0.055f;
+            var marching = runtime.UnitsAreMarching;
+            var march = Mathf.Abs(Mathf.Sin(time * (marching ? 4.8f : 1.6f) + track.Offset));
+            position.y += march * (marching ? 0.055f : 0.014f);
             if (runtime.Phase == Level01TrialPhase.Landing)
                 position.z += Mathf.Clamp01((runtime.PhaseElapsed - track.Offset * 0.08f) / 7.5f) * 2.4f;
             else if (runtime.Phase == Level01TrialPhase.Assault || runtime.Phase == Level01TrialPhase.Failure)
-                position.z += Mathf.Clamp01(runtime.PhaseElapsed / 12f) * 4.2f * direction;
-            rotation *= Quaternion.Euler(march * 1.8f, Mathf.Sin(time * 2.4f + track.Offset) * 0.7f, 0f);
+                position.z += runtime.AssaultAdvance01 * 4.2f * direction;
+            rotation *= Quaternion.Euler(march * (marching ? 1.8f : 0.4f),
+                Mathf.Sin(time * (marching ? 2.4f : 0.9f) + track.Offset) * (marching ? 0.7f : 0.18f), 0f);
         }
 
         private float TravelDistance(MotionKind kind, float offset)
@@ -237,8 +255,8 @@ namespace SeaLion.Presentation.Levels
                 return Level01SeaMotion.ForwardDistance(elapsed, 3f,
                     kind == MotionKind.HeroShip ? 2.2f : 1.7f);
             if (runtime.Phase == Level01TrialPhase.Traversal)
-                return Level01SeaMotion.ForwardDistance(elapsed, 10f,
-                    kind == MotionKind.HeroShip ? 9.5f : 11.5f);
+                return Level01SeaMotion.RouteTravel(runtime.RouteProgress,
+                    .4f, kind == MotionKind.HeroShip ? 48f : 50f, kind == MotionKind.HeroShip ? 70f : 73f);
             if (runtime.Phase == Level01TrialPhase.Landing)
                 return Level01SeaMotion.ForwardDistance(elapsed, 9f, 3.5f);
             return kind == MotionKind.HeroShip ? Mathf.Sin(elapsed * 0.3f + offset) * 0.25f : 0f;
@@ -271,7 +289,8 @@ namespace SeaLion.Presentation.Levels
                 var craft = AddNamed(root, "FRIENDLY__GateCraft_" + index, MotionKind.SupportShip);
                 AddAttachedPrefix(root, "CREW__GateCraft_" + index + "_", craft);
             }
-            AddNamed(root, "RESCUE__CaptiveSailmakers", MotionKind.SupportShip);
+            var rescue = AddNamed(root, "RESCUE__CaptiveSailmakers", MotionKind.Character);
+            OffsetTrackedTarget(rescue, new Vector3(0f, 0f, 36f));
             AddPrefix(root, "ENEMY__Patrol_", MotionKind.PatrolShip, false);
         }
 

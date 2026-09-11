@@ -143,7 +143,7 @@ public static partial class VerticalSliceBlockoutBuilder
         Model(traversal, "ENEMY__Patrol_Left", ShipRoot + "L01-SHP-003_Hostile_Patrol_Boat_Optimized.fbx", new Vector3(-7, 0.03f, 58), Vector3.one * 1.8f, new Vector3(-90, 12, 0));
         Model(traversal, "ENEMY__Patrol_Right", ShipRoot + "L01-SHP-003_Hostile_Patrol_Boat_Optimized.fbx", new Vector3(7, 0.03f, 64), Vector3.one * 1.8f, new Vector3(-90, -12, 0));
         Model(traversal, "ENEMY__Patrol_FarLeft", ShipRoot + "L01-SHP-003_Hostile_Patrol_Boat_Optimized.fbx", new Vector3(-10, 0.03f, 70), Vector3.one * 1.55f, new Vector3(-90, 18, 0));
-        Level01OpeningBackdrop(traversal);
+        BuildApprovedOpeningCoastAndCity(traversal);
 
         var landing = Phase(root, "PHASE__BeachLanding_ReferenceMatch", false);
         Water(landing, 125, false, "Assets/_Project/Materials/Water/SeaLion_Water_Level01.mat");

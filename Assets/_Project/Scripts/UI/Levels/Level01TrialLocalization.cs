@@ -7,22 +7,36 @@ using UnityEngine;
 namespace SeaLion.UI.Levels
 {
     /// <summary>Compact Level 1 copy and the shared, atomic language preference seam.</summary>
-    public static class Level01TrialLocalization
+    public static partial class Level01TrialLocalization
     {
         private static readonly Dictionary<string, string[]> Text = new Dictionary<string, string[]>
         {
             { "stage", new[] { "LEVEL 1  •  THE HUNDRED SAILS", "المستوى الأول  •  أسطول المئة شراع" } },
             { "opening", new[] { "FORM THE VANGUARD", "تشكيل الطليعة" } },
             { "traversal", new[] { "CHOOSE YOUR PASSAGE", "اختر مسارك عبر المضيق" } },
+            { "sailToShore", new[] { "SAIL ON TO THE BEACH", "أبحر إلى الشاطئ" } },
             { "landing", new[] { "MAKE LANDFALL", "أنزل القوات إلى الشاطئ" } },
             { "assault", new[] { "STORM THE HARBOR FORTRESS", "اقتحم حصن الميناء" } },
+            { "holdBeach", new[] { "HOLD THE BEACH  •  TAP FIRE TO ENGAGE", "اثبت على الشاطئ  •  اضغط إطلاق للاشتباك" } },
+            { "clearDefenders", new[] { "CLEAR THE DEFENDERS", "امسح المدافعين" } },
+            { "breakElite", new[] { "BREAK THE ELITE GUARD", "اهزم الحارس العملاق" } },
+            { "giantSlam", new[] { "GIANT SLAM  •  STEER TO DODGE", "ضربة العملاق  •  انحرف" } },
+            { "rescueCaptives", new[] { "FREE THE CAPTIVES  •  +CREW +SHIELD", "حرر الأسرى  •  قوات + درع" } },
+            { "strikeGuardian", new[] { "STRIKE THE GUARDIAN", "اضرب الحارس" } },
+            { "fire", new[] { "FIRE", "إطلاق" } },
+            { "engage", new[] { "ENGAGE", "اشتبك" } },
             { "victory", new[] { "VICTORY AT THE HARBOR", "النصر في الميناء" } },
             { "failure", new[] { "THE FLEET HAS FALLEN", "سقط الأسطول" } },
             { "force", new[] { "CREW", "القوات" } },
             { "guardian", new[] { "HARBOR FORTRESS GUARDIAN", "حارس حصن الميناء" } },
-            { "gatePending", new[] { "◀ ×4 SAFE  |  RISKY -1 ▶", "◀ آمن ×٤  |  خطر -١ ▶" } },
-            { "gateSafe", new[] { "SAFE PASSAGE ×4  •  REINFORCED", "الممر الآمن ×٤  •  تعزيز القوات" } },
-            { "gateRisk", new[] { "DANGER PASSAGE  •  LOSE 1 CREW (-1)", "الممر الخطر  •  خسارة فرد واحد (-١)" } },
+            { "gatePending", new[] { "◀ SAFE ×4 +SHIELD  |  RISKY -1 ▶", "◀ آمن ×٤ +درع  |  خطر −١ ▶" } },
+            { "gateSafe", new[] { "SAFE ×4  •  CREW SURGES", "الممر الآمن ×٤  •  تعزيز القوات" } },
+            { "gateRisk", new[] { "DANGER PASSAGE  •  LOSE 1 CREW  •  FIRE DROPS", "الممر الخطر  •  خسارة فرد واحد  •  النيران تضعف" } },
+            { "shields", new[] { "SHIELD", "درع" } },
+            { "fireVolley", new[] { "VOLLEY", "وابل" } },
+            { "fireHot", new[] { "FIRE +", "نيران +" } },
+            { "fireSteady", new[] { "FIRE", "نيران" } },
+            { "fireWeak", new[] { "FIRE −", "نيران −" } },
             { "ability", new[] { "CAPTAIN'S RALLY", "نداء القبطان" } },
             { "abilityShort", new[] { "RALLY", "النداء" } },
             { "steer", new[] { "DRAG TO STEER", "اسحب يمينًا أو يسارًا" } },
@@ -38,7 +52,11 @@ namespace SeaLion.UI.Levels
             { "rewardFailure", new[] { "Could not save the reward — sail again to retry", "تعذر حفظ المكافأة — أبحر من جديد للمحاولة" } },
             { "failureTimeout", new[] { "The guardian held the harbor — strike faster", "صمد الحارس في الميناء — اضرب بصورة أسرع" } },
             { "failureDepleted", new[] { "The landing force was depleted", "نفدت قوات الإنزال" } },
-            { "failureGeneric", new[] { "The assault failed — regroup and sail again", "فشل الهجوم — أعد التجمع وأبحر من جديد" } }
+            { "failureGeneric", new[] { "The assault failed — regroup and sail again", "فشل الهجوم — أعد التجمع وأبحر من جديد" } },
+            { "enemies", new[] { "ENEMY", "العدو" } },
+            { "landingCount", new[] { "LAND", "الإنزال" } },
+            { "remaining", new[] { "REMAINING", "المتبقي" } },
+            { "peakForce", new[] { "PEAK", "أعلى قوة" } }
         };
 
         public static string Get(string key, GameLanguage language)

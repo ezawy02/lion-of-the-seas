@@ -12,7 +12,8 @@ namespace SeaLion.Crowd.Simulation
         GateProcessed = 1 << 0,
         HitQueued = 1 << 1,
         Dead = 1 << 2,
-        LandingEligible = 1 << 3
+        LandingEligible = 1 << 3,
+        HoldPosition = 1 << 4
     }
 
     public enum CrowdAgentState : byte

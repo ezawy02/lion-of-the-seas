@@ -92,8 +92,27 @@ namespace SeaLion.Gameplay.Levels
         public BattleSession Session => session;
         public float PhaseElapsed => phaseElapsed;
         public float TotalElapsed => totalElapsed;
-        public int ForceCount => ActiveForce == null ? 0 : ActiveForce.LogicalCount;
-        public int DisplayedForceCount => ActiveForce == null ? 0 : ActiveForce.DisplayedAgentCount;
+        public int ForceCount
+        {
+            get
+            {
+                if (Phase == Level01TrialPhase.Landing)
+                    return (seaForce == null ? 0 : seaForce.LogicalCount) +
+                        (landForce == null ? 0 : landForce.LogicalCount);
+                return ActiveForce == null ? 0 : ActiveForce.LogicalCount;
+            }
+        }
+        public int DisplayedForceCount
+        {
+            get
+            {
+                if (Phase == Level01TrialPhase.Landing)
+                    return landForce == null ? 0 : landForce.DisplayedAgentCount;
+                return ActiveForce == null ? 0 : ActiveForce.DisplayedAgentCount;
+            }
+        }
+        public int PeakForce { get; private set; }
+        public int LastForceDelta { get; private set; }
         public int DisplayCap => displayCap;
         public float BossHealth01 => guardian == null ? 1f : guardian.Health01;
         public bool GateCommitted => gateCommitted;
@@ -222,8 +241,11 @@ namespace SeaLion.Gameplay.Levels
         public void SetSteeringIntent(float intent, bool engaged)
         {
             steeringIntent = Finite(intent) ? Mathf.Clamp(intent, -1f, 1f) : 0f;
-            if (engaged && Mathf.Abs(steeringIntent) > .01f && Phase == Level01TrialPhase.Traversal)
-                traversalPlayerSteered = true;
+            if (engaged && Mathf.Abs(steeringIntent) > .01f)
+            {
+                if (Phase == Level01TrialPhase.Opening) SetPhase(Level01TrialPhase.Traversal);
+                if (Phase == Level01TrialPhase.Traversal) traversalPlayerSteered = true;
+            }
         }
         private void OnApplicationPause(bool value) { SetPaused(value); steeringIntent = 0f; }
         private void OnApplicationFocus(bool value) { if (!value) steeringIntent = 0f; }
@@ -280,7 +302,10 @@ namespace SeaLion.Gameplay.Levels
             paused = false;
             steeringIntent = 0f;
             hostileRemaining = 0;
+            PeakForce = initialForce;
+            LastForceDelta = 0;
             ResetPlayerInteraction();
+            ResetPower();
             ResetCampaign();
             ResetVoyage();
             seaForce = new ForceRuntime(initialForce, displayCap);
@@ -348,6 +373,8 @@ namespace SeaLion.Gameplay.Levels
             if (target == null || next == target.LogicalCount) return;
             var before = target.LogicalCount;
             target.SetLogicalCount(next);
+            LastForceDelta = next - before;
+            if (next > PeakForce) PeakForce = next;
             if (target == landForce && loadout != null)
                 target.SetRoleCounts(new[] { new KeyValuePair<UnitRole, int>(loadout.Crew.Role, next) });
 
@@ -360,6 +387,8 @@ namespace SeaLion.Gameplay.Levels
             Phase = next;
             phaseElapsed = 0f;
             deployer.SetPaused(paused || next != Level01TrialPhase.Traversal);
+            if (next == Level01TrialPhase.Landing || next == Level01TrialPhase.Assault)
+                LastForceDelta = 0;
             if (next == Level01TrialPhase.Landing)
             {
                 session.TrySetPhase(PhaseId("landing"));
