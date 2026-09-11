@@ -25,7 +25,17 @@ namespace SeaLion.Tests.EditMode.Scenes
             "Assets/_Project/Art/Characters/L01-CHR-001_Hayreddin_Barbarossa_Rigged_Optimized_R2_LeadershipPose_REVIEW.fbx",
             "Assets/_Project/Art/Characters/L01-CHR-002_Friendly_Marine_Rigged_Optimized.fbx",
             "Assets/_Project/Art/Characters/L01-CHR-003_Hostile_Infantry_Rigged_Optimized.fbx",
-            "Assets/_Project/Art/Characters/L01-CHR-004_Harbor_Guardian_Boss_Rigged_Optimized.fbx"
+            "Assets/_Project/Art/Characters/L01-CHR-004_Harbor_Guardian_Boss_Rigged_Optimized.fbx",
+            "Assets/_Project/Art/Ships/L01-SHP-002_Landing_Craft_Optimized.fbx",
+            "Assets/_Project/Art/Ships/L01-SHP-003_Hostile_Patrol_Boat_Optimized.fbx",
+            "Assets/_Project/Art/Environment/L01-ENV-004_Mediterranean_Harbor_Dock_Module_Optimized.fbx",
+            "Assets/_Project/Art/Environment/L01-ENV-005_Mediterranean_Coastal_House_Optimized.fbx",
+            "Assets/_Project/Art/Environment/L01-ENV-009_Shoreline_Rock_Sand_Cluster_Optimized.fbx",
+            "Assets/_Project/Art/Environment/L01-ENV-013_Wooden_Landing_Gangway_REVIEW.fbx",
+            "Assets/_Project/Art/Environment/L01-ENV-015_Fortress_R6_Modular_R5_VISIBLE_REVIEW.fbx",
+            "Assets/_Project/Art/Environment/L01-PRP-001_Shore_Cannon_Optimized.fbx",
+            "Assets/_Project/Art/Environment/L01-PRP-002_Lion_Wave_Banner_Optimized.fbx",
+            "Assets/_Project/Art/Environment/L01-PRP-004_Captive_Sailmakers_Rescue_Raft_Cage_Optimized.fbx"
         };
 
         private static readonly string[] Required =
@@ -53,7 +63,14 @@ namespace SeaLion.Tests.EditMode.Scenes
             "CHARACTER__Hayreddin_OnDeck",
             "CHARACTER__Hayreddin_Victory",
             "CRAFT__LandingFan_3",
-            "FRIENDLY__GateCraft_0"
+            "FRIENDLY__GateCraft_0",
+            "ESCORT__Port",
+            "ESCORT__Starboard",
+            "CITY__FortressWall",
+            "CITY__TerraceHouse_00",
+            "FORTRESS__RightCliffTower",
+            "GROUP__BeachCityExtension_Approved",
+            "ENV__WoodenLandingGangway_APPROVED"
         };
 
         [Test]

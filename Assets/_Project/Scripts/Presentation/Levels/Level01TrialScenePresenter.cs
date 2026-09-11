@@ -36,6 +36,7 @@ namespace SeaLion.Presentation.Levels
         private Level01PrimaryAttackFeedbackPresenter attackFeedback;
         private Level01PhaseCameraPresenter phaseCamera;
         private Level01PhaseTransitionPresenter phaseTransition;
+        private Level01SharedHorizonPresenter sharedHorizon;
         private HapticsController haptics;
         private Camera gameplayCamera;
         private float smoothedChoice;
@@ -146,6 +147,9 @@ namespace SeaLion.Presentation.Levels
             phaseTransition = GetComponent<Level01PhaseTransitionPresenter>();
             if (phaseTransition == null) phaseTransition = gameObject.AddComponent<Level01PhaseTransitionPresenter>();
             phaseTransition.Bind(opening, traversal, landing, assault, victory);
+            sharedHorizon = GetComponent<Level01SharedHorizonPresenter>();
+            if (sharedHorizon == null) sharedHorizon = gameObject.AddComponent<Level01SharedHorizonPresenter>();
+            sharedHorizon.Bind(opening, traversal);
             motion = GetComponent<Level01TrialMotionPresenter>();
             if (motion == null) motion = gameObject.AddComponent<Level01TrialMotionPresenter>();
             motion.Bind(runtime, opening, traversal, landing, assault, victory);
@@ -223,7 +227,8 @@ namespace SeaLion.Presentation.Levels
         private void ApplyPhase(Level01TrialPhase phase)
         {
             if (phaseTransition != null) phaseTransition.Present(phase);
-            else
+            sharedHorizon?.Present(phase);
+            if (phaseTransition == null)
             {
                 SetActive(opening, phase == Level01TrialPhase.Opening);
                 SetActive(traversal, phase == Level01TrialPhase.Traversal);
