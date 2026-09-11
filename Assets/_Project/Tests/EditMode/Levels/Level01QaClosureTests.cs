@@ -25,6 +25,9 @@ namespace SeaLion.Tests.EditMode.Levels
             Assert.That(Level01CrowdPresentationBudget.FriendlyVisibleCount(120, 120, 131, .5f), Is.EqualTo(60));
             Assert.That(Level01CrowdPresentationBudget.SourceIndex(0, 4, 100), Is.Zero);
             Assert.That(Level01CrowdPresentationBudget.SourceIndex(3, 4, 100), Is.EqualTo(99));
+            Assert.That(Level01CrowdPresentationBudget.CommandedMarch(4.2f, 0f), Is.Zero);
+            Assert.That(Level01CrowdPresentationBudget.CommandedMarch(4.2f, 0.5f), Is.EqualTo(2.1f).Within(0.0001f));
+            Assert.That(Level01CrowdPresentationBudget.CommandedMarch(4.2f, float.NaN), Is.Zero);
         }
 
         [Test]
@@ -107,6 +110,11 @@ namespace SeaLion.Tests.EditMode.Levels
         {
             Assert.That(Level01TrialLocalization.Get("steer", GameLanguage.English), Does.Contain("DRAG"));
             Assert.That(Level01TrialLocalization.Get("steer", GameLanguage.Arabic), Does.Contain("اسحب"));
+            Assert.That(Level01TrialLocalization.Get("holdBeach", GameLanguage.English), Does.Contain("HOLD"));
+            Assert.That(Level01TrialLocalization.Get("holdBeach", GameLanguage.Arabic), Does.Contain("اثبت"));
+            Assert.That(Level01TrialLocalization.Get("clearDefenders", GameLanguage.English), Does.Contain("CLEAR"));
+            Assert.That(Level01TrialLocalization.Get("strikeGuardian", GameLanguage.English), Does.Contain("STRIKE"));
+            Assert.That(Level01TrialLocalization.Get("engage", GameLanguage.Arabic), Does.Contain("اشتبك"));
             Assert.That(Level01TrialLocalization.FormatPercent(.67f, GameLanguage.English), Is.EqualTo("67%"));
             Assert.That(Level01TrialLocalization.FormatPercent(.67f, GameLanguage.Arabic), Does.Contain("٦٧"));
         }

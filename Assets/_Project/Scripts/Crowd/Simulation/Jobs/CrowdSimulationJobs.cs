@@ -73,6 +73,7 @@ namespace SeaLion.Crowd.Simulation.Jobs
         public void Execute(int index)
         {
             if ((Flags[index] & CrowdAgentFlags.Dead) != 0 ||
+                (Flags[index] & CrowdAgentFlags.HoldPosition) != 0 ||
                 States[index] == CrowdAgentState.Routed || States[index] == CrowdAgentState.Complete)
             {
                 Positions[index] = FiniteOr(Positions[index], float3.zero);
@@ -145,7 +146,7 @@ namespace SeaLion.Crowd.Simulation.Jobs
                     if (distance <= arrival) States[index] = CrowdAgentState.Fighting;
                     break;
                 case CrowdAgentState.Fighting:
-                    if (distance <= arrival) States[index] = CrowdAgentState.Complete;
+                    // Remain in combat until death or an explicit command; arrival is not completion.
                     break;
             }
         }

@@ -22,15 +22,22 @@ namespace SeaLion.Gameplay.Levels
             hostileRemaining = HostileCombatants;
             lossPerFriendly = Mathf.Max(1, Mathf.CeilToInt(landForce.LogicalCount / (float)FriendlyCombatants));
             combatAccumulator = guardianAttackAccumulator = 0f;
+            assaultStance = AssaultStance.Hold;
+            assaultAdvance = 0f;
+            if (combat != null) combat.ClearFocus();
         }
 
         private void StepAssault(float step)
         {
-            combatAccumulator += step;
-            while (combatAccumulator >= 0.25f && hostileRemaining > 0)
+            if (assaultStance == AssaultStance.Engage)
             {
-                combatAccumulator -= 0.25f;
-                combat.StepHostileAttacks(combatants, 0.25f);
+                assaultAdvance = math.min(1f, assaultAdvance + step / 2.4f);
+                combatAccumulator += step;
+                while (combatAccumulator >= 0.25f && hostileRemaining > 0)
+                {
+                    combatAccumulator -= 0.25f;
+                    combat.StepHostileAttacks(combatants, 0.25f);
+                }
             }
 
             guardianAttackAccumulator += step;

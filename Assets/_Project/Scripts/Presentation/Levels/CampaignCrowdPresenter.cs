@@ -44,12 +44,15 @@ namespace SeaLion.Presentation.Levels
             if (mesh == null || material == null || count <= 0) return;
             count = Mathf.Min(count, matrices.Length);
             var anchor = objective.position;
+            var close = runtime.AssaultAdvance01;
+            var bob = runtime.UnitsAreMarching ? .035f : .012f;
+            var tempo = runtime.UnitsAreMarching ? 5f : 1.6f;
             for (var i = 0; i < count; i++)
             {
                 var row = i / 12; var column = i % 12;
                 var position = anchor + new Vector3((column - 5.5f) * .55f,
-                    Mathf.Abs(Mathf.Sin(runtime.TotalElapsed * 5f + i)) * .035f,
-                    friendly ? -6f - row * .6f : -1f + row * .6f);
+                    Mathf.Abs(Mathf.Sin(runtime.TotalElapsed * tempo + i)) * bob,
+                    friendly ? -6f - row * .6f + close * 4f : -1f + row * .6f - close * 2.2f);
                 matrices[i] = Matrix4x4.TRS(position, Quaternion.Euler(0f, friendly ? 0f : 180f, 0f), Vector3.one * .65f);
             }
             Graphics.DrawMeshInstanced(mesh, 0, material, matrices, count, null,

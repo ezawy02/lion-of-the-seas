@@ -41,41 +41,37 @@ namespace SeaLion.Combat
         public event Action<CombatHit> Hit;
         public event Action<CombatDeath> Death;
 
+        /// <summary>Sticky focus for player-ordered volleys. Cleared when the target dies or teams change.</summary>
+        public int FocusedTarget { get; private set; } = -1;
+
+        public void ClearFocus() { FocusedTarget = -1; }
+
         public int ApplyPlayerDamage(CombatUnit[] units, float amount, CombatTeam targetTeam)
         {
             if (units == null || !Finite(amount) || amount <= 0f) return -1;
-            var best = -1; var bestDistance = float.MaxValue;
-            for (var i = 0; i < units.Length; i++)
-            {
-                if (units[i].Dead || units[i].Team != targetTeam || !Finite(units[i].Health) || units[i].Health <= 0f) continue;
-                var distance = math.lengthsq(units[i].Position);
-                if (distance < bestDistance) { best = i; bestDistance = distance; }
-            }
+            var best = SelectTarget(units, targetTeam, TeamCentroid(units, Opposite(targetTeam)));
             if (best < 0) return -1;
             Apply(units, (0, best, amount));
+            if (units[best].Dead) FocusedTarget = -1;
             return best;
         }
 
-        /// <summary>Distributes one player volley over live targets in stable nearest-first order.</summary>
+        /// <summary>Distributes one player volley over live targets. Prefers focused fire, then nearest to the attacking force.</summary>
         public int ApplyPlayerVolley(CombatUnit[] units, float amount, CombatTeam targetTeam, out float applied)
         {
             applied = 0f;
             if (units == null || !Finite(amount) || amount <= 0f) return -1;
+            var origin = TeamCentroid(units, Opposite(targetTeam));
             var first = -1;
             while (amount > .0001f)
             {
-                var best = -1; var distance = float.MaxValue;
-                for (var i = 0; i < units.Length; i++)
-                {
-                    if (units[i].Dead || units[i].Team != targetTeam || units[i].Health <= 0f) continue;
-                    var candidate = math.lengthsq(units[i].Position);
-                    if (candidate < distance) { distance = candidate; best = i; }
-                }
+                var best = SelectTarget(units, targetTeam, origin);
                 if (best < 0) break;
                 if (first < 0) first = best;
                 var hit = Math.Min(amount, units[best].Health);
                 Apply(units, (0, best, hit));
                 amount -= hit; applied += hit;
+                if (units[best].Dead) FocusedTarget = -1;
             }
             return first;
         }
@@ -112,6 +108,33 @@ namespace SeaLion.Combat
             for (var i = 0; i < pending.Count; i++) Apply(units, pending[i]);
         }
 
+        private int SelectTarget(CombatUnit[] units, CombatTeam targetTeam, float3 origin)
+        {
+            if (FocusedTarget >= 0 && FocusedTarget < units.Length)
+            {
+                var focused = units[FocusedTarget];
+                if (!focused.Dead && focused.Team == targetTeam && Finite(focused.Health) && focused.Health > 0f)
+                    return FocusedTarget;
+                FocusedTarget = -1;
+            }
+
+            var best = -1; var bestDistance = float.MaxValue;
+            var originFinite = Finite(origin.x) && Finite(origin.y) && Finite(origin.z);
+            var reference = originFinite ? origin : float3.zero;
+            for (var i = 0; i < units.Length; i++)
+            {
+                var candidate = units[i];
+                if (candidate.Dead || candidate.Team != targetTeam || !Finite(candidate.Health) || candidate.Health <= 0f ||
+                    !Finite(candidate.Position.x) || !Finite(candidate.Position.y) || !Finite(candidate.Position.z)) continue;
+                var distance = math.lengthsq(candidate.Position - reference);
+                if (!Finite(distance)) continue;
+                if (distance < bestDistance || (distance == bestDistance && (best < 0 || i < best)))
+                { best = i; bestDistance = distance; }
+            }
+            FocusedTarget = best;
+            return best;
+        }
+
         private int FindTarget(CombatUnit[] units, int source, CombatUnit attacker)
         {
             var best = -1; var bestDistance = float.MaxValue; var limit = attacker.Range * attacker.Range;
@@ -125,6 +148,24 @@ namespace SeaLion.Combat
                 if (distance < bestDistance || (distance == bestDistance && i < best)) { best = i; bestDistance = distance; }
             }
             return best;
+        }
+
+        private static CombatTeam Opposite(CombatTeam team)
+        {
+            return team == CombatTeam.Friendly ? CombatTeam.Hostile : CombatTeam.Friendly;
+        }
+
+        private static float3 TeamCentroid(CombatUnit[] units, CombatTeam team)
+        {
+            var sum = float3.zero; var count = 0;
+            for (var i = 0; i < units.Length; i++)
+            {
+                var unit = units[i];
+                if (unit.Dead || unit.Team != team || !Finite(unit.Health) || unit.Health <= 0f) continue;
+                if (!Finite(unit.Position.x) || !Finite(unit.Position.y) || !Finite(unit.Position.z)) continue;
+                sum += unit.Position; count++;
+            }
+            return count == 0 ? float3.zero : sum / count;
         }
 
         private void Apply(CombatUnit[] units, (int source, int target, float amount) hit)

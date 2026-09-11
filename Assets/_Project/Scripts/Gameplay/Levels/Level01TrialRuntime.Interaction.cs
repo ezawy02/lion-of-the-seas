@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace SeaLion.Gameplay.Levels
 {
+    public enum AssaultStance : byte { Hold, Engage }
+
     public sealed partial class Level01TrialRuntime
     {
         private float PrimaryAttackCooldownSeconds => (levelDefinition != null ? levelDefinition.PrimaryCooldown : .55f) * (loadout != null ? Mathf.Max(.1f, loadout.Crew.CadenceMultiplier) : 1f);
@@ -17,8 +19,34 @@ namespace SeaLion.Gameplay.Levels
         private bool traversalPlayerSteered;
         private float traversalActiveElapsed;
         private float primaryAttackCooldown;
+        private AssaultStance assaultStance;
+        private float assaultAdvance;
 
         public event Action<Level01PrimaryAttackEvent> PrimaryAttackFired;
+        public AssaultStance Stance => Phase == Level01TrialPhase.Assault ? assaultStance : AssaultStance.Hold;
+        public float AssaultAdvance01 => Phase == Level01TrialPhase.Landing ? LandingProgress01 :
+            Mathf.Clamp01(assaultAdvance);
+        public bool UnitsAreHolding => Phase == Level01TrialPhase.Assault && assaultStance == AssaultStance.Hold;
+        public bool UnitsAreMarching => Phase == Level01TrialPhase.Landing ||
+            (Phase == Level01TrialPhase.Assault && assaultStance == AssaultStance.Engage && assaultAdvance < .99f);
+        public string ObjectiveKey
+        {
+            get
+            {
+                if (Phase == Level01TrialPhase.Assault)
+                {
+                    if (assaultStance == AssaultStance.Hold) return "holdBeach";
+                    if (hostileRemaining > 0) return "clearDefenders";
+                    return "strikeGuardian";
+                }
+                if (Phase == Level01TrialPhase.Landing) return "landing";
+                if (Phase == Level01TrialPhase.Traversal)
+                    return NeedsSteeringChoice ? "steerToChoose" : "traversal";
+                if (Phase == Level01TrialPhase.Victory) return "victory";
+                if (Phase == Level01TrialPhase.Failure) return "failure";
+                return "opening";
+            }
+        }
 
         public bool TraversalPlayerSteered => traversalPlayerSteered;
         public float TraversalActiveElapsed => traversalActiveElapsed;
@@ -44,6 +72,7 @@ namespace SeaLion.Gameplay.Levels
         public Level01PrimaryAttackResult TryPrimaryAttack()
         {
             if (!CanPrimaryAttack) return Level01PrimaryAttackResult.Rejected;
+            if (Phase == Level01TrialPhase.Assault) assaultStance = AssaultStance.Engage;
             if (FireAtBlockade(out var blockadeResult)) return blockadeResult;
             if (ForceCount <= 0) return Level01PrimaryAttackResult.Rejected;
             primaryAttackCooldown = PrimaryAttackCooldownSeconds;
@@ -101,6 +130,8 @@ namespace SeaLion.Gameplay.Levels
             traversalPlayerSteered = false;
             traversalActiveElapsed = 0f;
             primaryAttackCooldown = 0f;
+            assaultStance = AssaultStance.Hold;
+            assaultAdvance = 0f;
         }
 
         private bool AssaultTimedOut(float elapsed) => elapsed >= AssaultTimeLimit;

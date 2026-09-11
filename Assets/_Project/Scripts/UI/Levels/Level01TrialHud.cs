@@ -110,7 +110,7 @@ namespace SeaLion.UI.Levels
         {
             if (runtime == null || stage == null) return;
             stage.text = Local("stage");
-            phase.text = runtime.CanRetry ? string.Empty : Local(PhaseKey(runtime.Phase));
+            phase.text = runtime.CanRetry ? string.Empty : Local(runtime.ObjectiveKey);
             force.text = Level01TrialLocalization.FormatCurrentForce(runtime.ForceCount, language);
             gate.text = BuildGateText();
             bossCard.SetActive(runtime.Phase == Level01TrialPhase.Assault);
@@ -129,7 +129,7 @@ namespace SeaLion.UI.Levels
             fireButton.interactable = (inAssault && runtime.CanPrimaryAttack) ||
                 (inLanding && runtime.CanAssistLanding);
             reloadCharge.fillAmount = runtime.PrimaryAttackReady01;
-            fireLabel.text = language == GameLanguage.Arabic ? "إطلاق" : "FIRE";
+            fireLabel.text = Local(runtime.UnitsAreHolding ? "engage" : "fire");
             if (inLanding)
                 reloadLabel.text = Local("landingAssist");
             else reloadLabel.text = runtime.CanPrimaryAttack ?
@@ -184,7 +184,7 @@ namespace SeaLion.UI.Levels
             bossHealth.direction = arabic ? Slider.Direction.RightToLeft : Slider.Direction.LeftToRight;
             englishToggle.color = language == GameLanguage.English ? Ink : Color.white;
             arabicToggle.color = language == GameLanguage.Arabic ? Ink : Color.white;
-            if (fireLabel != null) fireLabel.text = arabic ? "إطلاق" : "FIRE";
+            if (fireLabel != null) fireLabel.text = Local(runtime != null && runtime.UnitsAreHolding ? "engage" : "fire");
             if (reloadLabel != null) reloadLabel.text = arabic ? "إعادة التلقيم" : "RELOADING";
         }
 
@@ -473,19 +473,6 @@ namespace SeaLion.UI.Levels
             var value = new GameObject(name, types);
             value.transform.SetParent(parent, false);
             return value;
-        }
-
-        private static string PhaseKey(Level01TrialPhase phase)
-        {
-            switch (phase)
-            {
-                case Level01TrialPhase.Assault: return "assault";
-                case Level01TrialPhase.Victory: return "victory";
-                case Level01TrialPhase.Failure: return "failure";
-                case Level01TrialPhase.Landing: return "landing";
-                case Level01TrialPhase.Traversal: return "traversal";
-                default: return "opening";
-            }
         }
 
     }

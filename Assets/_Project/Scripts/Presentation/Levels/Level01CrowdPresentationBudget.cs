@@ -18,6 +18,13 @@ namespace SeaLion.Presentation.Levels
             return Scale(Mathf.CeilToInt(available * ratio), qualityScale);
         }
 
+        public static float CommandedMarch(float travelDistance, float advance01)
+        {
+            if (float.IsNaN(travelDistance) || float.IsInfinity(travelDistance)) return 0f;
+            if (float.IsNaN(advance01) || float.IsInfinity(advance01)) return 0f;
+            return Mathf.Max(0f, travelDistance) * Mathf.Clamp01(advance01);
+        }
+
         public static int SourceIndex(int visibleIndex, int visibleCount, int availableCount)
         {
             if (availableCount <= 1 || visibleCount <= 1) return 0;
