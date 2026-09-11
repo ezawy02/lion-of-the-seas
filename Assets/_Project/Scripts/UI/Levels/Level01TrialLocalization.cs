@@ -7,13 +7,14 @@ using UnityEngine;
 namespace SeaLion.UI.Levels
 {
     /// <summary>Compact Level 1 copy and the shared, atomic language preference seam.</summary>
-    public static class Level01TrialLocalization
+    public static partial class Level01TrialLocalization
     {
         private static readonly Dictionary<string, string[]> Text = new Dictionary<string, string[]>
         {
             { "stage", new[] { "LEVEL 1  •  THE HUNDRED SAILS", "المستوى الأول  •  أسطول المئة شراع" } },
             { "opening", new[] { "FORM THE VANGUARD", "تشكيل الطليعة" } },
             { "traversal", new[] { "CHOOSE YOUR PASSAGE", "اختر مسارك عبر المضيق" } },
+            { "sailToShore", new[] { "SAIL ON TO THE BEACH", "أبحر إلى الشاطئ" } },
             { "landing", new[] { "MAKE LANDFALL", "أنزل القوات إلى الشاطئ" } },
             { "assault", new[] { "STORM THE HARBOR FORTRESS", "اقتحم حصن الميناء" } },
             { "holdBeach", new[] { "HOLD THE BEACH  •  TAP FIRE TO ENGAGE", "اثبت على الشاطئ  •  اضغط إطلاق للاشتباك" } },
@@ -43,7 +44,11 @@ namespace SeaLion.UI.Levels
             { "rewardFailure", new[] { "Could not save the reward — sail again to retry", "تعذر حفظ المكافأة — أبحر من جديد للمحاولة" } },
             { "failureTimeout", new[] { "The guardian held the harbor — strike faster", "صمد الحارس في الميناء — اضرب بصورة أسرع" } },
             { "failureDepleted", new[] { "The landing force was depleted", "نفدت قوات الإنزال" } },
-            { "failureGeneric", new[] { "The assault failed — regroup and sail again", "فشل الهجوم — أعد التجمع وأبحر من جديد" } }
+            { "failureGeneric", new[] { "The assault failed — regroup and sail again", "فشل الهجوم — أعد التجمع وأبحر من جديد" } },
+            { "enemies", new[] { "ENEMY", "العدو" } },
+            { "landingCount", new[] { "LAND", "الإنزال" } },
+            { "remaining", new[] { "REMAINING", "المتبقي" } },
+            { "peakForce", new[] { "PEAK", "أعلى قوة" } }
         };
 
         public static string Get(string key, GameLanguage language)

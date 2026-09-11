@@ -38,7 +38,9 @@ namespace SeaLion.Tests.EditMode.Levels
             Assert.That(runtime.GateCommitted, Is.True);
             Assert.That(runtime.ChoseEasyGate, Is.True);
             Assert.That(runtime.Phase, Is.EqualTo(Level01TrialPhase.Landing));
-            Assert.That(runtime.ForceCount, Is.Zero);
+            Assert.That(runtime.ForceCount, Is.GreaterThan(8));
+            Assert.That(runtime.DisplayedForceCount, Is.Zero);
+            Assert.That(runtime.PeakForce, Is.GreaterThanOrEqualTo(runtime.ForceCount));
 
             Advance(runtime, 9.1f);
             Assert.That(runtime.Phase, Is.EqualTo(Level01TrialPhase.Assault));

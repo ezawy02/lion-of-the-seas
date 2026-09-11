@@ -32,6 +32,7 @@ namespace SeaLion.Presentation.Levels
         private GameObject traversalRoot;
         private GameObject landingRoot;
         private GameObject assaultRoot;
+        private GameObject victoryRoot;
         private Transform phaseFocus;
         private Vector3 phaseFocusOrigin;
         private bool bound;
@@ -39,7 +40,7 @@ namespace SeaLion.Presentation.Levels
         public Level01TrialPhase CurrentPhase { get; private set; } = Level01TrialPhase.Loading;
 
         public void Bind(Level01TrialRuntime trialRuntime, Camera camera, GameObject opening,
-            GameObject traversal, GameObject landing, GameObject assault)
+            GameObject traversal, GameObject landing, GameObject assault, GameObject victory = null)
         {
             Unbind();
             runtime = trialRuntime;
@@ -48,6 +49,7 @@ namespace SeaLion.Presentation.Levels
             traversalRoot = traversal;
             landingRoot = landing;
             assaultRoot = assault;
+            victoryRoot = victory;
             if (runtime == null || targetCamera == null) return;
             runtime.PhaseChanged += SetPhase;
             bound = true;
@@ -115,6 +117,7 @@ namespace SeaLion.Presentation.Levels
                 case Level01TrialPhase.Opening: return .45f;
                 case Level01TrialPhase.Traversal: return .78f;
                 case Level01TrialPhase.Landing: return .82f;
+                case Level01TrialPhase.Victory: return .28f;
                 default: return 0f;
             }
         }
@@ -153,6 +156,7 @@ namespace SeaLion.Presentation.Levels
                 case Level01TrialPhase.Traversal: return Find(traversalRoot, "PLAYER__Flagship");
                 case Level01TrialPhase.Landing: return Find(landingRoot, "CRAFT__LandingFan_3");
                 case Level01TrialPhase.Assault: return Find(assaultRoot, "PLAYER__BattleFlagship");
+                case Level01TrialPhase.Victory: return Find(victoryRoot, "CHARACTER__Hayreddin_Victory");
                 default: return null;
             }
         }

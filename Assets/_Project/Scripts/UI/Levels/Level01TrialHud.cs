@@ -111,8 +111,11 @@ namespace SeaLion.UI.Levels
             if (runtime == null || stage == null) return;
             stage.text = Local("stage");
             phase.text = runtime.CanRetry ? string.Empty : Local(runtime.ObjectiveKey);
-            force.text = Level01TrialLocalization.FormatCurrentForce(runtime.ForceCount, language);
-            gate.text = BuildGateText();
+            force.text = Level01TrialLocalization.FormatJourneyForce(runtime.ForceCount,
+                runtime.HostileRemaining, runtime.LandedCraftCount, runtime.LandingCraftTotal,
+                runtime.ShowsEnemyCount, runtime.ShowsLandingCount, language);
+            gate.text = Level01TrialLocalization.FormatJourneyGate(runtime.GateCommitted,
+                runtime.ChoseEasyGate, runtime.LastGateBefore, runtime.LastGateAfter, language);
             bossCard.SetActive(runtime.Phase == Level01TrialPhase.Assault);
             boss.text = Local("guardian");
             bossHealth.value = runtime.BossHealth01;
@@ -140,11 +143,18 @@ namespace SeaLion.UI.Levels
             resultOverlay.SetActive(runtime.CanRetry);
             if (!runtime.CanRetry) return;
             result.text = Local(runtime.Phase == Level01TrialPhase.Victory ? "victory" : "failure");
+            var summary = Level01TrialLocalization.FormatResultBody(
+                runtime.Phase == Level01TrialPhase.Victory, runtime.ForceCount, runtime.PeakForce,
+                runtime.FailureReason, language);
             if (runtime.Phase == Level01TrialPhase.Failure)
-                reward.text = Local(Level01TrialLocalization.FailureKey(runtime.FailureReason));
-            else reward.text = !runtime.RewardResult.HasValue ? string.Empty :
-                runtime.RewardResult.Value.Succeeded ? RewardDescription() :
-                Local("rewardFailure");
+                reward.text = summary;
+            else
+            {
+                var rewardText = !runtime.RewardResult.HasValue ? string.Empty :
+                    runtime.RewardResult.Value.Succeeded ? RewardDescription() :
+                    Local("rewardFailure");
+                reward.text = string.IsNullOrEmpty(rewardText) ? summary : summary + "\n" + rewardText;
+            }
             retry.text = Local("retry");
             loadoutLabel.text = language == GameLanguage.Arabic ? SeaLion.UI.Localization.ArabicTextShaper.Shape("تغيير التجهيزات") : "CHANGE LOADOUT";
             retryButton.interactable = true;
@@ -346,21 +356,6 @@ namespace SeaLion.UI.Levels
                 runtime.TryAssistLanding();
             else if (runtime.Phase != Level01TrialPhase.Assault)
                 runtime.TryPrimaryAttack();
-        }
-
-        private string BuildGateText()
-        {
-            if (!runtime.GateCommitted)
-                return GateValue(runtime.EasyGate) + "  |  " + GateValue(runtime.RiskyGate);
-            return runtime.LastGateBefore + " → " + runtime.LastGateAfter;
-        }
-
-        private static string GateValue(SeaLion.Core.Definitions.GateDefinition definition)
-        {
-            if (definition == null) return string.Empty;
-            var prefix = definition.Outcome == SeaLion.Core.Definitions.GateOutcome.Multiply ? "×" :
-                definition.Outcome == SeaLion.Core.Definitions.GateOutcome.Damage ? "−" : "+";
-            return prefix + definition.Value.ToString("0.#");
         }
 
         private static void BuildFireGlyph(Transform parent, Sprite circle)

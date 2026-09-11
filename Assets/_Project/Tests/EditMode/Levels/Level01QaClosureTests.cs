@@ -72,6 +72,8 @@ namespace SeaLion.Tests.EditMode.Levels
                 Is.GreaterThan(.7f));
             Assert.That(Level01PhaseCameraPresenter.FollowFactor(Level01TrialPhase.Landing),
                 Is.GreaterThan(Level01PhaseCameraPresenter.FollowFactor(Level01TrialPhase.Traversal)));
+            Assert.That(Level01PhaseCameraPresenter.FollowFactor(Level01TrialPhase.Victory),
+                Is.GreaterThan(0f));
             Assert.That(Level01PhaseCameraPresenter.CombatPushIn(0, 0f), Is.EqualTo(1f));
             Assert.That(Level01PhaseCameraPresenter.CombatPushIn(8, 1f), Is.Zero);
         }
@@ -115,8 +117,43 @@ namespace SeaLion.Tests.EditMode.Levels
             Assert.That(Level01TrialLocalization.Get("clearDefenders", GameLanguage.English), Does.Contain("CLEAR"));
             Assert.That(Level01TrialLocalization.Get("strikeGuardian", GameLanguage.English), Does.Contain("STRIKE"));
             Assert.That(Level01TrialLocalization.Get("engage", GameLanguage.Arabic), Does.Contain("اشتبك"));
+            Assert.That(Level01TrialLocalization.Get("sailToShore", GameLanguage.English), Does.Contain("SAIL"));
+            Assert.That(Level01TrialLocalization.Get("sailToShore", GameLanguage.Arabic), Does.Contain("أبحر"));
             Assert.That(Level01TrialLocalization.FormatPercent(.67f, GameLanguage.English), Is.EqualTo("67%"));
             Assert.That(Level01TrialLocalization.FormatPercent(.67f, GameLanguage.Arabic), Does.Contain("٦٧"));
+        }
+
+        [Test]
+        public void JourneyHudFormatsForceGateAndResultInBothLanguages()
+        {
+            var landing = Level01TrialLocalization.FormatJourneyForce(32, 8, 2, 7, false, true,
+                GameLanguage.English);
+            Assert.That(landing, Does.Contain("32"));
+            Assert.That(landing, Does.Contain("2/7"));
+            var assault = Level01TrialLocalization.FormatJourneyForce(28, 5, 0, 0, true, false,
+                GameLanguage.English);
+            Assert.That(assault, Does.Contain("ENEMY"));
+            Assert.That(assault, Does.Contain("5"));
+            var pending = Level01TrialLocalization.FormatJourneyGate(false, true, 0, 0,
+                GameLanguage.English);
+            Assert.That(pending, Does.Contain("SAFE"));
+            var committed = Level01TrialLocalization.FormatJourneyGate(true, true, 8, 32,
+                GameLanguage.English);
+            Assert.That(committed, Does.Contain("8 → 32"));
+            var arabicForce = Level01TrialLocalization.FormatJourneyForce(32, 8, 2, 7, false, true,
+                GameLanguage.Arabic);
+            Assert.That(arabicForce, Does.Contain("٣٢"));
+            Assert.That(arabicForce, Does.Contain("٢"));
+            Assert.That(arabicForce, Does.Contain("٧"));
+            var result = Level01TrialLocalization.FormatResultBody(false, 0, 36, "force-depleted",
+                GameLanguage.English);
+            Assert.That(result, Does.Contain("depleted"));
+            Assert.That(result, Does.Contain("PEAK"));
+            Assert.That(result, Does.Contain("36"));
+            var victory = Level01TrialLocalization.FormatResultBody(true, 22, 44, string.Empty,
+                GameLanguage.Arabic);
+            Assert.That(victory, Does.Contain("٢٢"));
+            Assert.That(victory, Does.Contain("٤٤"));
         }
 
         [Test]

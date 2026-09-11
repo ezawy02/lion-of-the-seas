@@ -38,6 +38,7 @@ namespace SeaLion.Presentation.Levels
         private Level01PhaseTransitionPresenter phaseTransition;
         private HapticsController haptics;
         private Camera gameplayCamera;
+        private float smoothedChoice;
         private bool bound;
 
         public bool IsReady { get; private set; }
@@ -98,9 +99,11 @@ namespace SeaLion.Presentation.Levels
         private void LateUpdate()
         {
             if (!IsReady || flagship == null) return;
+            smoothedChoice = FlagshipController.SmoothNormalized(smoothedChoice,
+                runtime.HorizontalChoice, 10f, Time.deltaTime);
             var position = flagship.transform.position;
             position.x = Mathf.Lerp(flagship.LeftBound, flagship.RightBound,
-                (runtime.HorizontalChoice + 1f) * .5f);
+                (smoothedChoice + 1f) * .5f);
             flagship.transform.position = position;
         }
 
@@ -139,7 +142,7 @@ namespace SeaLion.Presentation.Levels
             }
             phaseCamera = GetComponent<Level01PhaseCameraPresenter>();
             if (phaseCamera == null) phaseCamera = gameObject.AddComponent<Level01PhaseCameraPresenter>();
-            phaseCamera.Bind(runtime, gameplayCamera, opening, traversal, landing, assault);
+            phaseCamera.Bind(runtime, gameplayCamera, opening, traversal, landing, assault, victory);
             phaseTransition = GetComponent<Level01PhaseTransitionPresenter>();
             if (phaseTransition == null) phaseTransition = gameObject.AddComponent<Level01PhaseTransitionPresenter>();
             phaseTransition.Bind(opening, traversal, landing, assault, victory);
@@ -231,6 +234,7 @@ namespace SeaLion.Presentation.Levels
             if (flagship != null && phase == Level01TrialPhase.Traversal)
             {
                 flagship.transform.position = flagshipStart;
+                smoothedChoice = 0f;
                 input.Reset();
             }
 

@@ -41,7 +41,11 @@ namespace SeaLion.Gameplay.Levels
                 }
                 if (Phase == Level01TrialPhase.Landing) return "landing";
                 if (Phase == Level01TrialPhase.Traversal)
-                    return NeedsSteeringChoice ? "steerToChoose" : "traversal";
+                {
+                    if (NeedsSteeringChoice) return "steerToChoose";
+                    if (NeedsGateCommit) return "traversal";
+                    return "sailToShore";
+                }
                 if (Phase == Level01TrialPhase.Victory) return "victory";
                 if (Phase == Level01TrialPhase.Failure) return "failure";
                 return "opening";
