@@ -69,6 +69,8 @@ namespace SeaLion.Gameplay.Levels
         public void SetTraversalControl(float normalizedChoice, bool playerSteered)
         {
             SetHorizontalChoice(normalizedChoice);
+            if (playerSteered && Phase == Level01TrialPhase.Opening)
+                SetPhase(Level01TrialPhase.Traversal);
             if (Phase == Level01TrialPhase.Traversal && playerSteered)
                 traversalPlayerSteered = true;
         }

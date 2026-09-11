@@ -115,6 +115,9 @@ namespace SeaLion.UI.Levels
                 runtime.HostileRemaining, runtime.LandedCraftCount, runtime.LandingCraftTotal,
                 runtime.ShowsEnemyCount, runtime.ShowsLandingCount, language,
                 runtime.LastForceDelta, runtime.ShowsForceDelta);
+            force.color = runtime.ShowsForceDelta && runtime.LastForceDelta > 0 ? Gold :
+                runtime.ShowsForceDelta && runtime.LastForceDelta < 0 ?
+                new Color(0.95f, 0.42f, 0.32f) : new Color(0.65f, 0.88f, 0.9f);
             gate.text = Level01TrialLocalization.FormatJourneyGate(runtime.GateCommitted,
                 runtime.ChoseEasyGate, runtime.LastGateBefore, runtime.LastGateAfter, language);
             bossCard.SetActive(runtime.Phase == Level01TrialPhase.Assault);

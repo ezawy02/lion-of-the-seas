@@ -241,8 +241,11 @@ namespace SeaLion.Gameplay.Levels
         public void SetSteeringIntent(float intent, bool engaged)
         {
             steeringIntent = Finite(intent) ? Mathf.Clamp(intent, -1f, 1f) : 0f;
-            if (engaged && Mathf.Abs(steeringIntent) > .01f && Phase == Level01TrialPhase.Traversal)
-                traversalPlayerSteered = true;
+            if (engaged && Mathf.Abs(steeringIntent) > .01f)
+            {
+                if (Phase == Level01TrialPhase.Opening) SetPhase(Level01TrialPhase.Traversal);
+                if (Phase == Level01TrialPhase.Traversal) traversalPlayerSteered = true;
+            }
         }
         private void OnApplicationPause(bool value) { SetPaused(value); steeringIntent = 0f; }
         private void OnApplicationFocus(bool value) { if (!value) steeringIntent = 0f; }
@@ -383,6 +386,8 @@ namespace SeaLion.Gameplay.Levels
             Phase = next;
             phaseElapsed = 0f;
             deployer.SetPaused(paused || next != Level01TrialPhase.Traversal);
+            if (next == Level01TrialPhase.Landing || next == Level01TrialPhase.Assault)
+                LastForceDelta = 0;
             if (next == Level01TrialPhase.Landing)
             {
                 session.TrySetPhase(PhaseId("landing"));

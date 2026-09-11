@@ -6,6 +6,18 @@ namespace SeaLion.Tests.EditMode.Levels
     public sealed partial class Level01TrialRuntimeTests
     {
         [Test]
+        public void SteeringDuringOpeningSkipsTheIdleRevealBeat()
+        {
+            var runtime = CreateRuntime();
+            Assert.That(runtime.Begin(), Is.True);
+            Assert.That(runtime.Phase, Is.EqualTo(Level01TrialPhase.Opening));
+            runtime.SetTraversalControl(-1f, true);
+            Assert.That(runtime.Phase, Is.EqualTo(Level01TrialPhase.Traversal));
+            Assert.That(runtime.TraversalPlayerSteered, Is.True);
+            Assert.That(runtime.ObjectiveKey, Is.EqualTo("traversal"));
+        }
+
+        [Test]
         public void AfterGateCommitTheObjectiveSendsTheFleetToShore()
         {
             var runtime = CreateRuntime();
@@ -34,6 +46,8 @@ namespace SeaLion.Tests.EditMode.Levels
             runtime.SetTraversalControl(-1f, true);
             Advance(runtime, 10.1f);
             Assert.That(runtime.Phase, Is.EqualTo(Level01TrialPhase.Landing));
+            Assert.That(runtime.LastForceDelta, Is.Zero);
+            Assert.That(runtime.ShowsForceDelta, Is.False);
             var readable = runtime.ForceCount;
             Assert.That(readable, Is.GreaterThan(8));
             Assert.That(runtime.DisplayedForceCount, Is.Zero);
