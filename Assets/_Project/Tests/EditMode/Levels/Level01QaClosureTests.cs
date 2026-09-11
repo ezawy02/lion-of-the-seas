@@ -76,6 +76,12 @@ namespace SeaLion.Tests.EditMode.Levels
                 Is.GreaterThan(0f));
             Assert.That(Level01PhaseCameraPresenter.CombatPushIn(0, 0f), Is.EqualTo(1f));
             Assert.That(Level01PhaseCameraPresenter.CombatPushIn(8, 1f), Is.Zero);
+            Assert.That(Level01SeaMotion.ShoreBlend01(.4f, false), Is.Zero);
+            Assert.That(Level01SeaMotion.ShoreBlend01(1f, true), Is.EqualTo(1f));
+            Assert.That(Level01SeaMotion.RouteTravel(.4f), Is.EqualTo(48f).Within(.01f));
+            Assert.That(Level01SeaMotion.RouteTravel(1f), Is.EqualTo(70f).Within(.01f));
+            Assert.That(Level01SeaMotion.RouteTravel(.2f), Is.GreaterThan(0f));
+            Assert.That(Level01SeaMotion.RouteTravel(.2f), Is.LessThan(48f));
         }
 
         [Test]
@@ -131,7 +137,8 @@ namespace SeaLion.Tests.EditMode.Levels
             Assert.That(landing, Does.Contain("32"));
             Assert.That(landing, Does.Contain("2/7"));
             var assault = Level01TrialLocalization.FormatJourneyForce(28, 5, 0, 0, true, false,
-                GameLanguage.English);
+                GameLanguage.English, -3, true);
+            Assert.That(assault, Does.Contain("−3"));
             Assert.That(assault, Does.Contain("ENEMY"));
             Assert.That(assault, Does.Contain("5"));
             var pending = Level01TrialLocalization.FormatJourneyGate(false, true, 0, 0,

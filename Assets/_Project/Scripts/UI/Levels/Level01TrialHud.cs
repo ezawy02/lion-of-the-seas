@@ -113,7 +113,8 @@ namespace SeaLion.UI.Levels
             phase.text = runtime.CanRetry ? string.Empty : Local(runtime.ObjectiveKey);
             force.text = Level01TrialLocalization.FormatJourneyForce(runtime.ForceCount,
                 runtime.HostileRemaining, runtime.LandedCraftCount, runtime.LandingCraftTotal,
-                runtime.ShowsEnemyCount, runtime.ShowsLandingCount, language);
+                runtime.ShowsEnemyCount, runtime.ShowsLandingCount, language,
+                runtime.LastForceDelta, runtime.ShowsForceDelta);
             gate.text = Level01TrialLocalization.FormatJourneyGate(runtime.GateCommitted,
                 runtime.ChoseEasyGate, runtime.LastGateBefore, runtime.LastGateAfter, language);
             bossCard.SetActive(runtime.Phase == Level01TrialPhase.Assault);

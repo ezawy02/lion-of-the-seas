@@ -110,6 +110,8 @@ namespace SeaLion.Tests.EditMode.Levels
             Assert.That(first.Fired, Is.True);
             Assert.That(first.TargetIndex, Is.GreaterThanOrEqualTo(0));
             Assert.That(runtime.HostileRemaining, Is.LessThan(hostileBefore));
+            Assert.That(runtime.HostileLost, Is.GreaterThan(0));
+            Assert.That(runtime.ShowsEnemyCount, Is.True);
             Assert.That(runtime.TryPrimaryAttack().Fired, Is.False);
             Advance(runtime, 0.6f);
             Assert.That(runtime.CanPrimaryAttack, Is.True);

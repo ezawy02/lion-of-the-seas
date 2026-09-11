@@ -1,13 +1,17 @@
 using SeaLion.UI.Localization;
+using UnityEngine;
 
 namespace SeaLion.UI.Levels
 {
     public static partial class Level01TrialLocalization
     {
         public static string FormatJourneyForce(int crew, int enemies, int landedCraft,
-            int landingTotal, bool showEnemies, bool showLanding, GameLanguage language)
+            int landingTotal, bool showEnemies, bool showLanding, GameLanguage language,
+            int lastDelta = 0, bool showDelta = false)
         {
             var raw = Get("force", language) + "  " + Digits(crew, language);
+            if (showDelta && lastDelta != 0)
+                raw += "  " + (lastDelta > 0 ? "+" : "−") + Digits(Mathf.Abs(lastDelta), language);
             if (showLanding)
                 raw += "  •  " + Get("landingCount", language) + "  " +
                     Digits(landedCraft, language) + "/" + Digits(landingTotal, language);

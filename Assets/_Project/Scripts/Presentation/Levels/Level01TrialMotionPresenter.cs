@@ -252,8 +252,8 @@ namespace SeaLion.Presentation.Levels
                 return Level01SeaMotion.ForwardDistance(elapsed, 3f,
                     kind == MotionKind.HeroShip ? 2.2f : 1.7f);
             if (runtime.Phase == Level01TrialPhase.Traversal)
-                return Level01SeaMotion.ForwardDistance(elapsed, 10f,
-                    kind == MotionKind.HeroShip ? 9.5f : 11.5f);
+                return Level01SeaMotion.RouteTravel(runtime.RouteProgress,
+                    .4f, kind == MotionKind.HeroShip ? 48f : 50f, kind == MotionKind.HeroShip ? 70f : 73f);
             if (runtime.Phase == Level01TrialPhase.Landing)
                 return Level01SeaMotion.ForwardDistance(elapsed, 9f, 3.5f);
             return kind == MotionKind.HeroShip ? Mathf.Sin(elapsed * 0.3f + offset) * 0.25f : 0f;
@@ -286,7 +286,8 @@ namespace SeaLion.Presentation.Levels
                 var craft = AddNamed(root, "FRIENDLY__GateCraft_" + index, MotionKind.SupportShip);
                 AddAttachedPrefix(root, "CREW__GateCraft_" + index + "_", craft);
             }
-            AddNamed(root, "RESCUE__CaptiveSailmakers", MotionKind.SupportShip);
+            var rescue = AddNamed(root, "RESCUE__CaptiveSailmakers", MotionKind.Character);
+            OffsetTrackedTarget(rescue, new Vector3(0f, 0f, 36f));
             AddPrefix(root, "ENEMY__Patrol_", MotionKind.PatrolShip, false);
         }
 

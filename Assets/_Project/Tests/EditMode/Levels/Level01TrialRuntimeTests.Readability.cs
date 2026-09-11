@@ -18,6 +18,10 @@ namespace SeaLion.Tests.EditMode.Levels
             Assert.That(runtime.Phase, Is.EqualTo(Level01TrialPhase.Traversal));
             Assert.That(runtime.ObjectiveKey, Is.EqualTo("sailToShore"));
             Assert.That(runtime.ForceCount, Is.GreaterThan(8));
+            Assert.That(runtime.LastGateAfter, Is.GreaterThan(runtime.LastGateBefore));
+            Assert.That(runtime.ForceCount, Is.EqualTo(runtime.LastGateAfter));
+            Assert.That(runtime.LastForceDelta, Is.EqualTo(runtime.LastGateAfter - runtime.LastGateBefore));
+            Assert.That(runtime.ShowsForceDelta, Is.True);
             Assert.That(runtime.PeakForce, Is.GreaterThanOrEqualTo(runtime.ForceCount));
         }
 

@@ -21,9 +21,9 @@ namespace SeaLion.Presentation.Levels
     [DisallowMultipleComponent]
     public sealed class Level01PhaseCameraPresenter : MonoBehaviour
     {
-        private const float PositionSharpness = 2.35f;
-        private const float RotationSharpness = 2.8f;
-        private const float LensSharpness = 2.6f;
+        private const float PositionSharpness = 1.85f;
+        private const float RotationSharpness = 2.15f;
+        private const float LensSharpness = 2.05f;
 
         private Level01TrialRuntime runtime;
         private Camera targetCamera;
@@ -138,6 +138,20 @@ namespace SeaLion.Presentation.Levels
                 var follow = FollowFactor(CurrentPhase);
                 position += new Vector3(delta.x * .34f, delta.y * .12f, delta.z * follow);
                 lookAt += new Vector3(delta.x * .18f, delta.y * .08f, delta.z * follow * .68f);
+            }
+            if (CurrentPhase == Level01TrialPhase.Opening && runtime != null)
+            {
+                var intro = Mathf.Clamp01(runtime.PhaseElapsed / 2f);
+                var next = PresetFor(Level01TrialPhase.Traversal);
+                position = Vector3.Lerp(position, next.Position, intro * .4f);
+                lookAt = Vector3.Lerp(lookAt, next.LookAt, intro * .4f);
+            }
+            else if (CurrentPhase == Level01TrialPhase.Traversal && runtime != null)
+            {
+                var push = Level01SeaMotion.ShoreBlend01(runtime.RouteProgress, runtime.GateCommitted);
+                var next = PresetFor(Level01TrialPhase.Landing);
+                position = Vector3.Lerp(position, next.Position, push);
+                lookAt = Vector3.Lerp(lookAt, next.LookAt, push);
             }
             if (CurrentPhase == Level01TrialPhase.Assault && runtime != null)
             {

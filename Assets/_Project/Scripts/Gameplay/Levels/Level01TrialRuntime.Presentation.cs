@@ -9,5 +9,7 @@ namespace SeaLion.Gameplay.Levels
         public int LandingCraftTotal => fleet.Count;
         public bool ShowsEnemyCount => Phase == Level01TrialPhase.Assault && !CanRetry;
         public bool ShowsLandingCount => Phase == Level01TrialPhase.Landing && !CanRetry;
+        public bool ShowsForceDelta => LastForceDelta != 0 &&
+            (Phase == Level01TrialPhase.Traversal || Phase == Level01TrialPhase.Assault) && !CanRetry;
     }
 }
